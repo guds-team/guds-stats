@@ -1,19 +1,22 @@
-import { createBrowserRouter, Navigate } from "react-router";
+import { createBrowserRouter, Navigate, useLocation, type RouteObject } from "react-router";
 import { LoginPage } from "./pages/LoginPage";
 import { DashboardPage } from "./pages/DashboardPage";
+import { getToken } from "./lib/api";
 
-// Protected route wrapper
+// Protected route wrapper: a shared link opened without a session comes back to the same filters after login.
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
-  const token = localStorage.getItem("access_token");
-  
+  const token = getToken();
+  const location = useLocation();
+
   if (!token) {
-    return <Navigate to="/login" replace />;
+    const next = location.pathname + location.search;
+    return <Navigate to={next === "/" ? "/login" : `/login?next=${encodeURIComponent(next)}`} replace />;
   }
   
   return <>{children}</>;
 }
 
-export const router = createBrowserRouter([
+export const routes: RouteObject[] = [
   {
     path: "/login",
     element: <LoginPage />,
@@ -30,4 +33,6 @@ export const router = createBrowserRouter([
     path: "*",
     element: <Navigate to="/" replace />,
   },
-]);
+];
+
+export const router = createBrowserRouter(routes);

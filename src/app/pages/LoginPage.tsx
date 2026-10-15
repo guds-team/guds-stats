@@ -1,17 +1,22 @@
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
 import { Input } from "../components/ui/input";
 import { Button } from "../components/ui/button";
 import { Label } from "../components/ui/label";
 import { Lock, Phone } from "lucide-react";
 import { toast } from "sonner";
+import { apiUrl } from "../lib/api";
 
 export function LoginPage() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  // Only a path on this site (not "//host" or a full URL) is followed after login.
+  const next = searchParams.get("next") ?? "/";
+  const destination = next.startsWith("/") && !next.startsWith("//") ? next : "/";
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -38,7 +43,7 @@ export function LoginPage() {
     setLoading(true);
 
     try {
-      const response = await fetch("https://api.guds.inc/api/v1/users/auth/simple/login/", {
+      const response = await fetch(apiUrl("/api/v1/users/auth/simple/login/"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -66,7 +71,7 @@ export function LoginPage() {
         localStorage.setItem("user", JSON.stringify(data.data.user));
 
         toast.success("Muvaffaqiyatli kirdingiz!");
-        navigate("/");
+        navigate(destination, { replace: true });
       } else {
         toast.error("Login yoki parol noto'g'ri");
       }
