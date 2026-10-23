@@ -1,0 +1,903 @@
+{
+ "success": true,
+ "data": {
+  "meta": {
+   "date_from": "2026-10-02",
+   "date_to": "2026-10-15",
+   "granularity": "week",
+   "timezone": "Asia/Tashkent",
+   "week_convention": "ISO 8601 (Monday-Sunday)",
+   "filters": {
+    "country": null,
+    "registered_via": null,
+    "app": null
+   },
+   "filters_applied": {
+    "country": [
+     "users",
+     "activity"
+    ],
+    "registered_via": [
+     "users",
+     "activity"
+    ],
+    "app": [
+     "objects"
+    ]
+   },
+   "previous_period": {
+    "date_from": "2026-09-18",
+    "date_to": "2026-10-01"
+   },
+   "generated_at": "2026-10-15T11:14:49.157278+00:00"
+  },
+  "summary": {
+   "users": {
+    "new_registrations": {
+     "value": 6,
+     "previous": 0,
+     "change": 6,
+     "change_percent": null,
+     "comparison": "previous_zero"
+    },
+    "total_users": {
+     "value": 6,
+     "previous": 0,
+     "change": 6,
+     "change_percent": null,
+     "comparison": "previous_zero",
+     "kind": "snapshot_at_period_end",
+     "note": "Accounts registered by the end of the period and not deleted by then."
+    },
+    "deleted_accounts": {
+     "value": 0,
+     "previous": 0,
+     "change": 0,
+     "change_percent": null,
+     "comparison": "no_change",
+     "kind": "events",
+     "tracked_since": null
+    },
+    "inactive_accounts": {
+     "value": 0,
+     "kind": "current_snapshot",
+     "note": "is_active = false now, deleted accounts excluded; deactivation dates are not recorded."
+    }
+   },
+   "activity": {
+    "active_users": {
+     "value": 3,
+     "previous": null,
+     "change": null,
+     "change_percent": null,
+     "comparison": "unavailable",
+     "kind": "distinct_users_in_period"
+    },
+    "dau_average": {
+     "value": 0.55,
+     "previous": null,
+     "change": null,
+     "change_percent": null,
+     "comparison": "unavailable",
+     "kind": "average_of_daily_distinct"
+    },
+    "wau": {
+     "value": 2,
+     "previous": null,
+     "change": null,
+     "change_percent": null,
+     "comparison": "unavailable",
+     "kind": "rolling_7_days_at_period_end"
+    },
+    "mau": {
+     "value": 3,
+     "previous": null,
+     "change": null,
+     "change_percent": null,
+     "comparison": "unavailable",
+     "kind": "rolling_30_days_at_period_end"
+    },
+    "tracking_since": "2026-10-05"
+   },
+   "authentication": {
+    "purpose": "register",
+    "stages": [
+     {
+      "stage": "otp_requested",
+      "conversion": 100.0,
+      "basis": null,
+      "value": 8,
+      "previous": 0,
+      "change": 8,
+      "change_percent": null,
+      "comparison": "previous_zero"
+     },
+     {
+      "stage": "otp_accepted",
+      "conversion": 87.5,
+      "basis": "otp_requested",
+      "value": 7,
+      "previous": 0,
+      "change": 7,
+      "change_percent": null,
+      "comparison": "previous_zero"
+     },
+     {
+      "stage": "otp_delivered",
+      "conversion": 83.33,
+      "basis": "otp_accepted on channels with delivery reports",
+      "value": 5,
+      "previous": 0,
+      "change": 5,
+      "change_percent": null,
+      "comparison": "previous_zero"
+     },
+     {
+      "stage": "otp_verified",
+      "conversion": 71.43,
+      "basis": "otp_accepted",
+      "value": 5,
+      "previous": 0,
+      "change": 5,
+      "change_percent": null,
+      "comparison": "previous_zero"
+     },
+     {
+      "stage": "otp_registered",
+      "conversion": 60.0,
+      "basis": "otp_verified",
+      "value": 3,
+      "previous": 0,
+      "change": 3,
+      "change_percent": null,
+      "comparison": "previous_zero"
+     }
+    ],
+    "overall_conversion": 37.5,
+    "accepted_without_delivery_reports": 1,
+    "otp_requests_all_purposes": {
+     "value": 9,
+     "previous": 0,
+     "change": 9,
+     "change_percent": null,
+     "comparison": "previous_zero"
+    },
+    "suppressed": {
+     "value": 1,
+     "previous": 0,
+     "change": 1,
+     "change_percent": null,
+     "comparison": "previous_zero"
+    },
+    "sms_delivered_not_registered": {
+     "value": 4,
+     "previous": 0,
+     "change": 4,
+     "change_percent": null,
+     "comparison": "previous_zero",
+     "channel": "sms",
+     "admin_filters": {
+      "funnel": "delivered_not_registered",
+      "created_from": "2026-10-02",
+      "created_to": "2026-10-15"
+     },
+     "admin_url": "/admin/sms/smslog/?funnel=delivered_not_registered&created_from=2026-10-02&created_to=2026-10-15"
+    }
+   },
+   "objects": {
+    "vacancies_created": {
+     "app": "jobs",
+     "label": "Vacancies created",
+     "kind": "created",
+     "value": 0,
+     "previous": 0,
+     "change": 0,
+     "change_percent": null,
+     "comparison": "no_change"
+    },
+    "resumes_created": {
+     "app": "jobs",
+     "label": "Resumes created",
+     "kind": "created",
+     "value": 0,
+     "previous": 0,
+     "change": 0,
+     "change_percent": null,
+     "comparison": "no_change"
+    },
+    "job_applications_created": {
+     "app": "jobs",
+     "label": "Job applications",
+     "kind": "created",
+     "value": 0,
+     "previous": 0,
+     "change": 0,
+     "change_percent": null,
+     "comparison": "no_change"
+    },
+    "companies_created": {
+     "app": "jobs",
+     "label": "Companies created",
+     "kind": "created",
+     "value": 0,
+     "previous": 0,
+     "change": 0,
+     "change_percent": null,
+     "comparison": "no_change"
+    },
+    "dw_jobs_created": {
+     "app": "daily_works",
+     "label": "Jobs posted",
+     "kind": "created",
+     "value": 0,
+     "previous": 0,
+     "change": 0,
+     "change_percent": null,
+     "comparison": "no_change"
+    },
+    "dw_jobs_completed": {
+     "app": "daily_works",
+     "label": "Jobs completed",
+     "kind": "completed",
+     "value": 0,
+     "previous": 0,
+     "change": 0,
+     "change_percent": null,
+     "comparison": "no_change"
+    },
+    "dw_jobs_cancelled": {
+     "app": "daily_works",
+     "label": "Jobs cancelled",
+     "kind": "cancelled",
+     "value": 0,
+     "previous": 0,
+     "change": 0,
+     "change_percent": null,
+     "comparison": "no_change"
+    },
+    "dw_workers_registered": {
+     "app": "daily_works",
+     "label": "Worker profiles created",
+     "kind": "created",
+     "value": 0,
+     "previous": 0,
+     "change": 0,
+     "change_percent": null,
+     "comparison": "no_change"
+    },
+    "chats_created": {
+     "app": "messaging",
+     "label": "Chats started",
+     "kind": "created",
+     "value": 0,
+     "previous": 0,
+     "change": 0,
+     "change_percent": null,
+     "comparison": "no_change"
+    },
+    "messages_sent": {
+     "app": "messaging",
+     "label": "Messages sent",
+     "kind": "created",
+     "value": 0,
+     "previous": 0,
+     "change": 0,
+     "change_percent": null,
+     "comparison": "no_change"
+    },
+    "calls_started": {
+     "app": "messaging",
+     "label": "Calls started",
+     "kind": "created",
+     "value": 0,
+     "previous": 0,
+     "change": 0,
+     "change_percent": null,
+     "comparison": "no_change"
+    },
+    "payments_succeeded": {
+     "app": "wallet",
+     "label": "Payments confirmed",
+     "kind": "succeeded",
+     "value": 0,
+     "previous": 0,
+     "change": 0,
+     "change_percent": null,
+     "comparison": "no_change"
+    },
+    "payments_failed": {
+     "app": "wallet",
+     "label": "Payments failed",
+     "kind": "failed",
+     "value": 0,
+     "previous": 0,
+     "change": 0,
+     "change_percent": null,
+     "comparison": "no_change"
+    },
+    "payments_cancelled": {
+     "app": "wallet",
+     "label": "Payments cancelled",
+     "kind": "cancelled",
+     "value": 0,
+     "previous": 0,
+     "change": 0,
+     "change_percent": null,
+     "comparison": "no_change"
+    },
+    "admin_top_ups": {
+     "app": "wallet",
+     "label": "Manual top-ups by admins",
+     "kind": "succeeded",
+     "value": 0,
+     "previous": 0,
+     "change": 0,
+     "change_percent": null,
+     "comparison": "no_change"
+    }
+   }
+  },
+  "series": {
+   "registrations": [
+    {
+     "bucket": "2026-09-28",
+     "date_from": "2026-10-02",
+     "date_to": "2026-10-04",
+     "partial": true,
+     "registrations": 0,
+     "accounts_deleted": 0,
+     "by_registered_via": {
+      "phone": 0,
+      "unknown": 0,
+      "google": 0,
+      "telegram": 0
+     }
+    },
+    {
+     "bucket": "2026-10-05",
+     "date_from": "2026-10-05",
+     "date_to": "2026-10-11",
+     "partial": false,
+     "registrations": 4,
+     "accounts_deleted": 0,
+     "by_registered_via": {
+      "phone": 2,
+      "unknown": 1,
+      "google": 1,
+      "telegram": 0
+     }
+    },
+    {
+     "bucket": "2026-10-12",
+     "date_from": "2026-10-12",
+     "date_to": "2026-10-15",
+     "partial": true,
+     "registrations": 2,
+     "accounts_deleted": 0,
+     "by_registered_via": {
+      "phone": 0,
+      "unknown": 1,
+      "google": 0,
+      "telegram": 1
+     }
+    }
+   ],
+   "activity": [
+    {
+     "bucket": "2026-09-28",
+     "date_from": "2026-10-02",
+     "date_to": "2026-10-04",
+     "partial": true,
+     "dau_average": null,
+     "active_users": null
+    },
+    {
+     "bucket": "2026-10-05",
+     "date_from": "2026-10-05",
+     "date_to": "2026-10-11",
+     "partial": false,
+     "dau_average": 0.57,
+     "active_users": 3
+    },
+    {
+     "bucket": "2026-10-12",
+     "date_from": "2026-10-12",
+     "date_to": "2026-10-15",
+     "partial": true,
+     "dau_average": 0.5,
+     "active_users": 2
+    }
+   ],
+   "authentication": [
+    {
+     "bucket": "2026-09-28",
+     "date_from": "2026-10-02",
+     "date_to": "2026-10-04",
+     "partial": true,
+     "otp_requested": 0,
+     "otp_accepted": 0,
+     "otp_delivered": 0,
+     "otp_verified": 0,
+     "otp_registered": 0
+    },
+    {
+     "bucket": "2026-10-05",
+     "date_from": "2026-10-05",
+     "date_to": "2026-10-11",
+     "partial": false,
+     "otp_requested": 8,
+     "otp_accepted": 7,
+     "otp_delivered": 5,
+     "otp_verified": 5,
+     "otp_registered": 3
+    },
+    {
+     "bucket": "2026-10-12",
+     "date_from": "2026-10-12",
+     "date_to": "2026-10-15",
+     "partial": true,
+     "otp_requested": 0,
+     "otp_accepted": 0,
+     "otp_delivered": 0,
+     "otp_verified": 0,
+     "otp_registered": 0
+    }
+   ],
+   "objects": [
+    {
+     "bucket": "2026-09-28",
+     "date_from": "2026-10-02",
+     "date_to": "2026-10-04",
+     "partial": true,
+     "vacancies_created": 0,
+     "resumes_created": 0,
+     "job_applications_created": 0,
+     "companies_created": 0,
+     "dw_jobs_created": 0,
+     "dw_jobs_completed": 0,
+     "dw_jobs_cancelled": 0,
+     "dw_workers_registered": 0,
+     "chats_created": 0,
+     "messages_sent": 0,
+     "calls_started": 0,
+     "payments_succeeded": 0,
+     "payments_failed": 0,
+     "payments_cancelled": 0,
+     "admin_top_ups": 0
+    },
+    {
+     "bucket": "2026-10-05",
+     "date_from": "2026-10-05",
+     "date_to": "2026-10-11",
+     "partial": false,
+     "vacancies_created": 0,
+     "resumes_created": 0,
+     "job_applications_created": 0,
+     "companies_created": 0,
+     "dw_jobs_created": 0,
+     "dw_jobs_completed": 0,
+     "dw_jobs_cancelled": 0,
+     "dw_workers_registered": 0,
+     "chats_created": 0,
+     "messages_sent": 0,
+     "calls_started": 0,
+     "payments_succeeded": 0,
+     "payments_failed": 0,
+     "payments_cancelled": 0,
+     "admin_top_ups": 0
+    },
+    {
+     "bucket": "2026-10-12",
+     "date_from": "2026-10-12",
+     "date_to": "2026-10-15",
+     "partial": true,
+     "vacancies_created": 0,
+     "resumes_created": 0,
+     "job_applications_created": 0,
+     "companies_created": 0,
+     "dw_jobs_created": 0,
+     "dw_jobs_completed": 0,
+     "dw_jobs_cancelled": 0,
+     "dw_workers_registered": 0,
+     "chats_created": 0,
+     "messages_sent": 0,
+     "calls_started": 0,
+     "payments_succeeded": 0,
+     "payments_failed": 0,
+     "payments_cancelled": 0,
+     "admin_top_ups": 0
+    }
+   ]
+  },
+  "breakdowns": {
+   "country": [
+    {
+     "country": "UZ",
+     "registrations": {
+      "value": 3,
+      "previous": 0,
+      "change": 3,
+      "change_percent": null,
+      "comparison": "previous_zero"
+     },
+     "share_percent": 50.0
+    },
+    {
+     "country": "unknown",
+     "registrations": {
+      "value": 2,
+      "previous": 0,
+      "change": 2,
+      "change_percent": null,
+      "comparison": "previous_zero"
+     },
+     "share_percent": 33.33
+    },
+    {
+     "country": "KZ",
+     "registrations": {
+      "value": 1,
+      "previous": 0,
+      "change": 1,
+      "change_percent": null,
+      "comparison": "previous_zero"
+     },
+     "share_percent": 16.67
+    }
+   ],
+   "registered_via": [
+    {
+     "registered_via": "phone",
+     "registrations": {
+      "value": 2,
+      "previous": 0,
+      "change": 2,
+      "change_percent": null,
+      "comparison": "previous_zero"
+     },
+     "share_percent": 33.33
+    },
+    {
+     "registered_via": "unknown",
+     "registrations": {
+      "value": 2,
+      "previous": 0,
+      "change": 2,
+      "change_percent": null,
+      "comparison": "previous_zero"
+     },
+     "share_percent": 33.33
+    },
+    {
+     "registered_via": "google",
+     "registrations": {
+      "value": 1,
+      "previous": 0,
+      "change": 1,
+      "change_percent": null,
+      "comparison": "previous_zero"
+     },
+     "share_percent": 16.67
+    },
+    {
+     "registered_via": "telegram",
+     "registrations": {
+      "value": 1,
+      "previous": 0,
+      "change": 1,
+      "change_percent": null,
+      "comparison": "previous_zero"
+     },
+     "share_percent": 16.67
+    }
+   ],
+   "app": [
+    {
+     "app": "jobs",
+     "label": "Job search",
+     "metrics": {
+      "vacancies_created": {
+       "value": 0,
+       "previous": 0,
+       "change": 0,
+       "change_percent": null,
+       "comparison": "no_change"
+      },
+      "resumes_created": {
+       "value": 0,
+       "previous": 0,
+       "change": 0,
+       "change_percent": null,
+       "comparison": "no_change"
+      },
+      "job_applications_created": {
+       "value": 0,
+       "previous": 0,
+       "change": 0,
+       "change_percent": null,
+       "comparison": "no_change"
+      },
+      "companies_created": {
+       "value": 0,
+       "previous": 0,
+       "change": 0,
+       "change_percent": null,
+       "comparison": "no_change"
+      }
+     }
+    },
+    {
+     "app": "daily_works",
+     "label": "Daily Works",
+     "metrics": {
+      "dw_jobs_created": {
+       "value": 0,
+       "previous": 0,
+       "change": 0,
+       "change_percent": null,
+       "comparison": "no_change"
+      },
+      "dw_jobs_completed": {
+       "value": 0,
+       "previous": 0,
+       "change": 0,
+       "change_percent": null,
+       "comparison": "no_change"
+      },
+      "dw_jobs_cancelled": {
+       "value": 0,
+       "previous": 0,
+       "change": 0,
+       "change_percent": null,
+       "comparison": "no_change"
+      },
+      "dw_workers_registered": {
+       "value": 0,
+       "previous": 0,
+       "change": 0,
+       "change_percent": null,
+       "comparison": "no_change"
+      }
+     }
+    },
+    {
+     "app": "messaging",
+     "label": "Chats & calls",
+     "metrics": {
+      "chats_created": {
+       "value": 0,
+       "previous": 0,
+       "change": 0,
+       "change_percent": null,
+       "comparison": "no_change"
+      },
+      "messages_sent": {
+       "value": 0,
+       "previous": 0,
+       "change": 0,
+       "change_percent": null,
+       "comparison": "no_change"
+      },
+      "calls_started": {
+       "value": 0,
+       "previous": 0,
+       "change": 0,
+       "change_percent": null,
+       "comparison": "no_change"
+      }
+     }
+    },
+    {
+     "app": "wallet",
+     "label": "Wallet & billing",
+     "metrics": {
+      "payments_succeeded": {
+       "value": 0,
+       "previous": 0,
+       "change": 0,
+       "change_percent": null,
+       "comparison": "no_change"
+      },
+      "payments_failed": {
+       "value": 0,
+       "previous": 0,
+       "change": 0,
+       "change_percent": null,
+       "comparison": "no_change"
+      },
+      "payments_cancelled": {
+       "value": 0,
+       "previous": 0,
+       "change": 0,
+       "change_percent": null,
+       "comparison": "no_change"
+      },
+      "admin_top_ups": {
+       "value": 0,
+       "previous": 0,
+       "change": 0,
+       "change_percent": null,
+       "comparison": "no_change"
+      }
+     }
+    }
+   ],
+   "channel": [
+    {
+     "channel": "sms",
+     "delivery_confirmation": "supported",
+     "stages": [
+      {
+       "stage": "otp_requested",
+       "conversion": 100.0,
+       "basis": null,
+       "value": 6,
+       "previous": 0,
+       "change": 6,
+       "change_percent": null,
+       "comparison": "previous_zero"
+      },
+      {
+       "stage": "otp_accepted",
+       "conversion": 83.33,
+       "basis": "otp_requested",
+       "value": 5,
+       "previous": 0,
+       "change": 5,
+       "change_percent": null,
+       "comparison": "previous_zero"
+      },
+      {
+       "stage": "otp_delivered",
+       "conversion": 80.0,
+       "basis": "otp_accepted on channels with delivery reports",
+       "value": 4,
+       "previous": 0,
+       "change": 4,
+       "change_percent": null,
+       "comparison": "previous_zero"
+      },
+      {
+       "stage": "otp_verified",
+       "conversion": 75.0,
+       "basis": "otp_delivered",
+       "value": 3,
+       "previous": 0,
+       "change": 3,
+       "change_percent": null,
+       "comparison": "previous_zero"
+      },
+      {
+       "stage": "otp_registered",
+       "conversion": 66.67,
+       "basis": "otp_verified",
+       "value": 2,
+       "previous": 0,
+       "change": 2,
+       "change_percent": null,
+       "comparison": "previous_zero"
+      }
+     ],
+     "overall_conversion": 33.33,
+     "accepted_without_delivery_reports": 0
+    },
+    {
+     "channel": "telegram",
+     "delivery_confirmation": "supported",
+     "stages": [
+      {
+       "stage": "otp_requested",
+       "conversion": 100.0,
+       "basis": null,
+       "value": 1,
+       "previous": 0,
+       "change": 1,
+       "change_percent": null,
+       "comparison": "previous_zero"
+      },
+      {
+       "stage": "otp_accepted",
+       "conversion": 100.0,
+       "basis": "otp_requested",
+       "value": 1,
+       "previous": 0,
+       "change": 1,
+       "change_percent": null,
+       "comparison": "previous_zero"
+      },
+      {
+       "stage": "otp_delivered",
+       "conversion": 100.0,
+       "basis": "otp_accepted on channels with delivery reports",
+       "value": 1,
+       "previous": 0,
+       "change": 1,
+       "change_percent": null,
+       "comparison": "previous_zero"
+      },
+      {
+       "stage": "otp_verified",
+       "conversion": 100.0,
+       "basis": "otp_delivered",
+       "value": 1,
+       "previous": 0,
+       "change": 1,
+       "change_percent": null,
+       "comparison": "previous_zero"
+      },
+      {
+       "stage": "otp_registered",
+       "conversion": 0.0,
+       "basis": "otp_verified",
+       "value": 0,
+       "previous": 0,
+       "change": 0,
+       "change_percent": null,
+       "comparison": "no_change"
+      }
+     ],
+     "overall_conversion": 0.0,
+     "accepted_without_delivery_reports": 0
+    },
+    {
+     "channel": "email",
+     "delivery_confirmation": "unsupported",
+     "stages": [
+      {
+       "stage": "otp_requested",
+       "conversion": 100.0,
+       "basis": null,
+       "value": 1,
+       "previous": 0,
+       "change": 1,
+       "change_percent": null,
+       "comparison": "previous_zero"
+      },
+      {
+       "stage": "otp_accepted",
+       "conversion": 100.0,
+       "basis": "otp_requested",
+       "value": 1,
+       "previous": 0,
+       "change": 1,
+       "change_percent": null,
+       "comparison": "previous_zero"
+      },
+      {
+       "stage": "otp_delivered",
+       "conversion": null,
+       "basis": "otp_accepted on channels with delivery reports",
+       "value": null,
+       "previous": null,
+       "change": null,
+       "change_percent": null,
+       "comparison": "unsupported"
+      },
+      {
+       "stage": "otp_verified",
+       "conversion": 100.0,
+       "basis": "otp_accepted",
+       "value": 1,
+       "previous": 0,
+       "change": 1,
+       "change_percent": null,
+       "comparison": "previous_zero"
+      },
+      {
+       "stage": "otp_registered",
+       "conversion": 100.0,
+       "basis": "otp_verified",
+       "value": 1,
+       "previous": 0,
+       "change": 1,
+       "change_percent": null,
+       "comparison": "previous_zero"
+      }
+     ],
+     "overall_conversion": 100.0,
+     "accepted_without_delivery_reports": 1
+    }
+   ]
+  }
+ }
+}
