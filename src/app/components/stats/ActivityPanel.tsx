@@ -30,8 +30,14 @@ export function ActivityPanel({ data, params }: { data: Overview; params: ApiPar
   const empty = series.every((p) => items.every((i) => !p[i.key])); // all 0 or not measured
 
   const columns: Column<Point>[] = [
-    { key: "period", header: "Davr", cell: (p) => bucketTitle(p) },
-    ...items.map((i) => ({ key: i.key, header: i.label, numeric: true, cell: (p: Point) => formatNumber(p[i.key]) })),
+    { key: "period", header: "Davr", cell: (p) => bucketTitle(p), sort: (p) => p.bucket },
+    ...items.map((i) => ({
+      key: i.key,
+      header: i.label,
+      numeric: true,
+      cell: (p: Point) => formatNumber(p[i.key]),
+      sort: (p: Point) => p[i.key],
+    })),
   ];
 
   return (

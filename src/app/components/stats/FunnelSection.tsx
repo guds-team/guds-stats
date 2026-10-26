@@ -23,12 +23,16 @@ function stageOf(funnel: Funnel, key: FunnelStage["stage"]): FunnelStage {
   return funnel.stages.find((s) => s.stage === key)!;
 }
 
-function Stage({ stage, first }: { stage: FunnelStage; first: boolean }) {
+function Stage({ stage, first, base }: { stage: FunnelStage; first: boolean; base: number | null }) {
+  const share = base && stage.value !== null ? Math.min(100, (stage.value / base) * 100) : 0;
   return (
-    <li className="min-w-0 flex-1 rounded-lg border bg-card p-3" title={STAGE_HINTS[stage.stage]}>
+    <li className="min-w-0 flex-1 rounded-lg border bg-background p-3" title={STAGE_HINTS[stage.stage]}>
       <p className="truncate text-xs text-muted-foreground">{STAGE_LABELS[stage.stage]}</p>
       <p className="mt-1 text-2xl font-semibold tabular-nums">{formatNumber(stage.value)}</p>
-      <p className="mt-1 text-xs text-muted-foreground">
+      <div className="mt-2 h-1.5 rounded-full bg-muted" aria-hidden>
+        <div className="h-full rounded-full bg-[var(--series-1)] transition-[width] duration-500" style={{ width: `${share}%` }} />
+      </div>
+      <p className="mt-2 text-xs text-muted-foreground">
         {first ? (
           "boshlang'ich bosqich"
         ) : (
@@ -81,13 +85,13 @@ export function FunnelSection({
   ];
 
   return (
-    <section aria-labelledby="funnel-title" className="space-y-4">
+    <section aria-labelledby="funnel-title" className="space-y-3">
       <div className="flex flex-wrap items-end justify-between gap-2">
         <div>
-          <h2 id="funnel-title" className="text-lg font-semibold">
+          <h2 id="funnel-title" className="text-base font-semibold">
             Autentifikatsiya voronkasi
           </h2>
-          <p className="text-sm text-muted-foreground">
+          <p className="mt-0.5 max-w-3xl text-sm text-muted-foreground">
             Ro'yxatdan o'tish kodlari, kod yaratilgan kun bo'yicha. Har bir kod har bosqichda bir marta hisoblanadi
             (qayta yuborish va takroriy yetkazish hisobotlari ikki marta sanalmaydi).
           </p>
@@ -119,7 +123,7 @@ export function FunnelSection({
             ) : (
               <ol className="flex flex-col gap-2 sm:flex-row" aria-label="Voronka bosqichlari">
                 {auth.stages.map((stage, i) => (
-                  <Stage key={stage.stage} stage={stage} first={i === 0} />
+                  <Stage key={stage.stage} stage={stage} first={i === 0} base={auth.stages[0].value} />
                 ))}
               </ol>
             )

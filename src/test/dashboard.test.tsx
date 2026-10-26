@@ -351,6 +351,52 @@ describe("sections with real API data", () => {
   });
 });
 
+describe("redesigned controls", () => {
+  it("names active dimension filters as chips that remove themselves", async () => {
+    serve(byGranularity);
+    const router = renderAt("/?country=UZ&app=jobs");
+    await screen.findByText("Yangi ro'yxatdan o'tishlar");
+    const chips = screen.getByLabelText("Faol filtrlar");
+    expect(chips.textContent).toContain("Davlat:");
+    expect(chips.textContent).toContain("Ilova:");
+    fireEvent.click(within(chips).getByRole("button", { name: "Davlat filtrini olib tashlash" }));
+    await waitFor(() => expect(router.state.location.search).toBe("?app=jobs"));
+  });
+
+  it("sorts a table view by a column, highest first for numbers, and back", async () => {
+    serve(byGranularity);
+    renderAt("/");
+    const panel = await screen.findByRole("region", { name: "Ro'yxatdan o'tishlar" });
+    fireEvent.click(within(panel).getByRole("button", { name: /Jadval/ }));
+    const totals = () => within(panel).getAllByRole("row").slice(1).map((r) => Number(r.children[1].textContent));
+    const original = totals();
+    fireEvent.click(within(panel).getByRole("button", { name: "Jami" }));
+    expect(totals()).toEqual([...original].sort((a, b) => b - a));
+    expect(within(panel).getByRole("columnheader", { name: "Jami" }).getAttribute("aria-sort")).toBe("descending");
+    fireEvent.click(within(panel).getByRole("button", { name: "Jami" }));
+    expect(totals()).toEqual([...original].sort((a, b) => a - b));
+    fireEvent.click(within(panel).getByRole("button", { name: "Jami" }));
+    expect(totals()).toEqual(original);
+  });
+
+  it("shows daily-works and payment outcomes as headline cards", async () => {
+    serve(byGranularity);
+    renderAt("/");
+    const section = (await screen.findByRole("heading", { name: "Kunlik ishlar va to'lovlar" })).closest("section")!;
+    for (const label of ["Bajarilgan ishlar", "Bekor qilingan ishlar", "Tasdiqlangan to'lovlar", "Muvaffaqiyatsiz to'lovlar"]) {
+      expect(within(section).getByText(label)).toBeTruthy();
+    }
+  });
+
+  it("refreshes on demand without reusing the cached response", async () => {
+    serve(byGranularity);
+    renderAt("/");
+    await screen.findByText("Yangi ro'yxatdan o'tishlar");
+    fireEvent.click(screen.getByRole("button", { name: "Yangilash" }));
+    await waitFor(() => expect(overviewCalls()).toHaveLength(2));
+  });
+});
+
 describe("CSV export", () => {
   it("downloads the complete table with the selected filters", async () => {
     serve((url) =>

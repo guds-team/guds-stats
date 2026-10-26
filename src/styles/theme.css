@@ -57,8 +57,13 @@
   --live: #0ca30c;
   --brand-from: #2a78d6;
   --brand-to: #4a3aa7;
-  --backdrop-glow: rgba(42, 120, 214, 0.08);
+  --backdrop-glow: rgba(42, 120, 214, 0.07);
   --page: #f6f7f9;
+  --accent-brand: #2a78d6;
+  --accent-brand-soft: rgba(42, 120, 214, 0.1);
+  --sidebar-bg: #fbfbfc;
+  --shadow-card: 0 1px 2px rgba(16, 24, 40, 0.04), 0 1px 3px rgba(16, 24, 40, 0.04);
+  --shadow-pop: 0 8px 24px rgba(16, 24, 40, 0.1), 0 2px 6px rgba(16, 24, 40, 0.06);
 }
 
 .dark {
@@ -112,8 +117,13 @@
   --live: #0ca30c;
   --brand-from: #3987e5;
   --brand-to: #9085e9;
-  --backdrop-glow: rgba(57, 135, 229, 0.12);
+  --backdrop-glow: rgba(57, 135, 229, 0.1);
   --page: #0e0f11;
+  --accent-brand: #3987e5;
+  --accent-brand-soft: rgba(57, 135, 229, 0.16);
+  --sidebar-bg: #121316;
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-pop: 0 10px 30px rgba(0, 0, 0, 0.45);
 }
 
 @theme inline {
@@ -228,4 +238,45 @@
     radial-gradient(1200px 420px at 15% -120px, var(--backdrop-glow), transparent 70%),
     radial-gradient(900px 360px at 95% -160px, var(--backdrop-glow), transparent 70%),
     var(--page);
+}
+
+.shadow-card {
+  box-shadow: var(--shadow-card);
+}
+
+.shadow-pop {
+  box-shadow: var(--shadow-pop);
+}
+
+/* Statistics read better with aligned digits everywhere. */
+.tabular-nums,
+table td {
+  font-variant-numeric: tabular-nums;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 220ms ease-out both;
+}
+
+/* Users who ask for less motion get none: data is never hidden behind an animation. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

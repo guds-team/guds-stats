@@ -32,11 +32,23 @@ export function DistributionPanel({
 }) {
   const visible = rows.filter((r) => (r.registrations.value ?? 0) > 0);
   const columns: Column<Row>[] = [
-    { key: "label", header: "Qiymat", cell: (r) => r.label },
-    { key: "count", header: "Soni", numeric: true, cell: (r) => formatNumber(r.registrations.value) },
-    { key: "share", header: "Ulushi", numeric: true, cell: (r) => formatPercent(r.share_percent) },
-    { key: "previous", header: "Oldingi davr", numeric: true, cell: (r) => formatNumber(r.registrations.previous) },
-    { key: "change", header: "O'zgarish", numeric: true, cell: (r) => describeChange(r.registrations, "neutral").text },
+    { key: "label", header: "Qiymat", cell: (r) => r.label, sort: (r) => r.label },
+    { key: "count", header: "Soni", numeric: true, cell: (r) => formatNumber(r.registrations.value), sort: (r) => r.registrations.value },
+    { key: "share", header: "Ulushi", numeric: true, cell: (r) => formatPercent(r.share_percent), sort: (r) => r.share_percent },
+    {
+      key: "previous",
+      header: "Oldingi davr",
+      numeric: true,
+      cell: (r) => formatNumber(r.registrations.previous),
+      sort: (r) => r.registrations.previous,
+    },
+    {
+      key: "change",
+      header: "O'zgarish",
+      numeric: true,
+      cell: (r) => describeChange(r.registrations, "neutral").text,
+      sort: (r) => r.registrations.change,
+    },
   ];
 
   const chart =

@@ -66,7 +66,7 @@ export function LiveTrendChart({ history }: { history: LivePoint[] }) {
   if (history.length < 2) {
     return (
       <div className="h-[260px]">
-        <EmptyState>Trend sahifa ochiq turganda yig'iladi — bir necha soniya kuting</EmptyState>
+        <EmptyState hint="Har bir yangilanish trendga nuqta qo'shadi">Trend sahifa ochiq turganda yig'iladi</EmptyState>
       </div>
     );
   }
@@ -233,7 +233,7 @@ export function HourlyJobsChart({ data }: { data: LiveSnapshot["today"]["by_hour
 
 /** Today's most requested categories; one series, so one colour and no legend. */
 export function TopCategories({ rows }: { rows: LiveSnapshot["today"]["by_category"] }) {
-  if (!rows.length) return <EmptyState>Bugun hali ish joylanmagan</EmptyState>;
+  if (!rows.length) return <EmptyState hint={null}>Bugun hali ish joylanmagan</EmptyState>;
   const max = Math.max(...rows.map((r) => r.jobs));
   return (
     <ul className="space-y-3">

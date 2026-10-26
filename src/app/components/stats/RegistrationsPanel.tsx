@@ -36,13 +36,14 @@ export function RegistrationsPanel({ data, params }: { data: Overview; params: A
   const empty = series.every((p) => p.registrations === 0);
 
   const columns: Column<Point>[] = [
-    { key: "period", header: "Davr", cell: (p) => bucketTitle(p) },
-    { key: "total", header: "Jami", numeric: true, cell: (p) => formatNumber(p.registrations) },
+    { key: "period", header: "Davr", cell: (p) => bucketTitle(p), sort: (p) => p.bucket },
+    { key: "total", header: "Jami", numeric: true, cell: (p) => formatNumber(p.registrations), sort: (p) => p.registrations },
     ...methods.map((m) => ({
       key: m,
       header: METHOD_LABELS[m] ?? m,
       numeric: true,
       cell: (p: Point) => formatNumber(p.by_registered_via[m]),
+      sort: (p: Point) => p.by_registered_via[m],
     })),
   ];
 

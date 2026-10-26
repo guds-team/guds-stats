@@ -1,4 +1,4 @@
-import { act, fireEvent, render, screen, within } from "@testing-library/react";
+import { act, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { createMemoryRouter, RouterProvider } from "react-router";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { routes } from "../app/routes";
@@ -42,9 +42,11 @@ class FakeSocket {
 
 const socket = () => FakeSocket.instances[FakeSocket.instances.length - 1];
 
-function renderAt(path: string) {
+/** Renders the page and waits for its (lazily loaded) module to open the socket. */
+async function renderAt(path: string) {
   const router = createMemoryRouter(routes, { initialEntries: [path] });
   render(<RouterProvider router={router} />);
+  await waitFor(() => expect(FakeSocket.instances.length).toBeGreaterThan(0));
   return router;
 }
 
@@ -61,14 +63,14 @@ afterEach(() => {
 });
 
 describe("live page", () => {
-  it("connects with the session token over wss", () => {
-    renderAt("/live");
+  it("connects with the session token over wss", async () => {
+    await renderAt("/live");
     expect(socket().url).toBe(liveUrl("token"));
     expect(socket().url).toMatch(/^wss:\/\/.+\/ws\/stats\/live\/\?token=token$/);
   });
 
   it("shows counters, charts and both tables from a snapshot", async () => {
-    renderAt("/live");
+    await renderAt("/live");
     expect(screen.getByLabelText("Yuklanmoqda")).toBeTruthy();
     socket().open();
     socket().push(snapshot);
@@ -94,8 +96,8 @@ describe("live page", () => {
     expect(within(jobs).getAllByText("Malika Yusupova").length).toBe(1);
   });
 
-  it("updates in place when the server pushes a change", () => {
-    renderAt("/live");
+  it("updates in place when the server pushes a change", async () => {
+    await renderAt("/live");
     socket().open();
     socket().push(snapshot);
     const next = clone(snapshot);
@@ -108,17 +110,17 @@ describe("live page", () => {
     expect(meter).toBeTruthy();
   });
 
-  it("asks for a fresh snapshot on Yangilash", () => {
-    renderAt("/live");
+  it("asks for a fresh snapshot on Yangilash", async () => {
+    await renderAt("/live");
     socket().open();
     socket().push(snapshot);
     fireEvent.click(screen.getByRole("button", { name: /Yangilash/ }));
     expect(socket().sent).toContainEqual({ type: "refresh" });
   });
 
-  it("reconnects after a dropped connection", () => {
+  it("reconnects after a dropped connection", async () => {
+    await renderAt("/live");
     vi.useFakeTimers();
-    renderAt("/live");
     socket().open();
     socket().drop(1006);
     expect(screen.getByRole("status").textContent).toContain("Qayta ulanmoqda");
@@ -126,17 +128,17 @@ describe("live page", () => {
     expect(FakeSocket.instances.length).toBe(2);
   });
 
-  it("explains a missing permission instead of retrying", () => {
+  it("explains a missing permission instead of retrying", async () => {
+    await renderAt("/live");
     vi.useFakeTimers();
-    renderAt("/live");
     socket().drop(4003);
     expect(screen.getByRole("alert").textContent).toContain("huquqi yo'q");
     act(() => vi.advanceTimersByTime(30_000));
     expect(FakeSocket.instances.length).toBe(1);
   });
 
-  it("sends an expired session back to login", () => {
-    const router = renderAt("/live");
+  it("sends an expired session back to login", async () => {
+    const router = await renderAt("/live");
     socket().drop(4001);
     expect(router.state.location.pathname).toBe("/login");
     expect(router.state.location.search).toBe("?next=%2Flive");

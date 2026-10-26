@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { BadgeCheck, MapPin, Search, Star } from "lucide-react";
+import { DataTable, type Column } from "../stats/DataTable";
 import { EmptyState } from "../stats/states";
 import { formatMoney, formatNumber, formatSince } from "../../lib/format";
 import {
@@ -121,8 +122,7 @@ function ago(iso: string, now: number): string {
   return since === "hozirgina" ? since : `${since} oldin`;
 }
 
-const TH = "px-3 py-2.5 text-left text-xs font-medium tracking-wide text-muted-foreground uppercase whitespace-nowrap";
-const TD = "px-3 py-3 align-middle";
+const PAGE_SIZE = 20;
 
 function matches(query: string, ...values: (string | number | null | undefined)[]): boolean {
   const q = query.trim().toLowerCase();
@@ -135,6 +135,8 @@ function countBy<T>(rows: T[], key: (row: T) => string): Record<string, number> 
   return counts;
 }
 
+const time = (iso: string | null) => (iso ? new Date(iso).getTime() : null);
+
 export function WorkersTable({ workers, now, limit, total }: { workers: LiveWorker[]; now: number; limit: number; total: number }) {
   const [query, setQuery] = useState("");
   const [state, setState] = useState<(typeof WORKER_STATE_ORDER)[number] | null>(null);
@@ -142,6 +144,77 @@ export function WorkersTable({ workers, now, limit, total }: { workers: LiveWork
   const rows = workers.filter(
     (w) => (!state || w.state === state) && matches(query, w.name, w.phone, w.id, w.current_job_id, ...w.categories),
   );
+  const columns: Column<LiveWorker>[] = [
+    {
+      key: "worker",
+      header: "Ishchi",
+      sort: (w) => w.name ?? "",
+      cell: (w) => (
+        <div className="flex items-center gap-1.5">
+          <PersonCell person={w} />
+          {w.is_verified && <BadgeCheck className="h-4 w-4 shrink-0 text-[color:var(--series-1)]" aria-label="Tasdiqlangan" />}
+        </div>
+      ),
+    },
+    {
+      key: "state",
+      header: "Holat",
+      sort: (w) => WORKER_STATE_ORDER.indexOf(w.state),
+      cell: (w) => <StatusPill label={WORKER_STATE_LABELS[w.state] ?? w.state} color={workerStateColor(w.state)} />,
+    },
+    {
+      key: "categories",
+      header: "Kategoriyalar",
+      className: "hidden md:table-cell",
+      cell: (w) => (
+        <p className="max-w-56 truncate text-muted-foreground" title={w.categories.join(", ")}>
+          {w.categories.join(", ") || "—"}
+        </p>
+      ),
+    },
+    {
+      key: "rating",
+      header: "Reyting",
+      numeric: true,
+      className: "hidden lg:table-cell",
+      sort: (w) => w.rating,
+      cell: (w) =>
+        w.rating !== null ? (
+          <span className="inline-flex items-center gap-1">
+            <Star className="h-3.5 w-3.5 fill-current text-[color:var(--series-4)]" aria-hidden />
+            {w.rating.toFixed(2)}
+          </span>
+        ) : (
+          "—"
+        ),
+    },
+    {
+      key: "jobs",
+      header: "Bajargan",
+      numeric: true,
+      className: "hidden lg:table-cell",
+      sort: (w) => w.total_jobs,
+      cell: (w) => formatNumber(w.total_jobs),
+    },
+    {
+      key: "online",
+      header: "Onlayn",
+      numeric: true,
+      // Sorted "descending" = longest online first.
+      sort: (w) => {
+        const since = time(w.online_since);
+        return since === null ? null : now - since;
+      },
+      cell: (w) => formatSince(w.online_since, now),
+    },
+    {
+      key: "job",
+      header: "Joriy ish",
+      className: "hidden md:table-cell",
+      cell: (w) => <span className="font-mono text-xs">{w.current_job_id ?? <span className="text-muted-foreground">—</span>}</span>,
+    },
+    { key: "map", header: "Joylashuv", className: "hidden sm:table-cell", cell: (w) => <MapLink lat={w.lat} lng={w.lng} /> },
+  ];
   return (
     <div className="space-y-4">
       <Filters
@@ -156,62 +229,13 @@ export function WorkersTable({ workers, now, limit, total }: { workers: LiveWork
         placeholder="Ism, telefon, kategoriya…"
       />
       {rows.length === 0 ? (
-        <EmptyState>{workers.length ? "Filtr bo'yicha ishchi topilmadi" : "Hozir onlayn ishchi yo'q"}</EmptyState>
+        workers.length ? (
+          <EmptyState hint="Qidiruv yoki holat filtrini o'zgartiring">Filtr bo'yicha ishchi topilmadi</EmptyState>
+        ) : (
+          <EmptyState hint="Ishchilar ilovada onlayn bo'lganda shu yerda paydo bo'ladi">Hozir onlayn ishchi yo'q</EmptyState>
+        )
       ) : (
-        <div className="overflow-x-auto rounded-xl border">
-          <table className="w-full min-w-[860px] text-sm">
-            <thead className="bg-muted/50">
-              <tr>
-                <th className={TH}>Ishchi</th>
-                <th className={TH}>Holat</th>
-                <th className={TH}>Kategoriyalar</th>
-                <th className={`${TH} text-right`}>Reyting</th>
-                <th className={`${TH} text-right`}>Bajargan</th>
-                <th className={TH}>Onlayn</th>
-                <th className={TH}>Joriy ish</th>
-                <th className={TH}>Joylashuv</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y">
-              {rows.map((w) => (
-                <tr key={w.id} className="transition-colors hover:bg-muted/40">
-                  <td className={TD}>
-                    <div className="flex items-center gap-1.5">
-                      <PersonCell person={w} />
-                      {w.is_verified && (
-                        <BadgeCheck className="h-4 w-4 shrink-0 text-[color:var(--series-1)]" aria-label="Tasdiqlangan" />
-                      )}
-                    </div>
-                  </td>
-                  <td className={TD}>
-                    <StatusPill label={WORKER_STATE_LABELS[w.state] ?? w.state} color={workerStateColor(w.state)} />
-                  </td>
-                  <td className={`${TD} max-w-56`}>
-                    <p className="truncate text-muted-foreground" title={w.categories.join(", ")}>
-                      {w.categories.join(", ") || "—"}
-                    </p>
-                  </td>
-                  <td className={`${TD} text-right tabular-nums`}>
-                    {w.rating !== null ? (
-                      <span className="inline-flex items-center gap-1">
-                        <Star className="h-3.5 w-3.5 fill-current text-[color:var(--series-4)]" aria-hidden />
-                        {w.rating.toFixed(2)}
-                      </span>
-                    ) : (
-                      "—"
-                    )}
-                  </td>
-                  <td className={`${TD} text-right tabular-nums`}>{formatNumber(w.total_jobs)}</td>
-                  <td className={`${TD} whitespace-nowrap tabular-nums`}>{formatSince(w.online_since, now)}</td>
-                  <td className={`${TD} font-mono text-xs`}>{w.current_job_id ?? <span className="text-muted-foreground">—</span>}</td>
-                  <td className={TD}>
-                    <MapLink lat={w.lat} lng={w.lng} />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <DataTable caption="Onlayn ishchilar" columns={columns} rows={rows} pageSize={PAGE_SIZE} rowKey={(w) => w.id} />
       )}
       {total > limit && (
         <p className="text-xs text-muted-foreground">
@@ -231,6 +255,56 @@ export function JobsTable({ jobs, now, limit, total }: { jobs: LiveJob[]; now: n
       (!status || j.status === status) &&
       matches(query, j.job_id, j.category, j.address, j.client?.name, j.client?.phone, j.worker?.name, j.worker?.phone),
   );
+  const columns: Column<LiveJob>[] = [
+    {
+      key: "job",
+      header: "Ish",
+      sort: (j) => j.category,
+      cell: (j) => (
+        <div>
+          <p className="font-medium">{j.category}</p>
+          <p className="font-mono text-xs text-muted-foreground">
+            {j.job_id}
+            {j.workers_count > 1 && ` · ${j.workers_count} ishchi`}
+          </p>
+        </div>
+      ),
+    },
+    {
+      key: "status",
+      header: "Holat",
+      sort: (j) => JOB_STATUS_ORDER.indexOf(j.status),
+      cell: (j) => <StatusPill label={JOB_STATUS_LABELS[j.status] ?? j.status} color={jobStatusColor(j.status)} />,
+    },
+    { key: "client", header: "Mijoz", className: "hidden md:table-cell", cell: (j) => <PersonCell person={j.client} /> },
+    {
+      key: "worker",
+      header: "Ishchi",
+      className: "hidden md:table-cell",
+      cell: (j) => <PersonCell person={j.worker} empty="Tayinlanmagan" />,
+    },
+    { key: "price", header: "Narx", numeric: true, sort: (j) => j.price, cell: (j) => formatMoney(j.price, j.currency) },
+    {
+      key: "address",
+      header: "Manzil",
+      className: "hidden lg:table-cell",
+      cell: (j) => (
+        <div className="max-w-64">
+          <p className="truncate" title={j.address}>
+            {j.address}
+          </p>
+          <MapLink lat={j.lat} lng={j.lng} />
+        </div>
+      ),
+    },
+    {
+      key: "created",
+      header: "Joylangan",
+      numeric: true,
+      sort: (j) => time(j.created_at),
+      cell: (j) => <span className="text-muted-foreground">{ago(j.created_at, now)}</span>,
+    },
+  ];
   return (
     <div className="space-y-4">
       <Filters
@@ -245,55 +319,13 @@ export function JobsTable({ jobs, now, limit, total }: { jobs: LiveJob[]; now: n
         placeholder="ID, manzil, mijoz, ishchi…"
       />
       {rows.length === 0 ? (
-        <EmptyState>{jobs.length ? "Filtr bo'yicha ish topilmadi" : "Hozir faol ish yo'q"}</EmptyState>
+        jobs.length ? (
+          <EmptyState hint="Qidiruv yoki holat filtrini o'zgartiring">Filtr bo'yicha ish topilmadi</EmptyState>
+        ) : (
+          <EmptyState hint={null}>Hozir faol ish yo'q</EmptyState>
+        )
       ) : (
-        <div className="overflow-x-auto rounded-xl border">
-          <table className="w-full min-w-[960px] text-sm">
-            <thead className="bg-muted/50">
-              <tr>
-                <th className={TH}>Ish</th>
-                <th className={TH}>Holat</th>
-                <th className={TH}>Mijoz</th>
-                <th className={TH}>Ishchi</th>
-                <th className={`${TH} text-right`}>Narx</th>
-                <th className={TH}>Manzil</th>
-                <th className={TH}>Joylangan</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y">
-              {rows.map((j) => (
-                <tr key={j.job_id} className="transition-colors hover:bg-muted/40">
-                  <td className={TD}>
-                    <p className="font-medium">{j.category}</p>
-                    <p className="font-mono text-xs text-muted-foreground">
-                      {j.job_id}
-                      {j.workers_count > 1 && ` · ${j.workers_count} ishchi`}
-                    </p>
-                  </td>
-                  <td className={TD}>
-                    <StatusPill label={JOB_STATUS_LABELS[j.status] ?? j.status} color={jobStatusColor(j.status)} />
-                  </td>
-                  <td className={`${TD} max-w-44`}>
-                    <PersonCell person={j.client} />
-                  </td>
-                  <td className={`${TD} max-w-44`}>
-                    <PersonCell person={j.worker} empty="Tayinlanmagan" />
-                  </td>
-                  <td className={`${TD} text-right whitespace-nowrap tabular-nums`}>{formatMoney(j.price, j.currency)}</td>
-                  <td className={`${TD} max-w-64`}>
-                    <p className="truncate" title={j.address}>
-                      {j.address}
-                    </p>
-                    <MapLink lat={j.lat} lng={j.lng} />
-                  </td>
-                  <td className={`${TD} whitespace-nowrap tabular-nums text-muted-foreground`}>
-                    {ago(j.created_at, now)}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <DataTable caption="Faol ishlar" columns={columns} rows={rows} pageSize={PAGE_SIZE} rowKey={(j) => j.job_id} />
       )}
       {total > limit && (
         <p className="text-xs text-muted-foreground">

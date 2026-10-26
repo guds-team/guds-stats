@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
 import { Input } from "../components/ui/input";
 import { Button } from "../components/ui/button";
 import { Label } from "../components/ui/label";
@@ -90,33 +89,34 @@ export function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-950 dark:via-blue-950 dark:to-indigo-950 p-4">
-      <Card className="w-full max-w-md shadow-2xl">
-        <CardHeader className="space-y-1 text-center">
-          <div className="mx-auto w-16 h-16 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl flex items-center justify-center mb-4">
-            <Lock className="h-8 w-8 text-white" />
-          </div>
-          <CardTitle className="text-2xl">Tizimga kirish</CardTitle>
-          <CardDescription>
-            Statistika paneliga kirish uchun ma'lumotlaringizni kiriting
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
+    <div className="app-backdrop flex min-h-screen items-center justify-center p-4">
+      <div className="w-full max-w-sm">
+        <div className="mb-8 flex flex-col items-center text-center">
+          <span
+            aria-hidden
+            className="mb-4 grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br from-[var(--brand-from)] to-[var(--brand-to)] text-lg font-bold text-white"
+          >
+            G
+          </span>
+          <h1 className="text-xl font-semibold tracking-tight">GUDS Stats</h1>
+          <p className="mt-1 text-sm text-muted-foreground">Statistika paneliga kirish uchun ma'lumotlaringizni kiriting</p>
+        </div>
+        <div className="rounded-xl border bg-card p-6 shadow-pop">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="phone">Telefon raqami</Label>
               <div className="relative">
-                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <div className="absolute left-10 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
-                  +998
-                </div>
+                <Phone className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden />
+                <div className="absolute top-1/2 left-9 -translate-y-1/2 text-sm text-muted-foreground">+998</div>
                 <Input
                   id="phone"
                   type="tel"
+                  inputMode="numeric"
+                  autoComplete="tel-national"
                   placeholder="90 900 90 90"
                   value={phoneNumber}
                   onChange={handlePhoneChange}
-                  className="pl-20"
+                  className="h-10 rounded-lg pl-[4.75rem]"
                   required
                 />
               </div>
@@ -125,40 +125,34 @@ export function LoginPage() {
             <div className="space-y-2">
               <Label htmlFor="password">Parol</Label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Lock className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden />
                 <Input
                   id="password"
                   type="password"
+                  autoComplete="current-password"
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="pl-10"
+                  className="h-10 rounded-lg pl-9"
                   required
                 />
               </div>
             </div>
 
-            <Button 
-              type="submit" 
-              className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
-              disabled={loading}
-            >
+            <Button type="submit" className="h-10 w-full rounded-lg" disabled={loading}>
               {loading ? (
-                <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                <span className="flex items-center gap-2">
+                  <span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" aria-hidden />
                   Yuklanmoqda...
-                </div>
+                </span>
               ) : (
                 "Kirish"
               )}
             </Button>
           </form>
-
-          <div className="mt-4 text-center text-sm text-muted-foreground">
-            <p>Demo: +998 90 900 90 90</p>
-          </div>
-        </CardContent>
-      </Card>
+        </div>
+        <p className="mt-6 text-center text-xs text-muted-foreground">Demo: +998 90 900 90 90</p>
+      </div>
     </div>
   );
 }

@@ -28,12 +28,13 @@ export function ObjectsPanel({ data, params }: { data: Overview; params: ApiPara
   const empty = series.every((p) => keys.every((k) => !p[k]));
 
   const columns: Column<Point>[] = [
-    { key: "period", header: "Davr", cell: (p) => bucketTitle(p) },
+    { key: "period", header: "Davr", cell: (p) => bucketTitle(p), sort: (p) => p.bucket },
     ...Object.keys(metrics).map((k) => ({
       key: k,
       header: objectLabel(k, metrics[k].label),
       numeric: true,
       cell: (p: Point) => formatNumber(p[k] as number),
+      sort: (p: Point) => p[k] as number,
     })),
   ];
 
