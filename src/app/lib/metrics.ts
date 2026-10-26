@@ -114,3 +114,35 @@ export function methodColor(method: string): string {
   const slot = METHOD_ORDER.indexOf(method);
   return slot === -1 ? OTHER_COLOR : seriesColor(slot);
 }
+
+// ── Live daily works (ws/stats/live/) ───────────────────────────────────────
+
+export const WORKER_STATE_ORDER = ["online_idle", "offer_pending", "on_job"] as const;
+
+export const WORKER_STATE_LABELS: Record<string, string> = {
+  online_idle: "Bo'sh, kutmoqda",
+  offer_pending: "Taklif ko'rmoqda",
+  on_job: "Ishda",
+};
+
+export function workerStateColor(state: string): string {
+  const slot = (WORKER_STATE_ORDER as readonly string[]).indexOf(state);
+  return slot === -1 ? OTHER_COLOR : seriesColor(slot);
+}
+
+/** The job's way from posting to the work being done. */
+export const JOB_STATUS_ORDER = ["pending", "offered", "accepted", "en_route", "arrived", "in_progress"] as const;
+
+export const JOB_STATUS_LABELS: Record<string, string> = {
+  pending: "Ishchi qidirilmoqda",
+  offered: "Taklif yuborildi",
+  accepted: "Qabul qilindi",
+  en_route: "Yo'lda",
+  arrived: "Yetib keldi",
+  in_progress: "Bajarilmoqda",
+};
+
+export function jobStatusColor(status: string): string {
+  const slot = (JOB_STATUS_ORDER as readonly string[]).indexOf(status);
+  return slot === -1 ? OTHER_COLOR : seriesColor(slot);
+}

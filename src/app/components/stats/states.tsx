@@ -33,15 +33,15 @@ export function DashboardSkeleton() {
     <div aria-busy="true" aria-label="Yuklanmoqda" className="space-y-6" data-testid="dashboard-skeleton">
       <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-5">
         {Array.from({ length: 5 }, (_, i) => (
-          <Skeleton key={i} className="h-[118px] rounded-xl" />
+          <Skeleton key={i} className="h-[118px] rounded-2xl" />
         ))}
       </div>
-      <Skeleton className="h-[104px] rounded-xl" />
+      <Skeleton className="h-[104px] rounded-2xl" />
       <div className="grid gap-4 xl:grid-cols-2">
-        <Skeleton className="h-[392px] rounded-xl" />
-        <Skeleton className="h-[392px] rounded-xl" />
+        <Skeleton className="h-[392px] rounded-2xl" />
+        <Skeleton className="h-[392px] rounded-2xl" />
       </div>
-      <Skeleton className="h-[392px] rounded-xl" />
+      <Skeleton className="h-[392px] rounded-2xl" />
     </div>
   );
 }

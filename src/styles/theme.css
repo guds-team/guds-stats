@@ -54,14 +54,19 @@
   --chart-axis: #898781;
   --delta-good: #006300;
   --delta-bad: #b42318;
+  --live: #0ca30c;
+  --brand-from: #2a78d6;
+  --brand-to: #4a3aa7;
+  --backdrop-glow: rgba(42, 120, 214, 0.08);
+  --page: #f6f7f9;
 }
 
 .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
-  --card: oklch(0.145 0 0);
+  --card: oklch(0.19 0.004 265);
   --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.145 0 0);
+  --popover: oklch(0.21 0.004 265);
   --popover-foreground: oklch(0.985 0 0);
   --primary: oklch(0.985 0 0);
   --primary-foreground: oklch(0.205 0 0);
@@ -73,7 +78,7 @@
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.396 0.141 25.723);
   --destructive-foreground: oklch(0.637 0.237 25.331);
-  --border: oklch(0.269 0 0);
+  --border: oklch(0.29 0.004 265);
   --input: oklch(0.269 0 0);
   --ring: oklch(0.439 0 0);
   --font-weight-medium: 500;
@@ -104,6 +109,11 @@
   --chart-axis: #898781;
   --delta-good: #0ca30c;
   --delta-bad: #f97066;
+  --live: #0ca30c;
+  --brand-from: #3987e5;
+  --brand-to: #9085e9;
+  --backdrop-glow: rgba(57, 135, 229, 0.12);
+  --page: #0e0f11;
 }
 
 @theme inline {
@@ -153,7 +163,11 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply text-foreground;
+    background: var(--page);
+    font-family: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    font-feature-settings: "cv11", "ss01";
+    -webkit-font-smoothing: antialiased;
   }
 
   /**
@@ -206,4 +220,12 @@
     font-weight: var(--font-weight-normal);
     line-height: 1.5;
   }
+}
+
+/* Soft brand glow behind the top of every signed-in page. */
+.app-backdrop {
+  background:
+    radial-gradient(1200px 420px at 15% -120px, var(--backdrop-glow), transparent 70%),
+    radial-gradient(900px 360px at 95% -160px, var(--backdrop-glow), transparent 70%),
+    var(--page);
 }

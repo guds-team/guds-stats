@@ -70,7 +70,7 @@ export function FilterBar({
       role="search"
       aria-label="Statistika filtrlari"
       onSubmit={(e) => e.preventDefault()}
-      className="rounded-xl border bg-card p-4"
+      className="rounded-2xl border bg-card shadow-sm p-4"
     >
       <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-[1.3fr_auto_1fr_1fr_1fr_auto] xl:items-end">
         <Field id="f-period" label="Davr">

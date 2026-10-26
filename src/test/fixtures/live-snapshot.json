@@ -1,0 +1,288 @@
+{
+  "generated_at": "2026-10-26T17:52:26.825856+05:00",
+  "counts": {
+    "workers": {
+      "total": 3,
+      "online_idle": 1,
+      "offer_pending": 1,
+      "on_job": 1
+    },
+    "jobs": {
+      "total": 3,
+      "pending": 1,
+      "offered": 1,
+      "accepted": 0,
+      "en_route": 0,
+      "arrived": 0,
+      "in_progress": 1
+    },
+    "registered_workers": 3,
+    "verified_workers": 3
+  },
+  "today": {
+    "date": "2026-10-26",
+    "created": 5,
+    "completed": 1,
+    "cancelled": 1,
+    "expired": 0,
+    "revenue": 150000.0,
+    "commission": 1500.0,
+    "by_category": [
+      {
+        "category": "Cargo",
+        "jobs": 3
+      },
+      {
+        "category": "Office cleaning",
+        "jobs": 1
+      },
+      {
+        "category": "Home cleaning",
+        "jobs": 1
+      }
+    ],
+    "by_hour": [
+      {
+        "hour": 0,
+        "created": 0,
+        "completed": 0
+      },
+      {
+        "hour": 1,
+        "created": 0,
+        "completed": 0
+      },
+      {
+        "hour": 2,
+        "created": 0,
+        "completed": 0
+      },
+      {
+        "hour": 3,
+        "created": 0,
+        "completed": 0
+      },
+      {
+        "hour": 4,
+        "created": 0,
+        "completed": 0
+      },
+      {
+        "hour": 5,
+        "created": 0,
+        "completed": 0
+      },
+      {
+        "hour": 6,
+        "created": 0,
+        "completed": 0
+      },
+      {
+        "hour": 7,
+        "created": 0,
+        "completed": 0
+      },
+      {
+        "hour": 8,
+        "created": 0,
+        "completed": 0
+      },
+      {
+        "hour": 9,
+        "created": 0,
+        "completed": 0
+      },
+      {
+        "hour": 10,
+        "created": 0,
+        "completed": 0
+      },
+      {
+        "hour": 11,
+        "created": 0,
+        "completed": 0
+      },
+      {
+        "hour": 12,
+        "created": 0,
+        "completed": 0
+      },
+      {
+        "hour": 13,
+        "created": 0,
+        "completed": 0
+      },
+      {
+        "hour": 14,
+        "created": 0,
+        "completed": 0
+      },
+      {
+        "hour": 15,
+        "created": 0,
+        "completed": 0
+      },
+      {
+        "hour": 16,
+        "created": 0,
+        "completed": 0
+      },
+      {
+        "hour": 17,
+        "created": 5,
+        "completed": 1
+      },
+      {
+        "hour": 18,
+        "created": 0,
+        "completed": 0
+      },
+      {
+        "hour": 19,
+        "created": 0,
+        "completed": 0
+      },
+      {
+        "hour": 20,
+        "created": 0,
+        "completed": 0
+      },
+      {
+        "hour": 21,
+        "created": 0,
+        "completed": 0
+      },
+      {
+        "hour": 22,
+        "created": 0,
+        "completed": 0
+      },
+      {
+        "hour": 23,
+        "created": 0,
+        "completed": 0
+      }
+    ]
+  },
+  "workers": [
+    {
+      "id": 1,
+      "name": "Aziz Karimov",
+      "phone": "+998100000000",
+      "state": "online_idle",
+      "online_since": null,
+      "categories": [
+        "Cargo"
+      ],
+      "rating": null,
+      "total_jobs": 0,
+      "is_verified": true,
+      "lat": 41.3,
+      "lng": 69.24,
+      "current_job_id": null
+    },
+    {
+      "id": 3,
+      "name": "Bekzod",
+      "phone": "+998100000002",
+      "state": "offer_pending",
+      "online_since": null,
+      "categories": [
+        "Cargo"
+      ],
+      "rating": null,
+      "total_jobs": 0,
+      "is_verified": true,
+      "lat": 41.3,
+      "lng": 69.24,
+      "current_job_id": null
+    },
+    {
+      "id": 2,
+      "name": "Dilshod Toshev",
+      "phone": "+998100000001",
+      "state": "on_job",
+      "online_since": null,
+      "categories": [
+        "Office cleaning",
+        "Home cleaning"
+      ],
+      "rating": null,
+      "total_jobs": 0,
+      "is_verified": true,
+      "lat": 41.3,
+      "lng": 69.24,
+      "current_job_id": "JOB-F65AB6282A21"
+    }
+  ],
+  "jobs": [
+    {
+      "job_id": "JOB-C2F51216D94E",
+      "status": "offered",
+      "category": "Cargo",
+      "client": {
+        "id": 4,
+        "name": "Malika Yusupova",
+        "phone": "+998900000003"
+      },
+      "worker": null,
+      "price": 100000.0,
+      "currency": "UZS",
+      "workers_count": 1,
+      "address": "Tashkent",
+      "lat": 41.3,
+      "lng": 69.24,
+      "created_at": "2026-10-26T17:52:26.819773+05:00",
+      "accepted_at": null,
+      "started_at": null
+    },
+    {
+      "job_id": "JOB-C557FD30EAB8",
+      "status": "pending",
+      "category": "Cargo",
+      "client": {
+        "id": 4,
+        "name": "Malika Yusupova",
+        "phone": "+998900000003"
+      },
+      "worker": null,
+      "price": 100000.0,
+      "currency": "UZS",
+      "workers_count": 1,
+      "address": "Tashkent",
+      "lat": 41.3,
+      "lng": 69.24,
+      "created_at": "2026-10-26T17:52:26.819292+05:00",
+      "accepted_at": null,
+      "started_at": null
+    },
+    {
+      "job_id": "JOB-F65AB6282A21",
+      "status": "in_progress",
+      "category": "Home cleaning",
+      "client": {
+        "id": 4,
+        "name": "Malika Yusupova",
+        "phone": "+998900000003"
+      },
+      "worker": {
+        "id": 2,
+        "name": "Dilshod Toshev",
+        "phone": "+998100000001"
+      },
+      "price": 100000.0,
+      "currency": "UZS",
+      "workers_count": 1,
+      "address": "Tashkent",
+      "lat": 41.3,
+      "lng": 69.24,
+      "created_at": "2026-10-26T17:52:26.818682+05:00",
+      "accepted_at": null,
+      "started_at": "2026-10-26T17:52:26.818271+05:00"
+    }
+  ],
+  "limits": {
+    "workers": 500,
+    "jobs": 300
+  }
+}
