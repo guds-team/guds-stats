@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { BarChart3, Download, Loader2, Table2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
 import { downloadCsv, type ExportTable } from "../../lib/csv";
@@ -18,13 +19,14 @@ interface PanelProps {
 }
 
 export function CsvButton({ table, params, label }: { table: ExportTable; params: ApiParams; label: string }) {
+  const { t } = useTranslation();
   const [busy, setBusy] = useState(false);
   const run = async () => {
     setBusy(true);
     try {
       await downloadCsv(table, params);
     } catch (error) {
-      toast.error(`CSV yuklab bo'lmadi: ${(error as Error).message}`);
+      toast.error(t("export.failed", { message: (error as Error).message }));
     } finally {
       setBusy(false);
     }
@@ -36,15 +38,16 @@ export function CsvButton({ table, params, label }: { table: ExportTable; params
       className="h-8 rounded-lg"
       onClick={run}
       disabled={busy}
-      aria-label={`${label}: CSV yuklab olish`}
+      aria-label={t("export.download", { label })}
     >
       {busy ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : <Download className="h-4 w-4" aria-hidden />}
-      CSV
+      {t("export.csv")}
     </Button>
   );
 }
 
 export function Panel({ title, description, exportTable, params, chart, table, toolbar, className }: PanelProps) {
+  const { t } = useTranslation();
   const [view, setView] = useState<"chart" | "table">("chart");
   const showing = chart ? view : "table";
   return (
@@ -61,11 +64,11 @@ export function Panel({ title, description, exportTable, params, chart, table, t
         <div className="flex flex-wrap items-center gap-2">
           {toolbar}
           {chart && (
-            <div role="group" aria-label="Ko'rinish" className="inline-flex rounded-lg border bg-muted/50 p-0.5">
+            <div role="group" aria-label={t("common.view")} className="inline-flex rounded-lg border bg-muted/50 p-0.5">
               {(
                 [
-                  ["chart", "Grafik", BarChart3],
-                  ["table", "Jadval", Table2],
+                  ["chart", t("common.chart"), BarChart3],
+                  ["table", t("common.table"), Table2],
                 ] as const
               ).map(([key, label, Icon]) => (
                 <button

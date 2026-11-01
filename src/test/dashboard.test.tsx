@@ -76,7 +76,7 @@ describe("filters and the URL", () => {
     expect((screen.getByLabelText("Ilova") as HTMLSelectElement).value).toBe("jobs");
     expect(screen.getByRole("button", { name: "Hafta" }).getAttribute("aria-pressed")).toBe("true");
     expect(router.state.location.search).toContain("country=UZ"); // rewritten to the canonical link
-    expect(fetchMock.mock.calls[0][1].headers).toEqual({ Authorization: "Bearer token" });
+    expect(fetchMock.mock.calls[0][1].headers).toEqual({ Authorization: "Bearer token", "Accept-Language": "uz" });
   });
 
   it("updates the URL on every filter change and feeds every section from one request", async () => {

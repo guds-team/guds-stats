@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { useTranslation } from "react-i18next";
 import { DataTable, type Column } from "./DataTable";
 import { Panel } from "./Panel";
 import { EmptyState } from "./states";
@@ -15,12 +16,13 @@ import {
 } from "./chartParts";
 import type { ApiParams } from "../../lib/filters";
 import { formatNumber } from "../../lib/format";
-import { METHOD_LABELS, METHOD_ORDER, methodColor } from "../../lib/metrics";
+import { METHOD_ORDER, methodColor, methodLabel } from "../../lib/metrics";
 import type { Overview } from "../../lib/types";
 
 type Point = Overview["series"]["registrations"][number];
 
 export function RegistrationsPanel({ data, params }: { data: Overview; params: ApiParams }) {
+  const { t } = useTranslation();
   const series = data.series.registrations;
   const [hidden, setHidden] = useState<Set<string>>(new Set());
   // Stacked in the fixed method order (neighbouring colours are the validated pairs), unknown last.
@@ -29,18 +31,18 @@ export function RegistrationsPanel({ data, params }: { data: Overview; params: A
     const rank = (m: string) => (METHOD_ORDER.includes(m) ? METHOD_ORDER.indexOf(m) : METHOD_ORDER.length);
     return present.sort((a, b) => rank(a) - rank(b) || a.localeCompare(b));
   }, [series]);
-  const items = methods.map((m) => ({ key: m, label: METHOD_LABELS[m] ?? m, color: methodColor(m) }));
+  const items = methods.map((m) => ({ key: m, label: methodLabel(m), color: methodColor(m) }));
   const visible = items.filter((i) => !hidden.has(i.key));
   const top = visible[visible.length - 1]?.key; // the segment that gets the rounded top
   const rows = useMemo(() => series.map((p) => ({ ...p, ...p.by_registered_via })), [series]);
   const empty = series.every((p) => p.registrations === 0);
 
   const columns: Column<Point>[] = [
-    { key: "period", header: "Davr", cell: (p) => bucketTitle(p), sort: (p) => p.bucket },
-    { key: "total", header: "Jami", numeric: true, cell: (p) => formatNumber(p.registrations), sort: (p) => p.registrations },
+    { key: "period", header: t("tables.period"), cell: (p) => bucketTitle(p), sort: (p) => p.bucket },
+    { key: "total", header: t("common.total"), numeric: true, cell: (p) => formatNumber(p.registrations), sort: (p) => p.registrations },
     ...methods.map((m) => ({
       key: m,
-      header: METHOD_LABELS[m] ?? m,
+      header: methodLabel(m),
       numeric: true,
       cell: (p: Point) => formatNumber(p.by_registered_via[m]),
       sort: (p: Point) => p.by_registered_via[m],
@@ -84,12 +86,12 @@ export function RegistrationsPanel({ data, params }: { data: Overview; params: A
 
   return (
     <Panel
-      title="Ro'yxatdan o'tishlar"
-      description="Yangi akkauntlar, ro'yxatdan o'tish usuli bo'yicha"
+      title={t("panels.registrations.title")}
+      description={t("panels.registrations.description")}
       exportTable="registrations"
       params={params}
       chart={chart}
-      table={<DataTable caption="Ro'yxatdan o'tishlar" columns={columns} rows={series} />}
+      table={<DataTable caption={t("panels.registrations.title")} columns={columns} rows={series} />}
     />
   );
 }

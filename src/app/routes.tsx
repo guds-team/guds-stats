@@ -1,5 +1,6 @@
 import { lazy, Suspense } from "react";
 import { createBrowserRouter, Navigate, useLocation, type RouteObject } from "react-router";
+import { useTranslation } from "react-i18next";
 import { LoginPage } from "./pages/LoginPage";
 import { getToken } from "./lib/api";
 
@@ -8,8 +9,9 @@ const DashboardPage = lazy(() => import("./pages/DashboardPage").then((m) => ({ 
 const LivePage = lazy(() => import("./pages/LivePage").then((m) => ({ default: m.LivePage })));
 
 function PageFallback() {
+  const { t } = useTranslation();
   return (
-    <div className="app-backdrop grid min-h-screen place-items-center" aria-busy="true" aria-label="Sahifa yuklanmoqda">
+    <div className="app-backdrop grid min-h-screen place-items-center" aria-busy="true" aria-label={t("app.pageLoading")}>
       <span className="h-6 w-6 animate-spin rounded-full border-2 border-muted-foreground/30 border-t-[var(--accent-brand)]" />
     </div>
   );

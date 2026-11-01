@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { DataTable, type Column } from "./DataTable";
 import { Panel } from "./Panel";
 import { SeriesLineChart } from "./SeriesLineChart";
@@ -12,25 +13,23 @@ import type { Overview } from "../../lib/types";
 type Point = Overview["series"]["activity"][number];
 type Key = "dau" | "wau" | "mau" | "active_users" | "dau_average";
 
-const DAILY: { key: Key; label: string; color: string }[] = [
-  { key: "dau", label: "DAU", color: seriesColor(0) },
-  { key: "wau", label: "WAU (7 kun)", color: seriesColor(1) },
-  { key: "mau", label: "MAU (30 kun)", color: seriesColor(2) },
-];
-const PERIODIC: { key: Key; label: string; color: string }[] = [
-  { key: "active_users", label: "Faol foydalanuvchilar", color: seriesColor(0) },
-  { key: "dau_average", label: "O'rtacha DAU", color: seriesColor(1) },
-];
+const DAILY: Key[] = ["dau", "wau", "mau"];
+const PERIODIC: Key[] = ["active_users", "dau_average"];
 
 export function ActivityPanel({ data, params }: { data: Overview; params: ApiParams }) {
+  const { t } = useTranslation();
   const series = data.series.activity;
   const daily = data.meta.granularity === "day";
-  const items = daily ? DAILY : PERIODIC;
+  const items = (daily ? DAILY : PERIODIC).map((key, i) => ({
+    key,
+    label: t(`panels.activity.series.${key}`),
+    color: seriesColor(i),
+  }));
   const since = data.summary.activity.tracking_since;
   const empty = series.every((p) => items.every((i) => !p[i.key])); // all 0 or not measured
 
   const columns: Column<Point>[] = [
-    { key: "period", header: "Davr", cell: (p) => bucketTitle(p), sort: (p) => p.bucket },
+    { key: "period", header: t("tables.period"), cell: (p) => bucketTitle(p), sort: (p) => p.bucket },
     ...items.map((i) => ({
       key: i.key,
       header: i.label,
@@ -42,28 +41,24 @@ export function ActivityPanel({ data, params }: { data: Overview; params: ApiPar
 
   return (
     <Panel
-      title="Faol foydalanuvchilar"
+      title={t("panels.activity.title")}
       description={
         <>
-          {daily
-            ? "DAU — shu kuni faol; WAU / MAU — shu kun bilan tugaydigan 7 / 30 kunda faol bo'lgan noyob foydalanuvchilar."
-            : "Davr ichida faol bo'lgan noyob foydalanuvchilar (DAU yig'indisi emas) va kunlik o'rtacha DAU."}
-          {since && since > data.meta.date_from && (
-            <> Faollik {formatDay(since, true)} dan beri kuzatiladi: undan oldingi kunlar bo'sh ("—"), 0 emas.</>
-          )}
+          {daily ? t("panels.activity.descriptionDaily") : t("panels.activity.descriptionPeriodic")}
+          {since && since > data.meta.date_from && <> {t("panels.activity.trackingSince", { date: formatDay(since, true) })}</>}
         </>
       }
       exportTable="activity"
       params={params}
       chart={
         empty ? (
-          <EmptyState>{since ? "Tanlangan davrda faollik qayd etilmagan" : "Faollik hali kuzatilmayapti"}</EmptyState>
+          <EmptyState>{since ? t("panels.activity.emptyInPeriod") : t("panels.activity.notTracked")}</EmptyState>
         ) : (
           // keyed by granularity: legend toggles of the daily lines do not carry over to the weekly ones
           <SeriesLineChart key={data.meta.granularity} data={series} items={items} granularity={data.meta.granularity} />
         )
       }
-      table={<DataTable caption="Faol foydalanuvchilar" columns={columns} rows={series} />}
+      table={<DataTable caption={t("panels.activity.title")} columns={columns} rows={series} />}
     />
   );
 }

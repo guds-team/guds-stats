@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { ArrowDown, ArrowUp, ArrowUpDown, ChevronLeft, ChevronRight } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { formatNumber } from "../../lib/format";
 
 export interface Column<Row> {
@@ -33,6 +34,7 @@ export function DataTable<Row>({
   pageSize?: number;
   rowKey?: (row: Row) => string | number;
 }) {
+  const { t } = useTranslation();
   const [sort, setSort] = useState<Sort>(null);
   const [page, setPage] = useState(0);
 
@@ -119,7 +121,7 @@ export function DataTable<Row>({
         </table>
       </div>
       {pages > 1 && (
-        <nav aria-label={`${caption}: sahifalar`} className="flex items-center justify-between gap-3 text-xs text-muted-foreground">
+        <nav aria-label={t("pagination.label", { caption })} className="flex items-center justify-between gap-3 text-xs text-muted-foreground">
           <span className="tabular-nums">
             {formatNumber(current * pageSize! + 1)}–{formatNumber(Math.min(sorted.length, (current + 1) * pageSize!))} /{" "}
             {formatNumber(sorted.length)}
@@ -129,7 +131,7 @@ export function DataTable<Row>({
               type="button"
               onClick={() => setPage(current - 1)}
               disabled={current === 0}
-              aria-label="Oldingi sahifa"
+              aria-label={t("pagination.previous")}
               className="grid h-8 w-8 place-items-center rounded-lg border bg-background transition-colors hover:bg-muted disabled:opacity-40"
             >
               <ChevronLeft className="h-4 w-4" aria-hidden />
@@ -141,7 +143,7 @@ export function DataTable<Row>({
               type="button"
               onClick={() => setPage(current + 1)}
               disabled={current >= pages - 1}
-              aria-label="Keyingi sahifa"
+              aria-label={t("pagination.next")}
               className="grid h-8 w-8 place-items-center rounded-lg border bg-background transition-colors hover:bg-muted disabled:opacity-40"
             >
               <ChevronRight className="h-4 w-4" aria-hidden />

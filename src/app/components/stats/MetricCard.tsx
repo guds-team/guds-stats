@@ -1,4 +1,5 @@
 import { ArrowDownRight, ArrowRight, ArrowUpRight, Minus } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { Sparkline, useAnimatedNumber } from "../layout/Page";
 import { describeChange, formatNumber, type Polarity } from "../../lib/format";
 import type { Compared } from "../../lib/types";
@@ -20,14 +21,15 @@ const TONE_CLASS = {
 };
 
 const TREND_ICON = { up: ArrowUpRight, down: ArrowDownRight, flat: ArrowRight, none: Minus };
-const TREND_WORD = { up: "o'sish", down: "kamayish", flat: "", none: "" };
 
 /**
  * A metric of the period against the previous equivalent period. The change
  * comes from the API as is: no comparison is shown when it cannot be computed.
  */
 export function MetricCard({ title, metric, polarity, hint, compact, spark }: MetricCardProps) {
+  const { t } = useTranslation();
   const change = describeChange(metric, polarity);
+  const trendWord = change.trend === "up" ? t("change.up") : change.trend === "down" ? t("change.down") : "";
   const Icon = TREND_ICON[change.trend];
   const shown = useAnimatedNumber(metric.value);
   return (
@@ -55,12 +57,12 @@ export function MetricCard({ title, metric, polarity, hint, compact, spark }: Me
       >
         <Icon className="mt-px h-3.5 w-3.5 shrink-0" aria-hidden />
         <span>
-          {TREND_WORD[change.trend] && <span className="sr-only">{TREND_WORD[change.trend]}: </span>}
+          {trendWord && <span className="sr-only">{trendWord}: </span>}
           {change.text}
         </span>
       </p>
       {metric.comparison !== "unavailable" && metric.previous !== null && (
-        <p className="text-xs text-muted-foreground">Oldingi davr: {formatNumber(metric.previous)}</p>
+        <p className="text-xs text-muted-foreground">{t("change.previousPeriod", { value: formatNumber(metric.previous) })}</p>
       )}
     </div>
   );

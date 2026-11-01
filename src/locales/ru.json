@@ -1,0 +1,442 @@
+{
+  "app": {
+    "name": "GUDS Stats",
+    "documentTitle": "GUDS Stats — Панель статистики",
+    "tagline": "Панель аналитики",
+    "pageLoading": "Страница загружается"
+  },
+  "common": {
+    "loading": "Загрузка",
+    "loadingEllipsis": "Загрузка...",
+    "refresh": "Обновить",
+    "refreshing": "Обновление…",
+    "retry": "Повторить",
+    "close": "Закрыть",
+    "total": "Всего",
+    "all": "Все",
+    "unknown": "Неизвестно",
+    "notApplicable": "н/д",
+    "newWindow": "(в новом окне)",
+    "chart": "График",
+    "table": "Таблица",
+    "view": "Вид",
+    "series": "Ряды",
+    "map": "Карта",
+    "openMap": "Открыть на карте",
+    "verified": "Подтверждён"
+  },
+  "language": {
+    "label": "Язык",
+    "names": {
+      "uz": "O'zbekcha",
+      "ru": "Русский",
+      "en": "English"
+    }
+  },
+  "theme": {
+    "label": "Тема",
+    "light": "Светлая тема",
+    "dark": "Тёмная тема",
+    "system": "Системная тема"
+  },
+  "navigation": {
+    "sections": "Разделы",
+    "overview": "Общая статистика",
+    "overviewHint": "Показатели за период",
+    "live": "Онлайн-мониторинг",
+    "liveHint": "Работники онлайн и заказы",
+    "logout": "Выйти",
+    "openMenu": "Открыть меню",
+    "menu": "Меню",
+    "menuDescription": "Разделы и аккаунт",
+    "expandSidebar": "Развернуть боковую панель",
+    "collapseSidebar": "Свернуть боковую панель",
+    "collapse": "Свернуть"
+  },
+  "auth": {
+    "subtitle": "Введите свои данные, чтобы войти в панель статистики",
+    "phone": "Номер телефона",
+    "password": "Пароль",
+    "submit": "Войти",
+    "demo": "Демо: +998 90 900 90 90",
+    "success": "Вы успешно вошли!",
+    "loggedOut": "Вы вышли из системы",
+    "sessionExpired": "Сессия истекла, войдите снова",
+    "errors": {
+      "phoneIncomplete": "Номер телефона введён не полностью",
+      "passwordRequired": "Введите пароль",
+      "invalidCredentials": "Неверный логин или пароль",
+      "network": "Ошибка соединения с сервером. Возможно, проблема с CORS.",
+      "generic": "Произошла ошибка: {{message}}"
+    }
+  },
+  "errors": {
+    "loadFailed": "Не удалось загрузить статистику",
+    "forbidden": "Нет права на просмотр статистики (statistics | daily statistic | Can view).",
+    "server": "Ошибка сервера. Попробуйте ещё раз чуть позже.",
+    "network": "Не удалось связаться с сервером. Проверьте подключение к интернету."
+  },
+  "emptyStates": {
+    "noData": "Нет данных по выбранным фильтрам",
+    "noDataHint": "Расширьте период или измените фильтры"
+  },
+  "time": {
+    "justNow": "только что",
+    "minutes": "{{count, number}} мин",
+    "hours": "{{count, number}} ч",
+    "hoursMinutes": "{{hours}} ч {{minutes}} мин",
+    "days_one": "{{count, number}} день",
+    "days_few": "{{count, number}} дня",
+    "days_many": "{{count, number}} дней",
+    "days_other": "{{count, number}} дня",
+    "ago": "{{duration}} назад"
+  },
+  "units": {
+    "thousand": "{{value}} тыс.",
+    "million": "{{value}} млн",
+    "billion": "{{value}} млрд",
+    "currencyUZS": "сум"
+  },
+  "change": {
+    "unavailable": "Сравнение недоступно",
+    "noChange": "Без изменений",
+    "previousZero": "{{change}} (в прошлом периоде 0)",
+    "up": "рост",
+    "down": "снижение",
+    "previousPeriod": "Прошлый период: {{value}}"
+  },
+  "filters": {
+    "label": "Фильтры статистики",
+    "period": "Период",
+    "dateFrom": "Дата начала",
+    "dateTo": "Дата окончания",
+    "granularity": "Группировка",
+    "reset": "Сбросить",
+    "country": "Страна",
+    "allCountries": "Все страны",
+    "method": "Способ регистрации",
+    "methodShort": "Способ",
+    "allMethods": "Все способы",
+    "app": "Приложение",
+    "allApps": "Все приложения",
+    "active": "Активные фильтры",
+    "remove": "Убрать фильтр «{{label}}»",
+    "presets": {
+      "today": "Сегодня",
+      "yesterday": "Вчера",
+      "last7": "Последние 7 дней",
+      "last30": "Последние 30 дней",
+      "this_month": "Этот месяц",
+      "previous_month": "Прошлый месяц",
+      "custom": "Другой период"
+    },
+    "granularities": {
+      "day": "День",
+      "week": "Неделя",
+      "month": "Месяц"
+    }
+  },
+  "labels": {
+    "methods": {
+      "phone": "Телефон (SMS)",
+      "email": "Email",
+      "google": "Google",
+      "apple": "Apple",
+      "telegram": "Telegram",
+      "whatsapp": "WhatsApp",
+      "unknown": "Неизвестно"
+    },
+    "apps": {
+      "jobs": "Поиск работы",
+      "daily_works": "Подработка",
+      "messaging": "Чаты и звонки",
+      "wallet": "Кошелёк и платежи"
+    },
+    "objects": {
+      "vacancies_created": "Вакансии",
+      "resumes_created": "Резюме",
+      "job_applications_created": "Отклики",
+      "companies_created": "Компании",
+      "dw_jobs_created": "Размещённые заказы",
+      "dw_jobs_completed": "Выполненные заказы",
+      "dw_jobs_cancelled": "Отменённые заказы",
+      "dw_workers_registered": "Профили работников",
+      "chats_created": "Новые чаты",
+      "messages_sent": "Сообщения",
+      "calls_started": "Звонки",
+      "payments_succeeded": "Успешные платежи",
+      "payments_failed": "Неуспешные платежи",
+      "payments_cancelled": "Отменённые платежи",
+      "admin_top_ups": "Пополнения администратором"
+    },
+    "stages": {
+      "otp_requested": "OTP отправлен",
+      "otp_accepted": "Принят провайдером",
+      "otp_delivered": "Доставлен",
+      "otp_verified": "Код введён",
+      "otp_registered": "Зарегистрировался"
+    },
+    "stageHints": {
+      "otp_requested": "Созданные OTP-запросы (не отправленные на неизвестный номер не учитываются)",
+      "otp_accepted": "Принят провайдером — это ещё не доставка",
+      "otp_delivered": "Отчёт провайдера о доставке (SMS, Telegram, WhatsApp); для email отчёта нет",
+      "otp_verified": "Введён верный код; неверные, просроченные и заблокированные коды не учитываются",
+      "otp_registered": "Аккаунт создан с токеном подтверждения именно этого кода"
+    },
+    "stageBasis": {
+      "otp_requested": "от отправленных",
+      "otp_accepted": "от принятых",
+      "otp_delivered": "от доставленных",
+      "otp_verified": "от введённых кодов",
+      "otp_accepted_with_reports": "от принятых в каналах с отчётами о доставке"
+    },
+    "channels": {
+      "sms": "SMS",
+      "telegram": "Telegram",
+      "whatsapp": "WhatsApp",
+      "email": "Email"
+    },
+    "workerStates": {
+      "online_idle": "Свободен, ожидает",
+      "offer_pending": "Смотрит предложение",
+      "on_job": "На заказе"
+    },
+    "jobStatuses": {
+      "pending": "Поиск работника",
+      "offered": "Предложение отправлено",
+      "accepted": "Принят",
+      "en_route": "В пути",
+      "arrived": "На месте",
+      "in_progress": "Выполняется"
+    }
+  },
+  "charts": {
+    "partial": "{{range}} (неполный)"
+  },
+  "tables": {
+    "period": "Период",
+    "value": "Значение",
+    "count": "Количество",
+    "share": "Доля",
+    "previous": "Прошлый период",
+    "change": "Изменение"
+  },
+  "pagination": {
+    "label": "{{caption}}: страницы",
+    "previous": "Предыдущая страница",
+    "next": "Следующая страница"
+  },
+  "dashboard": {
+    "title": "Статистика GUDS",
+    "description": "Показатели платформы: пользователи, активность, подработка и аутентификация",
+    "periodMeta": "{{range}} · время Ташкента",
+    "comparison": "сравнение: {{range}}",
+    "generatedAt": "рассчитано: {{time}}",
+    "footer": "Показатели за сегодня обновляются каждые 15 минут · рассчитано: {{time}}",
+    "sections": {
+      "users": "Пользователи",
+      "usersHint": "Сравнение с предыдущим равным периодом",
+      "outcomes": "Подработка и платежи",
+      "created": "Созданные объекты",
+      "trends": "Динамика",
+      "trendsHint": "Группировка: {{granularity}}",
+      "distribution": "Распределение",
+      "distributionHint": "Доля новых регистраций за период"
+    },
+    "cards": {
+      "newRegistrations": "Новые регистрации",
+      "newRegistrationsHint": "Аккаунты, созданные за период",
+      "dau": "DAU (среднее за день)",
+      "dauHint": "Среднее число уникальных активных пользователей за каждый день периода",
+      "wau": "WAU",
+      "wauHint": "Уникальные пользователи, активные за 7 дней, заканчивающихся последним днём периода",
+      "mau": "MAU",
+      "mauHint": "Уникальные пользователи, активные за 30 дней, заканчивающихся последним днём периода",
+      "totalUsers": "Всего пользователей",
+      "totalUsersHint": "Аккаунты, зарегистрированные к концу периода и не удалённые"
+    },
+    "outcomeHints": {
+      "dw_jobs_completed": "Заказы подработки, выполненные за период",
+      "dw_jobs_cancelled": "Заказы подработки, отменённые за период",
+      "payments_succeeded": "Количество успешно завершённых платежей за период",
+      "payments_failed": "Количество неуспешных платежей за период"
+    }
+  },
+  "panels": {
+    "registrations": {
+      "title": "Регистрации",
+      "description": "Новые аккаунты по способу регистрации"
+    },
+    "activity": {
+      "title": "Активные пользователи",
+      "descriptionDaily": "DAU — активные в этот день; WAU / MAU — уникальные пользователи, активные за 7 / 30 дней, заканчивающихся этим днём.",
+      "descriptionPeriodic": "Уникальные пользователи, активные за период (не сумма DAU), и средний DAU за день.",
+      "trackingSince": "Активность отслеживается с {{date}}: более ранние дни пустые («—»), а не 0.",
+      "emptyInPeriod": "За выбранный период активность не зафиксирована",
+      "notTracked": "Активность пока не отслеживается",
+      "series": {
+        "dau": "DAU",
+        "wau": "WAU (7 дней)",
+        "mau": "MAU (30 дней)",
+        "active_users": "Активные пользователи",
+        "dau_average": "Средний DAU"
+      }
+    },
+    "objects": {
+      "title": "Динамика объектов",
+      "description": "Каждый объект считается по своей отметке времени (создан, выполнен, оплачен …)",
+      "appSelect": "Приложение на графике",
+      "empty": "{{app}}: за выбранный период новых объектов нет"
+    },
+    "distribution": {
+      "description": "Новые регистрации за период: всего {{total}} (100%)",
+      "country": "По странам",
+      "method": "По способу регистрации"
+    }
+  },
+  "funnel": {
+    "title": "Воронка аутентификации",
+    "description": "Коды регистрации по дню создания кода. Каждый код учитывается на каждом этапе один раз (повторные отправки и повторные отчёты о доставке не считаются дважды).",
+    "filtersNotApplied": "Фильтры страны, способа и приложения не влияют на воронку",
+    "panelTitle": "OTP → регистрация",
+    "overall": "Общая конверсия (от отправки до регистрации):",
+    "stages": "Этапы воронки",
+    "tableCaption": "Воронка по каналам",
+    "channel": "Канал",
+    "allChannels": "Все каналы",
+    "overallColumn": "Общая конверсия",
+    "noDeliveryReports": "Канал не присылает отчёты о доставке",
+    "firstStage": "начальный этап",
+    "notRegistered": "SMS доставлено, но регистрации нет",
+    "notRegisteredHint": "Доставленные SMS регистрации, по которым аккаунт не создан (по дню создания SMS)",
+    "openAdmin": "Открыть список в админ-панели",
+    "noAdminAccess": "Чтобы увидеть список, нужно право на просмотр SMS-логов.",
+    "acceptedWithoutReports_one": "{{count, number}} код отправлен через канал без отчётов о доставке (email), поэтому «код введён» считается от принятых.",
+    "acceptedWithoutReports_few": "{{count, number}} кода отправлены через канал без отчётов о доставке (email), поэтому «код введён» считается от принятых.",
+    "acceptedWithoutReports_many": "{{count, number}} кодов отправлены через канал без отчётов о доставке (email), поэтому «код введён» считается от принятых.",
+    "acceptedWithoutReports_other": "{{count, number}} кода отправлены через канал без отчётов о доставке (email), поэтому «код введён» считается от принятых."
+  },
+  "export": {
+    "button": "Экспорт",
+    "menuLabel": "CSV с выбранными фильтрами",
+    "csv": "CSV",
+    "download": "{{label}}: скачать CSV",
+    "failed": "Не удалось скачать CSV: {{message}}",
+    "tables": {
+      "registrations": "Регистрации",
+      "activity": "Активные пользователи",
+      "objects": "Динамика объектов",
+      "authentication": "Воронка аутентификации",
+      "country": "По странам",
+      "registered_via": "По способу регистрации"
+    }
+  },
+  "live": {
+    "title": "Онлайн-мониторинг",
+    "description": "Подработка: работники онлайн и заказы в работе. Сервер присылает данные сам при каждом изменении.",
+    "lastUpdate": "Последнее обновление: {{time}}",
+    "forbidden": "Нет права на просмотр онлайн-мониторинга (statistics | daily statistic | Can view).",
+    "status": {
+      "open": "Онлайн",
+      "connecting": "Подключение…",
+      "reconnecting": "Переподключение…",
+      "unauthorized": "Сессия истекла",
+      "forbidden": "Нет доступа"
+    },
+    "kpi": {
+      "onlineWorkers": "Работники онлайн",
+      "onlineWorkersDetail": "{{idle}} свободны · {{onJob}} на заказе · всего в базе {{registered}}",
+      "activeJobs": "Активные заказы",
+      "waiting_one": "{{count, number}} ждёт работника",
+      "waiting_few": "{{count, number}} ждут работника",
+      "waiting_many": "{{count, number}} ждут работника",
+      "waiting_other": "{{count, number}} ждут работника",
+      "postedToday": "Размещено сегодня",
+      "expired": "просрочено: {{count, number}}",
+      "completedToday": "Выполнено сегодня",
+      "cancelled": "отменено: {{count, number}}",
+      "completionRate": "выполнено {{percent}}",
+      "revenueToday": "Оборот за сегодня",
+      "commission": "Комиссия: {{amount}}"
+    },
+    "trend": {
+      "title": "Онлайн-тренд",
+      "description": "Число работников онлайн и активных заказов — с момента открытия страницы",
+      "empty": "Тренд собирается, пока страница открыта",
+      "emptyHint": "Каждое обновление добавляет точку на тренд",
+      "workers": "Работники онлайн",
+      "jobs": "Активные заказы"
+    },
+    "workerStates": {
+      "title": "Статусы работников",
+      "online_one": "{{count, number}} онлайн",
+      "online_few": "{{count, number}} онлайн",
+      "online_many": "{{count, number}} онлайн",
+      "online_other": "{{count, number}} онлайн",
+      "registered": "Работников в базе",
+      "verified": "Подтверждённые"
+    },
+    "hourly": {
+      "title": "Сегодня по часам",
+      "description": "Размещённые и выполненные заказы, время Ташкента",
+      "created": "Размещено",
+      "completed": "Выполнено"
+    },
+    "pipeline": {
+      "title": "Этапы заказов",
+      "active_one": "{{count, number}} активный заказ",
+      "active_few": "{{count, number}} активных заказа",
+      "active_many": "{{count, number}} активных заказов",
+      "active_other": "{{count, number}} активного заказа"
+    },
+    "categories": {
+      "title": "Топ категорий за сегодня",
+      "description": "По числу размещённых заказов",
+      "empty": "Сегодня заказов ещё не размещали"
+    },
+    "tabs": {
+      "label": "Таблица",
+      "workers": "Работники · {{count, number}}",
+      "jobs": "Заказы · {{count, number}}"
+    },
+    "workers": {
+      "title": "Работники онлайн",
+      "worker": "Работник",
+      "state": "Статус",
+      "categories": "Категории",
+      "rating": "Рейтинг",
+      "completed": "Выполнено",
+      "online": "Онлайн",
+      "currentJob": "Текущий заказ",
+      "location": "Местоположение",
+      "search": "Имя, телефон, категория…",
+      "noMatch": "По фильтру работники не найдены",
+      "none": "Сейчас нет работников онлайн",
+      "noneHint": "Работники появятся здесь, когда выйдут онлайн в приложении",
+      "truncated": "В таблице показано {{limit}} работников, всего онлайн: {{total}}."
+    },
+    "jobs": {
+      "title": "Активные заказы",
+      "job": "Заказ",
+      "workersCount_one": "{{count, number}} работник",
+      "workersCount_few": "{{count, number}} работника",
+      "workersCount_many": "{{count, number}} работников",
+      "workersCount_other": "{{count, number}} работника",
+      "status": "Статус",
+      "client": "Клиент",
+      "worker": "Работник",
+      "unassigned": "Не назначен",
+      "price": "Цена",
+      "address": "Адрес",
+      "posted": "Размещён",
+      "search": "ID, адрес, клиент, работник…",
+      "noMatch": "По фильтру заказы не найдены",
+      "none": "Сейчас нет активных заказов",
+      "truncated": "В таблице показаны последние {{limit}} заказов, всего активных: {{total}}."
+    },
+    "filters": {
+      "byState": "По статусу",
+      "noMatchHint": "Измените поиск или фильтр статуса"
+    }
+  }
+}

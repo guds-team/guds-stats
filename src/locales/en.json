@@ -1,0 +1,430 @@
+{
+  "app": {
+    "name": "GUDS Stats",
+    "documentTitle": "GUDS Stats — Analytics Dashboard",
+    "tagline": "Analytics dashboard",
+    "pageLoading": "Loading page"
+  },
+  "common": {
+    "loading": "Loading",
+    "loadingEllipsis": "Loading...",
+    "refresh": "Refresh",
+    "refreshing": "Refreshing…",
+    "retry": "Try again",
+    "close": "Close",
+    "total": "Total",
+    "all": "All",
+    "unknown": "Unknown",
+    "notApplicable": "n/a",
+    "newWindow": "(opens in a new window)",
+    "chart": "Chart",
+    "table": "Table",
+    "view": "View",
+    "series": "Series",
+    "map": "Map",
+    "openMap": "Open on the map",
+    "verified": "Verified"
+  },
+  "language": {
+    "label": "Language",
+    "names": {
+      "uz": "O'zbekcha",
+      "ru": "Русский",
+      "en": "English"
+    }
+  },
+  "theme": {
+    "label": "Theme",
+    "light": "Light theme",
+    "dark": "Dark theme",
+    "system": "System theme"
+  },
+  "navigation": {
+    "sections": "Sections",
+    "overview": "Overview",
+    "overviewHint": "Metrics for a period",
+    "live": "Live monitoring",
+    "liveHint": "Online workers and jobs",
+    "logout": "Log out",
+    "openMenu": "Open menu",
+    "menu": "Menu",
+    "menuDescription": "Sections and account",
+    "expandSidebar": "Expand sidebar",
+    "collapseSidebar": "Collapse sidebar",
+    "collapse": "Collapse"
+  },
+  "auth": {
+    "subtitle": "Enter your credentials to sign in to the statistics dashboard",
+    "phone": "Phone number",
+    "password": "Password",
+    "submit": "Sign in",
+    "demo": "Demo: +998 90 900 90 90",
+    "success": "Signed in successfully!",
+    "loggedOut": "You have been logged out",
+    "sessionExpired": "Your session has expired, please sign in again",
+    "errors": {
+      "phoneIncomplete": "The phone number is incomplete",
+      "passwordRequired": "Enter your password",
+      "invalidCredentials": "Incorrect login or password",
+      "network": "Could not connect to the server. This may be a CORS issue.",
+      "generic": "Something went wrong: {{message}}"
+    }
+  },
+  "errors": {
+    "loadFailed": "Could not load statistics",
+    "forbidden": "You do not have permission to view statistics (statistics | daily statistic | Can view).",
+    "server": "Server error. Please try again in a moment.",
+    "network": "Could not reach the server. Check your internet connection."
+  },
+  "emptyStates": {
+    "noData": "No data for the selected filters",
+    "noDataHint": "Widen the period or change the filters"
+  },
+  "time": {
+    "justNow": "just now",
+    "minutes": "{{count, number}} min",
+    "hours": "{{count, number}} h",
+    "hoursMinutes": "{{hours}} h {{minutes}} min",
+    "days_one": "{{count, number}} day",
+    "days_other": "{{count, number}} days",
+    "ago": "{{duration}} ago"
+  },
+  "units": {
+    "thousand": "{{value}}K",
+    "million": "{{value}}M",
+    "billion": "{{value}}B",
+    "currencyUZS": "UZS"
+  },
+  "change": {
+    "unavailable": "Not comparable",
+    "noChange": "No change",
+    "previousZero": "{{change}} (0 in the previous period)",
+    "up": "increase",
+    "down": "decrease",
+    "previousPeriod": "Previous period: {{value}}"
+  },
+  "filters": {
+    "label": "Statistics filters",
+    "period": "Period",
+    "dateFrom": "Start date",
+    "dateTo": "End date",
+    "granularity": "Grouping",
+    "reset": "Reset",
+    "country": "Country",
+    "allCountries": "All countries",
+    "method": "Registration method",
+    "methodShort": "Method",
+    "allMethods": "All methods",
+    "app": "App",
+    "allApps": "All apps",
+    "active": "Active filters",
+    "remove": "Remove the {{label}} filter",
+    "presets": {
+      "today": "Today",
+      "yesterday": "Yesterday",
+      "last7": "Last 7 days",
+      "last30": "Last 30 days",
+      "this_month": "This month",
+      "previous_month": "Last month",
+      "custom": "Custom range"
+    },
+    "granularities": {
+      "day": "Day",
+      "week": "Week",
+      "month": "Month"
+    }
+  },
+  "labels": {
+    "methods": {
+      "phone": "Phone (SMS)",
+      "email": "Email",
+      "google": "Google",
+      "apple": "Apple",
+      "telegram": "Telegram",
+      "whatsapp": "WhatsApp",
+      "unknown": "Unknown"
+    },
+    "apps": {
+      "jobs": "Job search",
+      "daily_works": "Daily works",
+      "messaging": "Chats and calls",
+      "wallet": "Wallet and payments"
+    },
+    "objects": {
+      "vacancies_created": "Vacancies",
+      "resumes_created": "Resumes",
+      "job_applications_created": "Job applications",
+      "companies_created": "Companies",
+      "dw_jobs_created": "Posted jobs",
+      "dw_jobs_completed": "Completed jobs",
+      "dw_jobs_cancelled": "Cancelled jobs",
+      "dw_workers_registered": "Worker profiles",
+      "chats_created": "New chats",
+      "messages_sent": "Messages",
+      "calls_started": "Calls",
+      "payments_succeeded": "Successful payments",
+      "payments_failed": "Failed payments",
+      "payments_cancelled": "Cancelled payments",
+      "admin_top_ups": "Admin top-ups"
+    },
+    "stages": {
+      "otp_requested": "OTP sent",
+      "otp_accepted": "Accepted by provider",
+      "otp_delivered": "Delivered",
+      "otp_verified": "Code entered",
+      "otp_registered": "Registered"
+    },
+    "stageHints": {
+      "otp_requested": "OTP requests created (those not sent to an unknown number are not counted)",
+      "otp_accepted": "Accepted by the provider — not yet a delivery",
+      "otp_delivered": "Provider delivery report (SMS, Telegram, WhatsApp); email has no report",
+      "otp_verified": "Correct code entered; wrong, expired and blocked codes are not counted",
+      "otp_registered": "Account created with the verification token of this very code"
+    },
+    "stageBasis": {
+      "otp_requested": "of sent",
+      "otp_accepted": "of accepted",
+      "otp_delivered": "of delivered",
+      "otp_verified": "of codes entered",
+      "otp_accepted_with_reports": "of accepted on channels with delivery reports"
+    },
+    "channels": {
+      "sms": "SMS",
+      "telegram": "Telegram",
+      "whatsapp": "WhatsApp",
+      "email": "Email"
+    },
+    "workerStates": {
+      "online_idle": "Idle, waiting",
+      "offer_pending": "Viewing an offer",
+      "on_job": "On a job"
+    },
+    "jobStatuses": {
+      "pending": "Looking for a worker",
+      "offered": "Offer sent",
+      "accepted": "Accepted",
+      "en_route": "On the way",
+      "arrived": "Arrived",
+      "in_progress": "In progress"
+    }
+  },
+  "charts": {
+    "partial": "{{range}} (partial)"
+  },
+  "tables": {
+    "period": "Period",
+    "value": "Value",
+    "count": "Count",
+    "share": "Share",
+    "previous": "Previous period",
+    "change": "Change"
+  },
+  "pagination": {
+    "label": "{{caption}}: pages",
+    "previous": "Previous page",
+    "next": "Next page"
+  },
+  "dashboard": {
+    "title": "GUDS statistics",
+    "description": "Platform metrics for users, activity, daily works and authentication",
+    "periodMeta": "{{range}} · Tashkent time",
+    "comparison": "compared with: {{range}}",
+    "generatedAt": "calculated: {{time}}",
+    "footer": "Today's metrics are updated every 15 minutes · calculated: {{time}}",
+    "sections": {
+      "users": "Users",
+      "usersHint": "Compared with the previous period of equal length",
+      "outcomes": "Daily works and payments",
+      "created": "Created objects",
+      "trends": "Trends",
+      "trendsHint": "Grouping: {{granularity}}",
+      "distribution": "Distribution",
+      "distributionHint": "Share of new registrations in the period"
+    },
+    "cards": {
+      "newRegistrations": "New registrations",
+      "newRegistrationsHint": "Accounts created in the period",
+      "dau": "DAU (daily average)",
+      "dauHint": "Average of unique active users on each day of the period",
+      "wau": "WAU",
+      "wauHint": "Unique users active in the 7 days ending on the last day of the period",
+      "mau": "MAU",
+      "mauHint": "Unique users active in the 30 days ending on the last day of the period",
+      "totalUsers": "Total users",
+      "totalUsersHint": "Accounts registered by the end of the period and not deleted"
+    },
+    "outcomeHints": {
+      "dw_jobs_completed": "Daily works completed in the period",
+      "dw_jobs_cancelled": "Daily works cancelled in the period",
+      "payments_succeeded": "Number of payments completed successfully in the period",
+      "payments_failed": "Number of failed payments in the period"
+    }
+  },
+  "panels": {
+    "registrations": {
+      "title": "Registrations",
+      "description": "New accounts by registration method"
+    },
+    "activity": {
+      "title": "Active users",
+      "descriptionDaily": "DAU — active on that day; WAU / MAU — unique users active in the 7 / 30 days ending that day.",
+      "descriptionPeriodic": "Unique users active in the period (not a sum of DAU) and the daily average DAU.",
+      "trackingSince": "Activity is tracked since {{date}}: earlier days are empty (\"—\"), not 0.",
+      "emptyInPeriod": "No activity recorded in the selected period",
+      "notTracked": "Activity is not tracked yet",
+      "series": {
+        "dau": "DAU",
+        "wau": "WAU (7 days)",
+        "mau": "MAU (30 days)",
+        "active_users": "Active users",
+        "dau_average": "Average DAU"
+      }
+    },
+    "objects": {
+      "title": "Object trends",
+      "description": "Each object is counted by its own timestamp (created, completed, paid …)",
+      "appSelect": "App shown on the chart",
+      "empty": "{{app}}: no new objects in the selected period"
+    },
+    "distribution": {
+      "description": "New registrations in the period: {{total}} in total (100%)",
+      "country": "By country",
+      "method": "By registration method"
+    }
+  },
+  "funnel": {
+    "title": "Authentication funnel",
+    "description": "Registration codes by the day the code was created. Each code is counted once per stage (resends and repeated delivery reports are not counted twice).",
+    "filtersNotApplied": "Country, method and app filters do not affect the funnel",
+    "panelTitle": "OTP → registration",
+    "overall": "Overall conversion (from sent to registered):",
+    "stages": "Funnel stages",
+    "tableCaption": "Funnel by channel",
+    "channel": "Channel",
+    "allChannels": "All channels",
+    "overallColumn": "Overall conversion",
+    "noDeliveryReports": "The channel does not report delivery",
+    "firstStage": "first stage",
+    "notRegistered": "SMS delivered but not registered",
+    "notRegisteredHint": "Delivered registration SMS that no account was created with (by the day the SMS was created)",
+    "openAdmin": "Open the list in the admin panel",
+    "noAdminAccess": "Viewing the list requires permission to view SMS logs.",
+    "acceptedWithoutReports_one": "{{count, number}} code was sent through a channel without delivery reports (email), so \"code entered\" is counted against accepted codes.",
+    "acceptedWithoutReports_other": "{{count, number}} codes were sent through a channel without delivery reports (email), so \"code entered\" is counted against accepted codes."
+  },
+  "export": {
+    "button": "Export",
+    "menuLabel": "CSV with the selected filters",
+    "csv": "CSV",
+    "download": "{{label}}: download CSV",
+    "failed": "Could not download the CSV: {{message}}",
+    "tables": {
+      "registrations": "Registrations",
+      "activity": "Active users",
+      "objects": "Object trends",
+      "authentication": "Authentication funnel",
+      "country": "By country",
+      "registered_via": "By registration method"
+    }
+  },
+  "live": {
+    "title": "Live monitoring",
+    "description": "Daily works: online workers and jobs in progress. The server pushes data whenever it changes.",
+    "lastUpdate": "Last update: {{time}}",
+    "forbidden": "You do not have permission to view live monitoring (statistics | daily statistic | Can view).",
+    "status": {
+      "open": "Live",
+      "connecting": "Connecting…",
+      "reconnecting": "Reconnecting…",
+      "unauthorized": "Session expired",
+      "forbidden": "No access"
+    },
+    "kpi": {
+      "onlineWorkers": "Online workers",
+      "onlineWorkersDetail": "{{idle}} idle · {{onJob}} on a job · {{registered}} registered",
+      "activeJobs": "Active jobs",
+      "waiting_one": "{{count, number}} waiting for a worker",
+      "waiting_other": "{{count, number}} waiting for a worker",
+      "postedToday": "Posted today",
+      "expired": "{{count, number}} expired",
+      "completedToday": "Completed today",
+      "cancelled": "{{count, number}} cancelled",
+      "completionRate": "{{percent}} completed",
+      "revenueToday": "Today's turnover",
+      "commission": "Commission: {{amount}}"
+    },
+    "trend": {
+      "title": "Live trend",
+      "description": "Online workers and active jobs — since the page was opened",
+      "empty": "The trend builds up while the page is open",
+      "emptyHint": "Each update adds a point to the trend",
+      "workers": "Online workers",
+      "jobs": "Active jobs"
+    },
+    "workerStates": {
+      "title": "Worker states",
+      "online_one": "{{count, number}} online",
+      "online_other": "{{count, number}} online",
+      "registered": "Registered workers",
+      "verified": "Verified"
+    },
+    "hourly": {
+      "title": "Today by hour",
+      "description": "Posted and completed jobs, Tashkent time",
+      "created": "Posted",
+      "completed": "Completed"
+    },
+    "pipeline": {
+      "title": "Job stages",
+      "active_one": "{{count, number}} active job",
+      "active_other": "{{count, number}} active jobs"
+    },
+    "categories": {
+      "title": "Today's top categories",
+      "description": "By number of posted jobs",
+      "empty": "No jobs posted today yet"
+    },
+    "tabs": {
+      "label": "Table",
+      "workers": "Workers · {{count, number}}",
+      "jobs": "Jobs · {{count, number}}"
+    },
+    "workers": {
+      "title": "Online workers",
+      "worker": "Worker",
+      "state": "State",
+      "categories": "Categories",
+      "rating": "Rating",
+      "completed": "Completed",
+      "online": "Online",
+      "currentJob": "Current job",
+      "location": "Location",
+      "search": "Name, phone, category…",
+      "noMatch": "No workers match the filter",
+      "none": "No workers online right now",
+      "noneHint": "Workers appear here when they go online in the app",
+      "truncated": "The table shows {{limit}} workers, {{total}} online in total."
+    },
+    "jobs": {
+      "title": "Active jobs",
+      "job": "Job",
+      "workersCount_one": "{{count, number}} worker",
+      "workersCount_other": "{{count, number}} workers",
+      "status": "Status",
+      "client": "Client",
+      "worker": "Worker",
+      "unassigned": "Unassigned",
+      "price": "Price",
+      "address": "Address",
+      "posted": "Posted",
+      "search": "ID, address, client, worker…",
+      "noMatch": "No jobs match the filter",
+      "none": "No active jobs right now",
+      "truncated": "The table shows the latest {{limit}} jobs, {{total}} active in total."
+    },
+    "filters": {
+      "byState": "By state",
+      "noMatchHint": "Change the search or the state filter"
+    }
+  }
+}

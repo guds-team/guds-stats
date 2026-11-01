@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+import i18n from "../../lib/i18n";
 import { formatDay, formatMonth, formatRange } from "../../lib/dates";
 import { formatNumber } from "../../lib/format";
 import type { Bucket } from "../../lib/types";
@@ -17,10 +19,10 @@ export function bucketTick(granularity: string) {
   return (bucket: string) => (granularity === "month" ? formatMonth(bucket) : formatDay(bucket));
 }
 
-/** "12 okt" / "6 – 12 okt 2026" / "1 – 15 okt 2026 (to'liq emas)" for a bucket. */
+/** "12-okt, 2026" / "6-okt – 12-okt, 2026" / "… (to'liq emas)" for a bucket, in the interface language. */
 export function bucketTitle(point: Bucket): string {
   const range = formatRange(point.date_from, point.date_to);
-  return point.partial ? `${range} (to'liq emas)` : range;
+  return point.partial ? i18n.t("charts.partial", { range }) : range;
 }
 
 export interface SeriesItem {
@@ -41,6 +43,7 @@ export function SeriesTooltip({
   items: SeriesItem[];
   total?: (point: Record<string, unknown>) => number;
 }) {
+  const { t } = useTranslation();
   if (!active || !payload?.length) return null;
   const point = payload[0].payload;
   return (
@@ -59,7 +62,7 @@ export function SeriesTooltip({
       </ul>
       {total && (
         <p className="mt-1.5 flex justify-between border-t pt-1.5 font-medium">
-          <span>Jami</span>
+          <span>{t("common.total")}</span>
           <span className="tabular-nums">{formatNumber(total(point))}</span>
         </p>
       )}
@@ -77,8 +80,9 @@ export function ToggleLegend({
   hidden: Set<string>;
   onToggle: (key: string) => void;
 }) {
+  const { t } = useTranslation();
   return (
-    <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-2" aria-label="Seriyalar">
+    <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-2" aria-label={t("common.series")}>
       {items.map((item) => {
         const off = hidden.has(item.key);
         return (
