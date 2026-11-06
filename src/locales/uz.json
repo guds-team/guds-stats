@@ -51,7 +51,9 @@
     "menuDescription": "Bo'limlar va hisob",
     "expandSidebar": "Yon panelni ochish",
     "collapseSidebar": "Yon panelni yig'ish",
-    "collapse": "Yig'ish"
+    "collapse": "Yig'ish",
+    "jobs": "Ishlar hisoboti",
+    "jobsHint": "Kim bajardi, kim buyurtma qildi"
   },
   "auth": {
     "subtitle": "Statistika paneliga kirish uchun ma'lumotlaringizni kiriting",
@@ -98,7 +100,7 @@
   "change": {
     "unavailable": "Taqqoslab bo'lmaydi",
     "noChange": "O'zgarishsiz",
-    "previousZero": "{{change}} (oldingi davrda 0)",
+    "previousZero": "{{change}} (oldin 0)",
     "up": "o'sish",
     "down": "kamayish",
     "previousPeriod": "Oldingi davr: {{value}}"
@@ -239,7 +241,12 @@
       "trends": "Dinamika",
       "trendsHint": "Guruhlash: {{granularity}}",
       "distribution": "Taqsimot",
-      "distributionHint": "Davrdagi yangi ro'yxatdan o'tishlar ulushi"
+      "distributionHint": "Davrdagi yangi ro'yxatdan o'tishlar ulushi",
+      "usersHintBucket": {
+        "day": "Oxirgi kun oldingi kun bilan taqqoslanadi",
+        "week": "Oxirgi hafta oldingi hafta bilan taqqoslanadi",
+        "month": "Oxirgi oy oldingi oy bilan taqqoslanadi"
+      }
     },
     "cards": {
       "newRegistrations": "Yangi ro'yxatdan o'tishlar",
@@ -258,7 +265,19 @@
       "dw_jobs_cancelled": "Davrda bekor qilingan kunlik ishlar",
       "payments_succeeded": "Davrda muvaffaqiyatli yakunlangan to'lovlar soni",
       "payments_failed": "Davrda muvaffaqiyatsiz bo'lgan to'lovlar soni"
-    }
+    },
+    "scope": {
+      "day": "Bugun",
+      "week": "Shu hafta",
+      "month": "Shu oy"
+    },
+    "previousBucket": {
+      "day": "Oldingi kun: {{value}}",
+      "week": "Oldingi hafta: {{value}}",
+      "month": "Oldingi oy: {{value}}"
+    },
+    "periodTotal": "Davr jami: {{value}}",
+    "periodAverage": "Davr o'rtachasi: {{value}}"
   },
   "panels": {
     "registrations": {
@@ -426,5 +445,61 @@
       "byState": "Holat bo'yicha",
       "noMatchHint": "Qidiruv yoki holat filtrini o'zgartiring"
     }
+  },
+  "jobs": {
+    "title": "Kunlik ishlar hisoboti",
+    "description": "Har kuni nechta ish bajarildi, kim bajardi va kim buyurtma qildi",
+    "status": {
+      "label": "Holat",
+      "completed": "Bajarilgan",
+      "cancelled": "Bekor qilingan",
+      "created": "Joylangan (barchasi)"
+    },
+    "totals": {
+      "jobs": "Ishlar",
+      "revenue": "Summa",
+      "commission": "Komissiya",
+      "workers": "Ishchilar",
+      "clients": "Buyurtmachilar",
+      "perDay": "Kuniga o'rtacha {{value}}"
+    },
+    "perDay": {
+      "title": "Kunlar bo'yicha",
+      "description": "Har kuni nechta ish, nechta ishchi va buyurtmachi"
+    },
+    "workers": {
+      "title": "Kim bajardi",
+      "description": "Ishchilar, eng ko'p ish bajarganlar birinchi"
+    },
+    "clients": {
+      "title": "Kim buyurtma qildi",
+      "description": "Buyurtmachilar, eng ko'p buyurtma berganlar birinchi"
+    },
+    "list": {
+      "title": "Ishlar ro'yxati",
+      "truncated": "Oxirgi {{limit}} ta ish ko'rsatilgan, jami {{total}}"
+    },
+    "columns": {
+      "day": "Kun",
+      "jobs": "Ishlar",
+      "revenue": "Summa",
+      "workers": "Ishchilar",
+      "clients": "Buyurtmachilar",
+      "person": "Kishi",
+      "job": "Ish",
+      "category": "Kategoriya",
+      "worker": "Ishchi",
+      "client": "Buyurtmachi",
+      "price": "Narx",
+      "at": "Vaqt",
+      "address": "Manzil"
+    },
+    "person": {
+      "filter": "Faqat {{name}} ishlarini ko'rsatish",
+      "worker": "Ishchi: {{name}}",
+      "client": "Buyurtmachi: {{name}}"
+    },
+    "empty": "Bu davrda ishlar yo'q",
+    "emptyHint": "Davrni kengaytiring yoki holatni o'zgartiring"
   }
 }

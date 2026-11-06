@@ -51,7 +51,9 @@
     "menuDescription": "Sections and account",
     "expandSidebar": "Expand sidebar",
     "collapseSidebar": "Collapse sidebar",
-    "collapse": "Collapse"
+    "collapse": "Collapse",
+    "jobs": "Jobs report",
+    "jobsHint": "Who did them, who ordered them"
   },
   "auth": {
     "subtitle": "Enter your credentials to sign in to the statistics dashboard",
@@ -98,7 +100,7 @@
   "change": {
     "unavailable": "Not comparable",
     "noChange": "No change",
-    "previousZero": "{{change}} (0 in the previous period)",
+    "previousZero": "{{change}} (previously 0)",
     "up": "increase",
     "down": "decrease",
     "previousPeriod": "Previous period: {{value}}"
@@ -239,7 +241,12 @@
       "trends": "Trends",
       "trendsHint": "Grouping: {{granularity}}",
       "distribution": "Distribution",
-      "distributionHint": "Share of new registrations in the period"
+      "distributionHint": "Share of new registrations in the period",
+      "usersHintBucket": {
+        "day": "The last day compared with the day before",
+        "week": "The last week compared with the week before",
+        "month": "The last month compared with the month before"
+      }
     },
     "cards": {
       "newRegistrations": "New registrations",
@@ -258,7 +265,19 @@
       "dw_jobs_cancelled": "Daily works cancelled in the period",
       "payments_succeeded": "Number of payments completed successfully in the period",
       "payments_failed": "Number of failed payments in the period"
-    }
+    },
+    "scope": {
+      "day": "Today",
+      "week": "This week",
+      "month": "This month"
+    },
+    "previousBucket": {
+      "day": "Previous day: {{value}}",
+      "week": "Previous week: {{value}}",
+      "month": "Previous month: {{value}}"
+    },
+    "periodTotal": "Period total: {{value}}",
+    "periodAverage": "Period average: {{value}}"
   },
   "panels": {
     "registrations": {
@@ -426,5 +445,61 @@
       "byState": "By state",
       "noMatchHint": "Change the search or the state filter"
     }
+  },
+  "jobs": {
+    "title": "Daily works report",
+    "description": "How many jobs were done each day, who did them and who ordered them",
+    "status": {
+      "label": "Status",
+      "completed": "Completed",
+      "cancelled": "Cancelled",
+      "created": "Posted (all)"
+    },
+    "totals": {
+      "jobs": "Jobs",
+      "revenue": "Amount",
+      "commission": "Commission",
+      "workers": "Workers",
+      "clients": "Clients",
+      "perDay": "{{value}} per day on average"
+    },
+    "perDay": {
+      "title": "By day",
+      "description": "Jobs, workers and clients on each day"
+    },
+    "workers": {
+      "title": "Who did them",
+      "description": "Workers, most jobs first"
+    },
+    "clients": {
+      "title": "Who ordered them",
+      "description": "Clients, most orders first"
+    },
+    "list": {
+      "title": "Jobs",
+      "truncated": "Showing the latest {{limit}} of {{total}} jobs"
+    },
+    "columns": {
+      "day": "Day",
+      "jobs": "Jobs",
+      "revenue": "Amount",
+      "workers": "Workers",
+      "clients": "Clients",
+      "person": "Person",
+      "job": "Job",
+      "category": "Category",
+      "worker": "Worker",
+      "client": "Client",
+      "price": "Price",
+      "at": "Time",
+      "address": "Address"
+    },
+    "person": {
+      "filter": "Show only jobs of {{name}}",
+      "worker": "Worker: {{name}}",
+      "client": "Client: {{name}}"
+    },
+    "empty": "No jobs in this period",
+    "emptyHint": "Widen the period or change the status"
   }
 }

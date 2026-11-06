@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router";
-import { BarChart3, LogOut, Menu, Monitor, Moon, PanelLeftClose, PanelLeftOpen, Radio, Sun } from "lucide-react";
+import { BarChart3, ClipboardList, LogOut, Menu, Monitor, Moon, PanelLeftClose, PanelLeftOpen, Radio, Sun } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from "../ui/sheet";
@@ -34,6 +34,7 @@ function readCollapsed(): boolean {
 
 const NAV = [
   { to: "/", label: "navigation.overview", hint: "navigation.overviewHint", Icon: BarChart3, end: true },
+  { to: "/jobs", label: "navigation.jobs", hint: "navigation.jobsHint", Icon: ClipboardList, end: false },
   { to: "/live", label: "navigation.live", hint: "navigation.liveHint", Icon: Radio, end: false },
 ] as const;
 

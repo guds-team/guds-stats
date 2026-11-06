@@ -6,6 +6,7 @@ import { getToken } from "./lib/api";
 
 // Signed-in pages carry the charts: loaded on demand, so the login page stays light.
 const DashboardPage = lazy(() => import("./pages/DashboardPage").then((m) => ({ default: m.DashboardPage })));
+const JobsPage = lazy(() => import("./pages/JobsPage").then((m) => ({ default: m.JobsPage })));
 const LivePage = lazy(() => import("./pages/LivePage").then((m) => ({ default: m.LivePage })));
 
 function PageFallback() {
@@ -40,6 +41,14 @@ export const routes: RouteObject[] = [
     element: (
       <ProtectedRoute>
         <DashboardPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/jobs",
+    element: (
+      <ProtectedRoute>
+        <JobsPage />
       </ProtectedRoute>
     ),
   },

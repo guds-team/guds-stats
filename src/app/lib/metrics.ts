@@ -8,7 +8,7 @@
 
 import i18n, { currentLanguage, LOCALES, type Language } from "./i18n";
 import { APPS, GRANULARITIES, PRESETS, REGISTRATION_METHODS, type Granularity, type Preset } from "./filters";
-import type { FunnelStageKey } from "./types";
+import type { Compared, FunnelStageKey } from "./types";
 
 function includes<T extends string>(values: readonly T[], value: string): value is T {
   return (values as readonly string[]).includes(value);
@@ -143,4 +143,28 @@ export function jobStatusLabel(status: string): string {
 export function jobStatusColor(status: string): string {
   const slot = (JOB_STATUS_ORDER as readonly string[]).indexOf(status);
   return slot === -1 ? OTHER_COLOR : seriesColor(slot);
+}
+
+// ── Day / week / month cards ────────────────────────────────────────────────
+
+/** current against previous with the API's rules (lib/types Comparison): no percentage when previous is 0. */
+export function compareValues(value: number | null, previous: number | null): Compared {
+  if (value === null || previous === null) {
+    return { value, previous, change: null, change_percent: null, comparison: "unavailable" };
+  }
+  const change = Math.round((value - previous) * 100) / 100;
+  if (previous === 0) {
+    return { value, previous, change, change_percent: null, comparison: value === 0 ? "no_change" : "previous_zero" };
+  }
+  return { value, previous, change, change_percent: Math.round((change * 10000) / previous) / 100, comparison: "ok" };
+}
+
+/**
+ * The metric of the period's last bucket (day, week or month, as the
+ * granularity switch says) against the bucket before it. A period of one
+ * bucket is that bucket: the API's own comparison with the previous period is kept.
+ */
+export function lastBucket(values: (number | null | undefined)[], whole: Compared): Compared {
+  if (values.length < 2) return whole;
+  return compareValues(values[values.length - 1] ?? null, values[values.length - 2] ?? null);
 }
