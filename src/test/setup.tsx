@@ -1,6 +1,13 @@
 import { cloneElement, type ReactElement } from "react";
-import { afterEach, vi } from "vitest";
+import { afterEach, beforeEach, vi } from "vitest";
 import { cleanup } from "@testing-library/react";
+import i18n, { DEFAULT_LANGUAGE } from "../app/lib/i18n";
+
+// jsdom reports an en-US browser: every test starts in the default (Uzbek)
+// interface, as a visitor without a saved choice and an Uzbek browser would.
+beforeEach(async () => {
+  await i18n.changeLanguage(DEFAULT_LANGUAGE);
+});
 
 afterEach(() => cleanup());
 

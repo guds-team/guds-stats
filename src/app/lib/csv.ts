@@ -1,13 +1,16 @@
 // CSV export: the backend renders it (GET /api/stats/overview/export/) from the
 // same overview result as the dashboard, for the complete filtered table —
-// UTF-8 with BOM, ISO dates, formula-injection safe.
+// UTF-8 with BOM, ISO dates, formula-injection safe. Column headers come in
+// the interface language: apiGet sends it as Accept-Language. Values and the
+// file name stay language-independent.
 
 import { apiGet } from "./api";
 import type { ApiParams } from "./filters";
 
 export const EXPORT_PATH = "/api/stats/overview/export/";
 
-export type ExportTable = "registrations" | "activity" | "objects" | "authentication" | "country" | "registered_via";
+export const EXPORT_TABLES = ["registrations", "activity", "objects", "authentication", "country", "registered_via"] as const;
+export type ExportTable = (typeof EXPORT_TABLES)[number];
 
 export function exportFilename(table: ExportTable, params: ApiParams): string {
   return `guds-stats-${table}-${params.date_from}_${params.date_to}.csv`;

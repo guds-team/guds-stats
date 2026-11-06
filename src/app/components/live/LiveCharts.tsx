@@ -10,17 +10,18 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { useTranslation } from "react-i18next";
 import { ToggleLegend, axisProps, gridProps, toggle, type SeriesItem } from "../stats/chartParts";
 import { EmptyState } from "../stats/states";
-import { formatClock, formatNumber } from "../../lib/format";
+import { formatClock, formatNumber, formatPercent } from "../../lib/format";
 import {
-  JOB_STATUS_LABELS,
   JOB_STATUS_ORDER,
-  WORKER_STATE_LABELS,
   WORKER_STATE_ORDER,
   jobStatusColor,
+  jobStatusLabel,
   seriesColor,
   workerStateColor,
+  workerStateLabel,
 } from "../../lib/metrics";
 import type { LivePoint, LiveSnapshot } from "../../lib/live";
 
@@ -55,21 +56,21 @@ function ChartTooltip({
   );
 }
 
-const TREND_ITEMS: SeriesItem[] = [
-  { key: "workers", label: "Onlayn ishchilar", color: seriesColor(0) },
-  { key: "jobs", label: "Faol ishlar", color: seriesColor(1) },
-];
-
 /** Online workers and in-flight jobs over the snapshots received since the page opened. */
 export function LiveTrendChart({ history }: { history: LivePoint[] }) {
+  const { t } = useTranslation();
   const [hidden, setHidden] = useState<Set<string>>(new Set());
   if (history.length < 2) {
     return (
       <div className="h-[260px]">
-        <EmptyState hint="Har bir yangilanish trendga nuqta qo'shadi">Trend sahifa ochiq turganda yig'iladi</EmptyState>
+        <EmptyState hint={t("live.trend.emptyHint")}>{t("live.trend.empty")}</EmptyState>
       </div>
     );
   }
+  const TREND_ITEMS: SeriesItem[] = [
+    { key: "workers", label: t("live.trend.workers"), color: seriesColor(0) },
+    { key: "jobs", label: t("live.trend.jobs"), color: seriesColor(1) },
+  ];
   const visible = TREND_ITEMS.filter((i) => !hidden.has(i.key));
   return (
     <>
@@ -131,13 +132,13 @@ export function WorkerStatesMeter({ counts }: { counts: LiveSnapshot["counts"]["
       <div
         className="flex h-3 w-full gap-[2px] overflow-hidden rounded-full bg-muted"
         role="img"
-        aria-label={WORKER_STATE_ORDER.map((s) => `${WORKER_STATE_LABELS[s]}: ${counts[s]}`).join(", ")}
+        aria-label={WORKER_STATE_ORDER.map((s) => `${workerStateLabel(s)}: ${counts[s]}`).join(", ")}
       >
         {total > 0 &&
           WORKER_STATE_ORDER.filter((s) => counts[s] > 0).map((state) => (
             <div
               key={state}
-              title={`${WORKER_STATE_LABELS[state]}: ${counts[state]}`}
+              title={`${workerStateLabel(state)}: ${counts[state]}`}
               className="h-full transition-[width] duration-500 first:rounded-l-full last:rounded-r-full"
               style={{ width: `${(counts[state] / total) * 100}%`, background: workerStateColor(state) }}
             />
@@ -148,12 +149,12 @@ export function WorkerStatesMeter({ counts }: { counts: LiveSnapshot["counts"]["
           <li key={state} className="flex items-center justify-between text-sm">
             <span className="flex items-center gap-2 text-muted-foreground">
               <span className="h-2.5 w-2.5 rounded-sm" style={{ background: workerStateColor(state) }} aria-hidden />
-              {WORKER_STATE_LABELS[state]}
+              {workerStateLabel(state)}
             </span>
             <span className="flex items-baseline gap-2 tabular-nums">
               <span className="font-semibold">{formatNumber(counts[state])}</span>
               <span className="w-10 text-right text-xs text-muted-foreground">
-                {total ? `${Math.round((counts[state] / total) * 100)}%` : "—"}
+                {total ? formatPercent(Math.round((counts[state] / total) * 100)) : "—"}
               </span>
             </span>
           </li>
@@ -173,7 +174,7 @@ export function JobPipeline({ counts }: { counts: LiveSnapshot["counts"]["jobs"]
           <div className="flex items-center justify-between text-sm">
             <span className="flex items-center gap-2 text-muted-foreground">
               <span className="h-2.5 w-2.5 rounded-sm" style={{ background: jobStatusColor(status) }} aria-hidden />
-              {JOB_STATUS_LABELS[status]}
+              {jobStatusLabel(status)}
             </span>
             <span className="font-semibold tabular-nums">{formatNumber(counts[status])}</span>
           </div>
@@ -189,13 +190,13 @@ export function JobPipeline({ counts }: { counts: LiveSnapshot["counts"]["jobs"]
   );
 }
 
-const HOUR_ITEMS: SeriesItem[] = [
-  { key: "created", label: "Joylangan", color: seriesColor(0) },
-  { key: "completed", label: "Bajarilgan", color: seriesColor(1) },
-];
-
 /** Today's jobs per hour (Tashkent time): posted vs completed, side by side. */
 export function HourlyJobsChart({ data }: { data: LiveSnapshot["today"]["by_hour"] }) {
+  const { t } = useTranslation();
+  const HOUR_ITEMS: SeriesItem[] = [
+    { key: "created", label: t("live.hourly.created"), color: seriesColor(0) },
+    { key: "completed", label: t("live.hourly.completed"), color: seriesColor(1) },
+  ];
   const [hidden, setHidden] = useState<Set<string>>(new Set());
   const visible = HOUR_ITEMS.filter((i) => !hidden.has(i.key));
   const label = (h: number) => `${String(h).padStart(2, "0")}:00`;
@@ -233,7 +234,8 @@ export function HourlyJobsChart({ data }: { data: LiveSnapshot["today"]["by_hour
 
 /** Today's most requested categories; one series, so one colour and no legend. */
 export function TopCategories({ rows }: { rows: LiveSnapshot["today"]["by_category"] }) {
-  if (!rows.length) return <EmptyState hint={null}>Bugun hali ish joylanmagan</EmptyState>;
+  const { t } = useTranslation();
+  if (!rows.length) return <EmptyState hint={null}>{t("live.categories.empty")}</EmptyState>;
   const max = Math.max(...rows.map((r) => r.jobs));
   return (
     <ul className="space-y-3">

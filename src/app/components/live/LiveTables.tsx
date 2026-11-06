@@ -1,15 +1,16 @@
 import { useMemo, useState } from "react";
 import { BadgeCheck, MapPin, Search, Star } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { DataTable, type Column } from "../stats/DataTable";
 import { EmptyState } from "../stats/states";
-import { formatMoney, formatNumber, formatSince } from "../../lib/format";
+import { formatAgo, formatFixed, formatMoney, formatNumber, formatSince } from "../../lib/format";
 import {
-  JOB_STATUS_LABELS,
   JOB_STATUS_ORDER,
-  WORKER_STATE_LABELS,
   WORKER_STATE_ORDER,
   jobStatusColor,
+  jobStatusLabel,
   workerStateColor,
+  workerStateLabel,
 } from "../../lib/metrics";
 import type { LiveJob, LiveWorker, Person } from "../../lib/live";
 
@@ -37,6 +38,7 @@ function PersonCell({ person, empty = "—" }: { person: Person | null; empty?: 
 }
 
 function MapLink({ lat, lng }: { lat: number | null; lng: number | null }) {
+  const { t } = useTranslation();
   if (lat === null || lng === null) return <span className="text-muted-foreground">—</span>;
   return (
     <a
@@ -44,10 +46,10 @@ function MapLink({ lat, lng }: { lat: number | null; lng: number | null }) {
       target="_blank"
       rel="noreferrer"
       className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground"
-      aria-label="Xaritada ochish"
+      aria-label={t("common.openMap")}
     >
       <MapPin className="h-3.5 w-3.5" aria-hidden />
-      Xarita
+      {t("common.map")}
     </a>
   );
 }
@@ -66,16 +68,17 @@ function Filters<T extends string>({
   query: string;
   onQuery: (q: string) => void;
   options: readonly T[];
-  labels: Record<string, string>;
+  labels: (key: string) => string;
   colors: (key: string) => string;
   counts: Record<string, number>;
   active: T | null;
   onActive: (key: T | null) => void;
   placeholder: string;
 }) {
+  const { t } = useTranslation();
   return (
     <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
-      <div role="group" aria-label="Holat bo'yicha" className="flex flex-wrap gap-1.5">
+      <div role="group" aria-label={t("live.filters.byState")} className="flex flex-wrap gap-1.5">
         <button
           type="button"
           aria-pressed={active === null}
@@ -84,7 +87,7 @@ function Filters<T extends string>({
             active === null ? "border-foreground bg-foreground text-background" : "hover:bg-muted"
           }`}
         >
-          Hammasi
+          {t("common.all")}
         </button>
         {options.map((key) => (
           <button
@@ -97,7 +100,7 @@ function Filters<T extends string>({
             }`}
           >
             <span className="h-1.5 w-1.5 rounded-full" style={{ background: colors(key) }} aria-hidden />
-            {labels[key]}
+            {labels(key)}
             <span className="tabular-nums opacity-70">{formatNumber(counts[key] ?? 0)}</span>
           </button>
         ))}
@@ -117,11 +120,6 @@ function Filters<T extends string>({
   );
 }
 
-function ago(iso: string, now: number): string {
-  const since = formatSince(iso, now);
-  return since === "hozirgina" ? since : `${since} oldin`;
-}
-
 const PAGE_SIZE = 20;
 
 function matches(query: string, ...values: (string | number | null | undefined)[]): boolean {
@@ -138,6 +136,7 @@ function countBy<T>(rows: T[], key: (row: T) => string): Record<string, number> 
 const time = (iso: string | null) => (iso ? new Date(iso).getTime() : null);
 
 export function WorkersTable({ workers, now, limit, total }: { workers: LiveWorker[]; now: number; limit: number; total: number }) {
+  const { t } = useTranslation();
   const [query, setQuery] = useState("");
   const [state, setState] = useState<(typeof WORKER_STATE_ORDER)[number] | null>(null);
   const counts = useMemo(() => countBy(workers, (w) => w.state), [workers]);
@@ -147,24 +146,24 @@ export function WorkersTable({ workers, now, limit, total }: { workers: LiveWork
   const columns: Column<LiveWorker>[] = [
     {
       key: "worker",
-      header: "Ishchi",
+      header: t("live.workers.worker"),
       sort: (w) => w.name ?? "",
       cell: (w) => (
         <div className="flex items-center gap-1.5">
           <PersonCell person={w} />
-          {w.is_verified && <BadgeCheck className="h-4 w-4 shrink-0 text-[color:var(--series-1)]" aria-label="Tasdiqlangan" />}
+          {w.is_verified && <BadgeCheck className="h-4 w-4 shrink-0 text-[color:var(--series-1)]" aria-label={t("common.verified")} />}
         </div>
       ),
     },
     {
       key: "state",
-      header: "Holat",
+      header: t("live.workers.state"),
       sort: (w) => WORKER_STATE_ORDER.indexOf(w.state),
-      cell: (w) => <StatusPill label={WORKER_STATE_LABELS[w.state] ?? w.state} color={workerStateColor(w.state)} />,
+      cell: (w) => <StatusPill label={workerStateLabel(w.state)} color={workerStateColor(w.state)} />,
     },
     {
       key: "categories",
-      header: "Kategoriyalar",
+      header: t("live.workers.categories"),
       className: "hidden md:table-cell",
       cell: (w) => (
         <p className="max-w-56 truncate text-muted-foreground" title={w.categories.join(", ")}>
@@ -174,7 +173,7 @@ export function WorkersTable({ workers, now, limit, total }: { workers: LiveWork
     },
     {
       key: "rating",
-      header: "Reyting",
+      header: t("live.workers.rating"),
       numeric: true,
       className: "hidden lg:table-cell",
       sort: (w) => w.rating,
@@ -182,7 +181,7 @@ export function WorkersTable({ workers, now, limit, total }: { workers: LiveWork
         w.rating !== null ? (
           <span className="inline-flex items-center gap-1">
             <Star className="h-3.5 w-3.5 fill-current text-[color:var(--series-4)]" aria-hidden />
-            {w.rating.toFixed(2)}
+            {formatFixed(w.rating, 2)}
           </span>
         ) : (
           "—"
@@ -190,7 +189,7 @@ export function WorkersTable({ workers, now, limit, total }: { workers: LiveWork
     },
     {
       key: "jobs",
-      header: "Bajargan",
+      header: t("live.workers.completed"),
       numeric: true,
       className: "hidden lg:table-cell",
       sort: (w) => w.total_jobs,
@@ -198,7 +197,7 @@ export function WorkersTable({ workers, now, limit, total }: { workers: LiveWork
     },
     {
       key: "online",
-      header: "Onlayn",
+      header: t("live.workers.online"),
       numeric: true,
       // Sorted "descending" = longest online first.
       sort: (w) => {
@@ -209,11 +208,11 @@ export function WorkersTable({ workers, now, limit, total }: { workers: LiveWork
     },
     {
       key: "job",
-      header: "Joriy ish",
+      header: t("live.workers.currentJob"),
       className: "hidden md:table-cell",
       cell: (w) => <span className="font-mono text-xs">{w.current_job_id ?? <span className="text-muted-foreground">—</span>}</span>,
     },
-    { key: "map", header: "Joylashuv", className: "hidden sm:table-cell", cell: (w) => <MapLink lat={w.lat} lng={w.lng} /> },
+    { key: "map", header: t("live.workers.location"), className: "hidden sm:table-cell", cell: (w) => <MapLink lat={w.lat} lng={w.lng} /> },
   ];
   return (
     <div className="space-y-4">
@@ -221,25 +220,25 @@ export function WorkersTable({ workers, now, limit, total }: { workers: LiveWork
         query={query}
         onQuery={setQuery}
         options={WORKER_STATE_ORDER}
-        labels={WORKER_STATE_LABELS}
+        labels={workerStateLabel}
         colors={workerStateColor}
         counts={counts}
         active={state}
         onActive={setState}
-        placeholder="Ism, telefon, kategoriya…"
+        placeholder={t("live.workers.search")}
       />
       {rows.length === 0 ? (
         workers.length ? (
-          <EmptyState hint="Qidiruv yoki holat filtrini o'zgartiring">Filtr bo'yicha ishchi topilmadi</EmptyState>
+          <EmptyState hint={t("live.filters.noMatchHint")}>{t("live.workers.noMatch")}</EmptyState>
         ) : (
-          <EmptyState hint="Ishchilar ilovada onlayn bo'lganda shu yerda paydo bo'ladi">Hozir onlayn ishchi yo'q</EmptyState>
+          <EmptyState hint={t("live.workers.noneHint")}>{t("live.workers.none")}</EmptyState>
         )
       ) : (
-        <DataTable caption="Onlayn ishchilar" columns={columns} rows={rows} pageSize={PAGE_SIZE} rowKey={(w) => w.id} />
+        <DataTable caption={t("live.workers.title")} columns={columns} rows={rows} pageSize={PAGE_SIZE} rowKey={(w) => w.id} />
       )}
       {total > limit && (
         <p className="text-xs text-muted-foreground">
-          Jadvalda {formatNumber(limit)} ta ishchi ko'rsatildi, jami onlayn: {formatNumber(total)}.
+          {t("live.workers.truncated", { limit: formatNumber(limit), total: formatNumber(total) })}
         </p>
       )}
     </div>
@@ -247,6 +246,7 @@ export function WorkersTable({ workers, now, limit, total }: { workers: LiveWork
 }
 
 export function JobsTable({ jobs, now, limit, total }: { jobs: LiveJob[]; now: number; limit: number; total: number }) {
+  const { t } = useTranslation();
   const [query, setQuery] = useState("");
   const [status, setStatus] = useState<(typeof JOB_STATUS_ORDER)[number] | null>(null);
   const counts = useMemo(() => countBy(jobs, (j) => j.status), [jobs]);
@@ -258,35 +258,35 @@ export function JobsTable({ jobs, now, limit, total }: { jobs: LiveJob[]; now: n
   const columns: Column<LiveJob>[] = [
     {
       key: "job",
-      header: "Ish",
+      header: t("live.jobs.job"),
       sort: (j) => j.category,
       cell: (j) => (
         <div>
           <p className="font-medium">{j.category}</p>
           <p className="font-mono text-xs text-muted-foreground">
             {j.job_id}
-            {j.workers_count > 1 && ` · ${j.workers_count} ishchi`}
+            {j.workers_count > 1 && ` · ${t("live.jobs.workersCount", { count: j.workers_count })}`}
           </p>
         </div>
       ),
     },
     {
       key: "status",
-      header: "Holat",
+      header: t("live.jobs.status"),
       sort: (j) => JOB_STATUS_ORDER.indexOf(j.status),
-      cell: (j) => <StatusPill label={JOB_STATUS_LABELS[j.status] ?? j.status} color={jobStatusColor(j.status)} />,
+      cell: (j) => <StatusPill label={jobStatusLabel(j.status)} color={jobStatusColor(j.status)} />,
     },
-    { key: "client", header: "Mijoz", className: "hidden md:table-cell", cell: (j) => <PersonCell person={j.client} /> },
+    { key: "client", header: t("live.jobs.client"), className: "hidden md:table-cell", cell: (j) => <PersonCell person={j.client} /> },
     {
       key: "worker",
-      header: "Ishchi",
+      header: t("live.jobs.worker"),
       className: "hidden md:table-cell",
-      cell: (j) => <PersonCell person={j.worker} empty="Tayinlanmagan" />,
+      cell: (j) => <PersonCell person={j.worker} empty={t("live.jobs.unassigned")} />,
     },
-    { key: "price", header: "Narx", numeric: true, sort: (j) => j.price, cell: (j) => formatMoney(j.price, j.currency) },
+    { key: "price", header: t("live.jobs.price"), numeric: true, sort: (j) => j.price, cell: (j) => formatMoney(j.price, j.currency) },
     {
       key: "address",
-      header: "Manzil",
+      header: t("live.jobs.address"),
       className: "hidden lg:table-cell",
       cell: (j) => (
         <div className="max-w-64">
@@ -299,10 +299,10 @@ export function JobsTable({ jobs, now, limit, total }: { jobs: LiveJob[]; now: n
     },
     {
       key: "created",
-      header: "Joylangan",
+      header: t("live.jobs.posted"),
       numeric: true,
       sort: (j) => time(j.created_at),
-      cell: (j) => <span className="text-muted-foreground">{ago(j.created_at, now)}</span>,
+      cell: (j) => <span className="text-muted-foreground">{formatAgo(j.created_at, now)}</span>,
     },
   ];
   return (
@@ -311,25 +311,25 @@ export function JobsTable({ jobs, now, limit, total }: { jobs: LiveJob[]; now: n
         query={query}
         onQuery={setQuery}
         options={JOB_STATUS_ORDER}
-        labels={JOB_STATUS_LABELS}
+        labels={jobStatusLabel}
         colors={jobStatusColor}
         counts={counts}
         active={status}
         onActive={setStatus}
-        placeholder="ID, manzil, mijoz, ishchi…"
+        placeholder={t("live.jobs.search")}
       />
       {rows.length === 0 ? (
         jobs.length ? (
-          <EmptyState hint="Qidiruv yoki holat filtrini o'zgartiring">Filtr bo'yicha ish topilmadi</EmptyState>
+          <EmptyState hint={t("live.filters.noMatchHint")}>{t("live.jobs.noMatch")}</EmptyState>
         ) : (
-          <EmptyState hint={null}>Hozir faol ish yo'q</EmptyState>
+          <EmptyState hint={null}>{t("live.jobs.none")}</EmptyState>
         )
       ) : (
-        <DataTable caption="Faol ishlar" columns={columns} rows={rows} pageSize={PAGE_SIZE} rowKey={(j) => j.job_id} />
+        <DataTable caption={t("live.jobs.title")} columns={columns} rows={rows} pageSize={PAGE_SIZE} rowKey={(j) => j.job_id} />
       )}
       {total > limit && (
         <p className="text-xs text-muted-foreground">
-          Jadvalda oxirgi {formatNumber(limit)} ta ish ko'rsatildi, jami faol: {formatNumber(total)}.
+          {t("live.jobs.truncated", { limit: formatNumber(limit), total: formatNumber(total) })}
         </p>
       )}
     </div>

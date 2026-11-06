@@ -1,5 +1,8 @@
 // HTTP client for the GUDS API: bearer token from the login page, the
-// global error format ({code, detail, errors}) turned into ApiError.
+// interface language as Accept-Language, the global error format
+// ({code, detail, errors}) turned into ApiError.
+
+import { currentLanguage } from "./i18n";
 
 export const API_BASE: string = (import.meta.env.VITE_API_URL as string | undefined) ?? "https://api.guds.inc";
 
@@ -48,13 +51,25 @@ async function toError(response: Response): Promise<ApiError> {
   return new ApiError(response.status, code, message);
 }
 
+/**
+ * Headers of every API request: the caller's own headers are kept, then the
+ * language (read at call time, so a request right after a switch already
+ * uses the new one; the API answers messages and CSV headers in it) and the
+ * session token unless `auth` is false.
+ */
+export function apiHeaders(extra: Record<string, string> = {}, auth = true): Record<string, string> {
+  const headers: Record<string, string> = { ...extra, "Accept-Language": currentLanguage() };
+  const token = auth ? getToken() : null;
+  if (token) headers.Authorization = `Bearer ${token}`;
+  return headers;
+}
+
 export async function apiGet(path: string, params: Record<string, string>): Promise<Response> {
   const url = new URL(path, API_BASE);
   for (const [key, value] of Object.entries(params)) {
     if (value) url.searchParams.set(key, value);
   }
-  const token = getToken();
-  const response = await fetch(url.toString(), { headers: token ? { Authorization: `Bearer ${token}` } : {} });
+  const response = await fetch(url.toString(), { headers: apiHeaders() });
   if (!response.ok) {
     if (response.status === 401) clearSession();
     throw await toError(response);

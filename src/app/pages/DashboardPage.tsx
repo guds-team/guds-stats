@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useMemo } from "react";
 import { useNavigate, useSearchParams } from "react-router";
+import { useTranslation } from "react-i18next";
+import type { TFunction } from "i18next";
 import { CalendarDays, Clock3, RefreshCw, RotateCw } from "lucide-react";
 import { toast } from "sonner";
 import { AppShell, endSession } from "../components/layout/AppShell";
@@ -15,20 +17,21 @@ import { ObjectsPanel } from "../components/stats/ObjectsPanel";
 import { RegistrationsPanel } from "../components/stats/RegistrationsPanel";
 import { DashboardSkeleton, ErrorState } from "../components/stats/states";
 import { ApiError } from "../lib/api";
-import { formatRange, todayInStatsTimezone } from "../lib/dates";
+import { formatDateTime, formatRange, todayInStatsTimezone } from "../lib/dates";
 import { hasDimensionFilters, parseFilters, serializeFilters, toApiParams, type Filters } from "../lib/filters";
-import { GRANULARITY_LABELS, METHOD_LABELS, countryLabel, objectLabel, seriesColor } from "../lib/metrics";
-import type { Polarity } from "../lib/format";
+import { countryLabel, granularityLabel, lastBucket, methodLabel, objectLabel, seriesColor } from "../lib/metrics";
+import { bucketTitle } from "../components/stats/chartParts";
+import { formatNumber, type Polarity } from "../lib/format";
 import { useOverview } from "../lib/useOverview";
-import type { Overview } from "../lib/types";
+import type { Compared, Overview } from "../lib/types";
 
-function errorMessage(error: Error): string {
+function errorMessage(error: Error, t: TFunction): string {
   if (error instanceof ApiError) {
-    if (error.status === 403) return "Statistikani ko'rish huquqi yo'q (statistics | daily statistic | Can view).";
-    if (error.status >= 500) return "Serverda xatolik. Birozdan keyin qayta urinib ko'ring.";
-    return error.message;
+    if (error.status === 403) return t("errors.forbidden");
+    if (error.status >= 500) return t("errors.server");
+    return error.message; // the API's own message, already in the requested language
   }
-  return "Server bilan bog'lanib bo'lmadi. Internet aloqasini tekshiring.";
+  return t("errors.network");
 }
 
 function SectionTitle({ id, title, hint }: { id: string; title: string; hint?: string }) {
@@ -43,75 +46,104 @@ function SectionTitle({ id, title, hint }: { id: string; title: string; hint?: s
 }
 
 /** Daily-works and payment outcomes shown as headline cards (when the app filter keeps them). */
-const OUTCOMES: { key: string; polarity: Polarity; hint: string }[] = [
-  { key: "dw_jobs_completed", polarity: "up_is_good", hint: "Davrda bajarib bo'lingan kunlik ishlar" },
-  { key: "dw_jobs_cancelled", polarity: "up_is_bad", hint: "Davrda bekor qilingan kunlik ishlar" },
-  { key: "payments_succeeded", polarity: "up_is_good", hint: "Davrda muvaffaqiyatli yakunlangan to'lovlar soni" },
-  { key: "payments_failed", polarity: "up_is_bad", hint: "Davrda muvaffaqiyatsiz bo'lgan to'lovlar soni" },
-];
+const OUTCOMES = [
+  { key: "dw_jobs_completed", polarity: "up_is_good" },
+  { key: "dw_jobs_cancelled", polarity: "up_is_bad" },
+  { key: "payments_succeeded", polarity: "up_is_good" },
+  { key: "payments_failed", polarity: "up_is_bad" },
+] as const satisfies readonly { key: string; polarity: Polarity }[];
 
-function SummaryCards({ data }: { data: Overview }) {
+function SummaryCards({ data, today }: { data: Overview; today: string }) {
+  const { t } = useTranslation();
   const { users, activity } = data.summary;
-  const daily = data.meta.granularity === "day";
+  const granularity = data.meta.granularity;
+  const daily = granularity === "day";
   const objects = data.summary.objects;
   // "Created objects": only metrics counted at creation; completions, cancellations and payments are separate.
   const created = Object.entries(objects).filter(([, m]) => m.kind === "created");
   const outcomes = OUTCOMES.filter((o) => objects[o.key]);
   const objectSpark = (key: string) => data.series.objects.map((p) => (p[key] as number | undefined) ?? null);
+
+  // Day / week / month: the cards show the last bucket against the one before it,
+  // the whole period's figure stays as a footnote. A one-bucket period is the period itself.
+  const buckets = data.series.registrations;
+  const multi = buckets.length > 1;
+  const last = buckets[buckets.length - 1];
+  const scope = multi && last ? (last.date_to === today ? t(`dashboard.scope.${granularity}`) : bucketTitle(last)) : undefined;
+  const perBucket = (values: (number | null)[], whole: Compared, average = false) => {
+    const metric = lastBucket(values, whole);
+    if (!multi) return { metric, spark: values };
+    return {
+      metric,
+      spark: values,
+      scope,
+      previousText: t(`dashboard.previousBucket.${granularity}`, { value: formatNumber(metric.previous) }),
+      footnote: t(average ? "dashboard.periodAverage" : "dashboard.periodTotal", { value: formatNumber(whole.value) }),
+    };
+  };
+
   return (
     <div className="space-y-6">
       <section aria-labelledby="summary-title" className="space-y-3">
-        <SectionTitle id="summary-title" title="Foydalanuvchilar" hint="Oldingi teng davr bilan taqqoslanadi" />
+        <SectionTitle
+          id="summary-title"
+          title={t("dashboard.sections.users")}
+          hint={multi ? t(`dashboard.sections.usersHintBucket.${granularity}`) : t("dashboard.sections.usersHint")}
+        />
         <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-5">
           <MetricCard
-            title="Yangi ro'yxatdan o'tishlar"
-            metric={users.new_registrations}
+            title={t("dashboard.cards.newRegistrations")}
             polarity="up_is_good"
-            hint="Davrda yaratilgan akkauntlar"
-            spark={data.series.registrations.map((p) => p.registrations)}
+            hint={t("dashboard.cards.newRegistrationsHint")}
+            {...perBucket(
+              buckets.map((p) => p.registrations),
+              users.new_registrations,
+            )}
           />
           <MetricCard
-            title="DAU (kunlik o'rtacha)"
-            metric={activity.dau_average}
+            title={t("dashboard.cards.dau")}
             polarity="up_is_good"
-            hint="Davrning har bir kunidagi noyob faol foydalanuvchilar o'rtachasi"
-            spark={data.series.activity.map((p) => (daily ? p.dau : p.dau_average) ?? null)}
+            hint={t("dashboard.cards.dauHint")}
+            {...perBucket(
+              data.series.activity.map((p) => (daily ? p.dau : p.dau_average) ?? null),
+              activity.dau_average,
+              true,
+            )}
           />
           <MetricCard
-            title="WAU"
+            title={t("dashboard.cards.wau")}
             metric={activity.wau}
             polarity="up_is_good"
-            hint="Davr oxirgi kuni bilan tugaydigan 7 kunda faol bo'lgan noyob foydalanuvchilar"
+            hint={t("dashboard.cards.wauHint")}
             spark={daily ? data.series.activity.map((p) => p.wau ?? null) : undefined}
           />
           <MetricCard
-            title="MAU"
+            title={t("dashboard.cards.mau")}
             metric={activity.mau}
             polarity="up_is_good"
-            hint="Davr oxirgi kuni bilan tugaydigan 30 kunda faol bo'lgan noyob foydalanuvchilar"
+            hint={t("dashboard.cards.mauHint")}
             spark={daily ? data.series.activity.map((p) => p.mau ?? null) : undefined}
           />
           <MetricCard
-            title="Jami foydalanuvchilar"
+            title={t("dashboard.cards.totalUsers")}
             metric={users.total_users}
             polarity="up_is_good"
-            hint="Davr oxirigacha ro'yxatdan o'tgan va o'chirilmagan akkauntlar"
+            hint={t("dashboard.cards.totalUsersHint")}
           />
         </div>
       </section>
 
       {outcomes.length > 0 && (
         <section aria-labelledby="outcomes-title" className="space-y-3">
-          <SectionTitle id="outcomes-title" title="Kunlik ishlar va to'lovlar" />
+          <SectionTitle id="outcomes-title" title={t("dashboard.sections.outcomes")} />
           <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
             {outcomes.map((o) => (
               <MetricCard
                 key={o.key}
                 title={objectLabel(o.key, objects[o.key].label)}
-                metric={objects[o.key]}
                 polarity={o.polarity}
-                hint={o.hint}
-                spark={objectSpark(o.key)}
+                hint={t(`dashboard.outcomeHints.${o.key}`)}
+                {...perBucket(objectSpark(o.key), objects[o.key])}
               />
             ))}
           </div>
@@ -120,10 +152,16 @@ function SummaryCards({ data }: { data: Overview }) {
 
       {created.length > 0 && (
         <section className="rounded-xl border bg-card p-4 shadow-card sm:p-5">
-          <h3 className="mb-3 text-sm font-semibold">Yaratilgan obyektlar</h3>
+          <h3 className="mb-3 text-sm font-semibold">{t("dashboard.sections.created")}</h3>
           <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-5">
             {created.map(([key, metric]) => (
-              <MetricCard key={key} compact title={objectLabel(key, metric.label)} metric={metric} polarity="up_is_good" />
+              <MetricCard
+                key={key}
+                compact
+                title={objectLabel(key, metric.label)}
+                polarity="up_is_good"
+                {...perBucket(objectSpark(key), metric)}
+              />
             ))}
           </div>
         </section>
@@ -133,6 +171,7 @@ function SummaryCards({ data }: { data: Overview }) {
 }
 
 export function DashboardPage() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const today = useMemo(() => todayInStatsTimezone(), []);
@@ -160,23 +199,17 @@ export function DashboardPage() {
   useEffect(() => {
     if (sessionExpired) {
       endSession();
-      toast.error("Sessiya tugadi, qayta kiring");
+      toast.error(t("auth.sessionExpired"));
       const next = `/${searchParams.toString() ? `?${searchParams}` : ""}`;
       navigate(next === "/" ? "/login" : `/login?next=${encodeURIComponent(next)}`, { replace: true });
     }
-  }, [sessionExpired, navigate, searchParams]);
+  }, [sessionExpired, navigate, searchParams, t]);
 
   // After an error nothing from the previous filters stays on screen under the new ones.
   const data = overview.status === "error" ? null : overview.data;
   const loading = overview.status === "loading";
 
-  const generatedAt =
-    data &&
-    new Date(data.meta.generated_at).toLocaleString("ru-RU", {
-      timeZone: data.meta.timezone,
-      dateStyle: "short",
-      timeStyle: "short",
-    });
+  const generatedAt = data && formatDateTime(data.meta.generated_at, data.meta.timezone);
 
   return (
     <AppShell
@@ -185,27 +218,31 @@ export function DashboardPage() {
         data && (
           <span className="flex items-center gap-1.5 text-xs text-muted-foreground" role="status">
             <RefreshCw className="h-3.5 w-3.5 animate-spin" aria-hidden />
-            <span className="hidden sm:inline">Yangilanmoqda…</span>
+            <span className="hidden sm:inline">{t("common.refreshing")}</span>
           </span>
         )
       }
     >
       <PageHeader
-        title="GUDS statistikasi"
-        description="Platformaning foydalanuvchilar, faollik, kunlik ishlar va autentifikatsiya ko'rsatkichlari"
+        title={t("dashboard.title")}
+        description={t("dashboard.description")}
         meta={
           <>
             <span className="inline-flex items-center gap-1.5">
               <CalendarDays className="h-3.5 w-3.5" aria-hidden />
-              {formatRange(params.date_from, params.date_to)} · Toshkent vaqti
+              {t("dashboard.periodMeta", { range: formatRange(params.date_from, params.date_to) })}
             </span>
             {data && (
-              <span>taqqoslash: {formatRange(data.meta.previous_period.date_from, data.meta.previous_period.date_to)}</span>
+              <span>
+                {t("dashboard.comparison", {
+                  range: formatRange(data.meta.previous_period.date_from, data.meta.previous_period.date_to),
+                })}
+              </span>
             )}
             {generatedAt && (
               <span className="inline-flex items-center gap-1.5">
                 <Clock3 className="h-3.5 w-3.5" aria-hidden />
-                hisoblangan: {generatedAt}
+                {t("dashboard.generatedAt", { time: generatedAt })}
               </span>
             )}
           </>
@@ -220,7 +257,7 @@ export function DashboardPage() {
               disabled={loading}
             >
               <RotateCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} aria-hidden />
-              Yangilash
+              {t("common.refresh")}
             </Button>
             <ExportMenu params={params} />
           </>
@@ -230,17 +267,21 @@ export function DashboardPage() {
       <FilterBar filters={filters} params={params} today={today} onChange={changeFilters} />
 
       {overview.status === "error" && !sessionExpired && (
-        <ErrorState message={errorMessage(overview.error)} onRetry={overview.retry} />
+        <ErrorState message={errorMessage(overview.error, t)} onRetry={overview.retry} />
       )}
 
       {!data && loading && <DashboardSkeleton />}
 
       {data && (
         <main className={`space-y-8 transition-opacity ${loading ? "opacity-70" : ""}`} aria-busy={loading}>
-          <SummaryCards data={data} />
+          <SummaryCards data={data} today={today} />
 
           <section aria-labelledby="trends-title" className="space-y-3">
-            <SectionTitle id="trends-title" title="Dinamika" hint={`Guruhlash: ${GRANULARITY_LABELS[data.meta.granularity].toLowerCase()}`} />
+            <SectionTitle
+              id="trends-title"
+              title={t("dashboard.sections.trends")}
+              hint={t("dashboard.sections.trendsHint", { granularity: granularityLabel(data.meta.granularity).toLowerCase() })}
+            />
             <div className="grid gap-4 xl:grid-cols-2">
               <RegistrationsPanel data={data} params={params} />
               <ActivityPanel data={data} params={params} />
@@ -251,10 +292,14 @@ export function DashboardPage() {
           <FunnelSection data={data} params={params} dimensionFiltersActive={hasDimensionFilters(filters)} />
 
           <section aria-labelledby="distribution-title" className="space-y-3">
-            <SectionTitle id="distribution-title" title="Taqsimot" hint="Davrdagi yangi ro'yxatdan o'tishlar ulushi" />
+            <SectionTitle
+              id="distribution-title"
+              title={t("dashboard.sections.distribution")}
+              hint={t("dashboard.sections.distributionHint")}
+            />
             <div className="grid gap-4 lg:grid-cols-2">
               <DistributionPanel
-                title="Davlatlar bo'yicha"
+                title={t("panels.distribution.country")}
                 table="country"
                 params={params}
                 total={data.summary.users.new_registrations.value ?? 0}
@@ -262,7 +307,7 @@ export function DashboardPage() {
                 rows={data.breakdowns.country.map((r) => ({ ...r, key: r.country, label: countryLabel(r.country) }))}
               />
               <DistributionPanel
-                title="Ro'yxatdan o'tish usuli bo'yicha"
+                title={t("panels.distribution.method")}
                 table="registered_via"
                 params={params}
                 total={data.summary.users.new_registrations.value ?? 0}
@@ -270,14 +315,14 @@ export function DashboardPage() {
                 rows={data.breakdowns.registered_via.map((r) => ({
                   ...r,
                   key: r.registered_via,
-                  label: METHOD_LABELS[r.registered_via] ?? r.registered_via,
+                  label: methodLabel(r.registered_via),
                 }))}
               />
             </div>
           </section>
 
           <p className="text-xs text-muted-foreground">
-            Bugungi ko'rsatkichlar har 15 daqiqada yangilanadi · hisoblangan: {generatedAt}
+            {t("dashboard.footer", { time: generatedAt })}
           </p>
         </main>
       )}

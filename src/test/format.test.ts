@@ -27,7 +27,7 @@ describe("describeChange", () => {
     expect(describeChange(metric(4, 0, "previous_zero"), "up_is_good")).toEqual({
       trend: "up",
       tone: "good",
-      text: "+4 (oldingi davrda 0)",
+      text: "+4 (oldin 0)",
     });
     expect(describeChange(metric(0, 0, "no_change"), "up_is_good")).toEqual({
       trend: "flat",

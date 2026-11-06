@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { DataTable, type Column } from "./DataTable";
 import { Panel } from "./Panel";
 import { EmptyState } from "./states";
@@ -30,21 +31,22 @@ export function DistributionPanel({
   params: ApiParams;
   color: string;
 }) {
+  const { t } = useTranslation();
   const visible = rows.filter((r) => (r.registrations.value ?? 0) > 0);
   const columns: Column<Row>[] = [
-    { key: "label", header: "Qiymat", cell: (r) => r.label, sort: (r) => r.label },
-    { key: "count", header: "Soni", numeric: true, cell: (r) => formatNumber(r.registrations.value), sort: (r) => r.registrations.value },
-    { key: "share", header: "Ulushi", numeric: true, cell: (r) => formatPercent(r.share_percent), sort: (r) => r.share_percent },
+    { key: "label", header: t("tables.value"), cell: (r) => r.label, sort: (r) => r.label },
+    { key: "count", header: t("tables.count"), numeric: true, cell: (r) => formatNumber(r.registrations.value), sort: (r) => r.registrations.value },
+    { key: "share", header: t("tables.share"), numeric: true, cell: (r) => formatPercent(r.share_percent), sort: (r) => r.share_percent },
     {
       key: "previous",
-      header: "Oldingi davr",
+      header: t("tables.previous"),
       numeric: true,
       cell: (r) => formatNumber(r.registrations.previous),
       sort: (r) => r.registrations.previous,
     },
     {
       key: "change",
-      header: "O'zgarish",
+      header: t("tables.change"),
       numeric: true,
       cell: (r) => describeChange(r.registrations, "neutral").text,
       sort: (r) => r.registrations.change,
@@ -76,7 +78,7 @@ export function DistributionPanel({
   return (
     <Panel
       title={title}
-      description={`Davrdagi yangi ro'yxatdan o'tishlar: jami ${formatNumber(total)} (100%)`}
+      description={t("panels.distribution.description", { total: formatNumber(total) })}
       exportTable={table}
       params={params}
       chart={chart}

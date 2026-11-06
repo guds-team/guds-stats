@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router";
-import { BarChart3, LogOut, Menu, Monitor, Moon, PanelLeftClose, PanelLeftOpen, Radio, Sun } from "lucide-react";
+import { BarChart3, ClipboardList, LogOut, Menu, Monitor, Moon, PanelLeftClose, PanelLeftOpen, Radio, Sun } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from "../ui/sheet";
 import { clearSession } from "../../lib/api";
 import { clearOverviewCache } from "../../lib/useOverview";
 import { useTheme, type ThemeChoice } from "../../lib/theme";
+import { LanguageSwitch } from "./LanguageSwitch";
 
 function readUser(): { phone_number?: string; email?: string } | null {
   try {
@@ -31,30 +33,32 @@ function readCollapsed(): boolean {
 }
 
 const NAV = [
-  { to: "/", label: "Umumiy statistika", hint: "Davr bo'yicha ko'rsatkichlar", Icon: BarChart3, end: true },
-  { to: "/live", label: "Jonli kuzatuv", hint: "Onlayn ishchilar va ishlar", Icon: Radio, end: false },
-];
+  { to: "/", label: "navigation.overview", hint: "navigation.overviewHint", Icon: BarChart3, end: true },
+  { to: "/jobs", label: "navigation.jobs", hint: "navigation.jobsHint", Icon: ClipboardList, end: false },
+  { to: "/live", label: "navigation.live", hint: "navigation.liveHint", Icon: Radio, end: false },
+] as const;
 
-const THEMES: { value: ThemeChoice; label: string; Icon: typeof Sun }[] = [
-  { value: "light", label: "Yorug' mavzu", Icon: Sun },
-  { value: "dark", label: "Qorong'i mavzu", Icon: Moon },
-  { value: "system", label: "Tizim mavzusi", Icon: Monitor },
+const THEMES: { value: ThemeChoice; label: "theme.light" | "theme.dark" | "theme.system"; Icon: typeof Sun }[] = [
+  { value: "light", label: "theme.light", Icon: Sun },
+  { value: "dark", label: "theme.dark", Icon: Moon },
+  { value: "system", label: "theme.system", Icon: Monitor },
 ];
 
 function ThemeSwitch({ vertical = false }: { vertical?: boolean }) {
+  const { t } = useTranslation();
   const { choice, choose } = useTheme();
   return (
     <div
       role="group"
-      aria-label="Mavzu"
+      aria-label={t("theme.label")}
       className={`flex items-center rounded-lg border bg-background p-0.5 ${vertical ? "flex-col" : ""}`}
     >
       {THEMES.map(({ value, label, Icon }) => (
         <button
           key={value}
           type="button"
-          title={label}
-          aria-label={label}
+          title={t(label)}
+          aria-label={t(label)}
           aria-pressed={choice === value}
           onClick={() => choose(value)}
           className={`grid h-7 flex-1 place-items-center rounded-md px-2 transition-colors focus-visible:outline-2 focus-visible:outline-ring ${
@@ -69,6 +73,7 @@ function ThemeSwitch({ vertical = false }: { vertical?: boolean }) {
 }
 
 function Brand({ compact }: { compact?: boolean }) {
+  const { t } = useTranslation();
   return (
     <div className="flex items-center gap-2.5">
       <span
@@ -79,8 +84,8 @@ function Brand({ compact }: { compact?: boolean }) {
       </span>
       {!compact && (
         <span className="leading-tight">
-          <span className="block text-sm font-semibold tracking-tight">GUDS Stats</span>
-          <span className="block text-[11px] text-muted-foreground">Analitika paneli</span>
+          <span className="block text-sm font-semibold tracking-tight">{t("app.name")}</span>
+          <span className="block text-[11px] text-muted-foreground">{t("app.tagline")}</span>
         </span>
       )}
     </div>
@@ -88,15 +93,16 @@ function Brand({ compact }: { compact?: boolean }) {
 }
 
 function NavItems({ compact, onNavigate }: { compact?: boolean; onNavigate?: () => void }) {
+  const { t } = useTranslation();
   return (
-    <nav aria-label="Bo'limlar" className="space-y-1">
+    <nav aria-label={t("navigation.sections")} className="space-y-1">
       {NAV.map(({ to, label, hint, Icon, end }) => (
         <NavLink
           key={to}
           to={to}
           end={end}
           onClick={onNavigate}
-          title={compact ? label : undefined}
+          title={compact ? t(label) : undefined}
           className={({ isActive }) =>
             `group relative flex items-center gap-3 rounded-lg px-2.5 py-2 text-sm transition-colors focus-visible:outline-2 focus-visible:outline-ring ${
               compact ? "justify-center" : ""
@@ -114,11 +120,11 @@ function NavItems({ compact, onNavigate }: { compact?: boolean; onNavigate?: () 
               )}
               <Icon className={`h-4 w-4 shrink-0 ${isActive ? "text-[var(--accent-brand)]" : ""}`} aria-hidden />
               {compact ? (
-                <span className="sr-only">{label}</span>
+                <span className="sr-only">{t(label)}</span>
               ) : (
                 <span className="min-w-0">
-                  <span className="block truncate">{label}</span>
-                  <span className="block truncate text-[11px] font-normal text-muted-foreground">{hint}</span>
+                  <span className="block truncate">{t(label)}</span>
+                  <span className="block truncate text-[11px] font-normal text-muted-foreground">{t(hint)}</span>
                 </span>
               )}
             </>
@@ -130,6 +136,7 @@ function NavItems({ compact, onNavigate }: { compact?: boolean; onNavigate?: () 
 }
 
 function Account({ compact, onLogout }: { compact?: boolean; onLogout: () => void }) {
+  const { t } = useTranslation();
   const user = readUser();
   const who = user?.phone_number ?? user?.email;
   return (
@@ -142,11 +149,11 @@ function Account({ compact, onLogout }: { compact?: boolean; onLogout: () => voi
       <button
         type="button"
         onClick={onLogout}
-        title="Chiqish"
+        title={t("navigation.logout")}
         className="inline-flex h-8 items-center gap-1.5 rounded-lg border bg-background px-2.5 text-sm font-medium transition-colors hover:bg-muted focus-visible:outline-2 focus-visible:outline-ring"
       >
         <LogOut className="h-4 w-4" aria-hidden />
-        <span className={compact ? "sr-only" : ""}>Chiqish</span>
+        <span className={compact ? "sr-only" : ""}>{t("navigation.logout")}</span>
       </button>
     </div>
   );
@@ -158,6 +165,7 @@ function Account({ compact, onLogout }: { compact?: boolean; onLogout: () => voi
  * bar next to the page (e.g. "updating", live connection state).
  */
 export function AppShell({ status, children }: { status?: React.ReactNode; children: React.ReactNode }) {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(readCollapsed);
   const [drawer, setDrawer] = useState(false);
@@ -177,7 +185,7 @@ export function AppShell({ status, children }: { status?: React.ReactNode; child
 
   const logout = () => {
     endSession();
-    toast.success("Tizimdan chiqdingiz");
+    toast.success(t("auth.loggedOut"));
     navigate("/login");
   };
 
@@ -193,21 +201,24 @@ export function AppShell({ status, children }: { status?: React.ReactNode; child
         </div>
         <div className="flex-1 overflow-y-auto p-3">
           {!collapsed && (
-            <p className="mb-2 px-2.5 text-[11px] font-medium tracking-wider text-muted-foreground uppercase">Bo'limlar</p>
+            <p className="mb-2 px-2.5 text-[11px] font-medium tracking-wider text-muted-foreground uppercase">
+              {t("navigation.sections")}
+            </p>
           )}
           <NavItems compact={collapsed} />
         </div>
         <div className="space-y-3 border-t p-3">
+          <LanguageSwitch vertical={collapsed} />
           <ThemeSwitch vertical={collapsed} />
           <Account compact={collapsed} onLogout={logout} />
           <button
             type="button"
             onClick={toggleCollapsed}
-            aria-label={collapsed ? "Yon panelni ochish" : "Yon panelni yig'ish"}
+            aria-label={collapsed ? t("navigation.expandSidebar") : t("navigation.collapseSidebar")}
             className="flex w-full items-center justify-center gap-2 rounded-lg py-1.5 text-xs text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
           >
             {collapsed ? <PanelLeftOpen className="h-4 w-4" aria-hidden /> : <PanelLeftClose className="h-4 w-4" aria-hidden />}
-            {!collapsed && "Yig'ish"}
+            {!collapsed && t("navigation.collapse")}
           </button>
         </div>
       </aside>
@@ -218,7 +229,7 @@ export function AppShell({ status, children }: { status?: React.ReactNode; child
             <button
               type="button"
               onClick={() => setDrawer(true)}
-              aria-label="Menyuni ochish"
+              aria-label={t("navigation.openMenu")}
               className="grid h-9 w-9 place-items-center rounded-lg border lg:hidden"
             >
               <Menu className="h-4 w-4" aria-hidden />
@@ -228,11 +239,11 @@ export function AppShell({ status, children }: { status?: React.ReactNode; child
             </div>
             {section && (
               <p className="flex min-w-0 items-center gap-2 text-sm">
-                <span className="hidden text-muted-foreground lg:inline">GUDS Stats</span>
+                <span className="hidden text-muted-foreground lg:inline">{t("app.name")}</span>
                 <span className="hidden text-muted-foreground/60 lg:inline" aria-hidden>
                   /
                 </span>
-                <span className="truncate font-medium">{section.label}</span>
+                <span className="truncate font-medium">{t(section.label)}</span>
               </p>
             )}
             <div className="ml-auto flex items-center gap-2">{status}</div>
@@ -242,9 +253,9 @@ export function AppShell({ status, children }: { status?: React.ReactNode; child
       </div>
 
       <Sheet open={drawer} onOpenChange={setDrawer}>
-        <SheetContent side="left" className="w-72 gap-0 p-0">
-          <SheetTitle className="sr-only">Menyu</SheetTitle>
-          <SheetDescription className="sr-only">Bo'limlar va hisob</SheetDescription>
+        <SheetContent side="left" className="w-72 gap-0 p-0" closeLabel={t("common.close")}>
+          <SheetTitle className="sr-only">{t("navigation.menu")}</SheetTitle>
+          <SheetDescription className="sr-only">{t("navigation.menuDescription")}</SheetDescription>
           <div className="flex h-14 items-center border-b px-4">
             <Brand />
           </div>
@@ -252,6 +263,7 @@ export function AppShell({ status, children }: { status?: React.ReactNode; child
             <NavItems onNavigate={() => setDrawer(false)} />
           </div>
           <div className="space-y-3 border-t p-3">
+            <LanguageSwitch />
             <ThemeSwitch />
             <Account onLogout={logout} />
           </div>

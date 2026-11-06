@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { DataTable, type Column } from "./DataTable";
 import { Panel } from "./Panel";
 import { SeriesLineChart } from "./SeriesLineChart";
@@ -6,7 +7,7 @@ import { EmptyState } from "./states";
 import { bucketTitle } from "./chartParts";
 import type { ApiParams } from "../../lib/filters";
 import { formatNumber } from "../../lib/format";
-import { APP_LABELS, objectLabel, seriesColor } from "../../lib/metrics";
+import { appLabel, objectLabel, seriesColor } from "../../lib/metrics";
 import type { Overview } from "../../lib/types";
 
 type Point = Overview["series"]["objects"][number];
@@ -17,6 +18,7 @@ type Point = Overview["series"]["objects"][number];
  * table and the CSV hold every metric of the filtered apps.
  */
 export function ObjectsPanel({ data, params }: { data: Overview; params: ApiParams }) {
+  const { t } = useTranslation();
   const metrics = data.summary.objects;
   const apps = useMemo(() => [...new Set(Object.values(metrics).map((m) => m.app))], [metrics]);
   const [chosen, setChosen] = useState("");
@@ -28,7 +30,7 @@ export function ObjectsPanel({ data, params }: { data: Overview; params: ApiPara
   const empty = series.every((p) => keys.every((k) => !p[k]));
 
   const columns: Column<Point>[] = [
-    { key: "period", header: "Davr", cell: (p) => bucketTitle(p), sort: (p) => p.bucket },
+    { key: "period", header: t("tables.period"), cell: (p) => bucketTitle(p), sort: (p) => p.bucket },
     ...Object.keys(metrics).map((k) => ({
       key: k,
       header: objectLabel(k, metrics[k].label),
@@ -41,7 +43,7 @@ export function ObjectsPanel({ data, params }: { data: Overview; params: ApiPara
   const appSelect =
     apps.length > 1 ? (
       <label className="flex items-center gap-2 text-sm">
-        <span className="sr-only">Grafikdagi ilova</span>
+        <span className="sr-only">{t("panels.objects.appSelect")}</span>
         <select
           value={app}
           onChange={(e) => setChosen(e.target.value)}
@@ -49,7 +51,7 @@ export function ObjectsPanel({ data, params }: { data: Overview; params: ApiPara
         >
           {apps.map((a) => (
             <option key={a} value={a}>
-              {APP_LABELS[a] ?? a}
+              {appLabel(a)}
             </option>
           ))}
         </select>
@@ -58,8 +60,8 @@ export function ObjectsPanel({ data, params }: { data: Overview; params: ApiPara
 
   return (
     <Panel
-      title="Obyektlar dinamikasi"
-      description="Har bir obyekt o'z vaqt belgisi bo'yicha (yaratilgan, bajarilgan, to'langan …) hisoblanadi"
+      title={t("panels.objects.title")}
+      description={t("panels.objects.description")}
       exportTable="objects"
       params={params}
       toolbar={appSelect}
@@ -67,12 +69,12 @@ export function ObjectsPanel({ data, params }: { data: Overview; params: ApiPara
         !app ? (
           <EmptyState />
         ) : empty ? (
-          <EmptyState>{APP_LABELS[app] ?? app}: tanlangan davrda yangi obyektlar yo'q</EmptyState>
+          <EmptyState>{t("panels.objects.empty", { app: appLabel(app) })}</EmptyState>
         ) : (
           <SeriesLineChart key={app} data={series} items={items} granularity={data.meta.granularity} />
         )
       }
-      table={<DataTable caption="Obyektlar dinamikasi" columns={columns} rows={series} />}
+      table={<DataTable caption={t("panels.objects.title")} columns={columns} rows={series} />}
     />
   );
 }

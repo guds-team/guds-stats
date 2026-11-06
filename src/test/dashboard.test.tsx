@@ -76,7 +76,7 @@ describe("filters and the URL", () => {
     expect((screen.getByLabelText("Ilova") as HTMLSelectElement).value).toBe("jobs");
     expect(screen.getByRole("button", { name: "Hafta" }).getAttribute("aria-pressed")).toBe("true");
     expect(router.state.location.search).toContain("country=UZ"); // rewritten to the canonical link
-    expect(fetchMock.mock.calls[0][1].headers).toEqual({ Authorization: "Bearer token" });
+    expect(fetchMock.mock.calls[0][1].headers).toEqual({ Authorization: "Bearer token", "Accept-Language": "uz" });
   });
 
   it("updates the URL on every filter change and feeds every section from one request", async () => {
@@ -240,14 +240,38 @@ describe("states", () => {
 });
 
 describe("sections with real API data", () => {
-  it("renders summary cards with previous-period comparison", async () => {
+  it("shows the last day against the day before, with the period total", async () => {
     serve(byGranularity);
     renderAt("/");
-    const card = (await screen.findByText("Yangi ro'yxatdan o'tishlar")).parentElement!;
+    const card = (await screen.findByText("Yangi ro'yxatdan o'tishlar")).closest(".shadow-card")!;
     const registrations = dayFixture.data.summary.users.new_registrations;
-    expect(card.textContent).toContain(String(registrations.value));
-    expect(card.textContent).toContain(`+${registrations.change} (oldingi davrda 0)`); // never a percentage of 0
-    expect(screen.getByText("WAU").parentElement!.textContent).toContain("Taqqoslab bo'lmaydi");
+    const series = dayFixture.data.series.registrations;
+    expect(card.textContent).toContain("Bugun");
+    expect(card.textContent).toContain(`+${series[series.length - 1].registrations} (oldin 0)`); // never a percentage of 0
+    expect(card.textContent).toContain(`Oldingi kun: ${series[series.length - 2].registrations}`);
+    expect(card.textContent).toContain(`Davr jami: ${registrations.value}`);
+    expect(screen.getByText("WAU").closest(".shadow-card")!.textContent).toContain("Taqqoslab bo'lmaydi");
+  });
+
+  it("follows the week switch: the last week against the week before", async () => {
+    serve(byGranularity);
+    renderAt("/?granularity=week");
+    const card = (await screen.findByText("Yangi ro'yxatdan o'tishlar")).closest(".shadow-card")!;
+    const series = weekFixture.data.series.registrations;
+    expect(card.textContent).toContain("Shu hafta");
+    expect(card.textContent).toContain(`Oldingi hafta: ${series[series.length - 2].registrations}`);
+    expect(card.textContent).toContain(`Davr jami: ${weekFixture.data.summary.users.new_registrations.value}`);
+  });
+
+  it("keeps the API's comparison with the previous period for a one-bucket period", async () => {
+    const today = clone(dayFixture);
+    today.data.series.registrations = today.data.series.registrations.slice(-1);
+    serve(() => json(today));
+    renderAt("/?period=today");
+    const card = (await screen.findByText("Yangi ro'yxatdan o'tishlar")).closest(".shadow-card")!;
+    expect(card.textContent).toContain(String(today.data.summary.users.new_registrations.value));
+    expect(card.textContent).toContain("Oldingi davr");
+    expect(card.textContent).not.toContain("Davr jami");
   });
 
   it("lists only created objects in the created-objects cards", async () => {
@@ -255,7 +279,7 @@ describe("sections with real API data", () => {
     renderAt("/");
     const box = (await screen.findByRole("heading", { name: "Yaratilgan obyektlar" })).parentElement!;
     const created = Object.values(dayFixture.data.summary.objects).filter((m) => m.kind === "created");
-    expect(within(box).getAllByText(/Oldingi davr/)).toHaveLength(created.length);
+    expect(within(box).getAllByText(/Oldingi kun/)).toHaveLength(created.length);
     expect(within(box).queryByText("Bekor qilingan to'lovlar")).toBeNull();
     expect(within(box).getByText("Vakansiyalar")).toBeTruthy();
   });
@@ -428,5 +452,50 @@ describe("CSV export", () => {
     });
     expect(createObjectURL).toHaveBeenCalledTimes(1);
     click.mockRestore();
+  });
+});
+
+describe("daily works report", () => {
+  const person = (id: number, name: string) => ({ id, name, phone: `+99890000000${id}` });
+  const report = {
+    meta: { date_from: "2026-09-16", date_to: "2026-10-15", status: "completed", worker: null, client: null, generated_at: "2026-10-15T12:00:00+05:00" },
+    totals: { jobs: 3, revenue: 250000, commission: 0, workers: 2, clients: 1 },
+    days: [
+      { day: "2026-10-14", jobs: 1, revenue: 100000, workers: 1, clients: 1 },
+      { day: "2026-10-15", jobs: 2, revenue: 150000, workers: 1, clients: 1 },
+    ],
+    workers: [{ ...person(7, "Ali Valiyev"), jobs: 2, revenue: 150000 }, { ...person(8, "Vali Aliyev"), jobs: 1, revenue: 100000 }],
+    clients: [{ ...person(9, "Do'kon"), jobs: 3, revenue: 250000 }],
+    jobs: [
+      { job_id: "JOB-1", status: "completed", category: "Mardikor", client: person(9, "Do'kon"), worker: person(7, "Ali Valiyev"), price: 100000, currency: "UZS", workers_count: 1, address: "Toshkent", at: "2026-10-15T10:00:00+05:00", created_at: null, completed_at: null, cancelled_at: null, worker_rating: null },
+    ],
+    limits: { jobs: 500, people: 200 },
+  };
+  const reportCalls = () =>
+    fetchMock.mock.calls
+      .map(([input]) => new URL(input as string))
+      .filter((url) => url.pathname === "/api/stats/daily-works/jobs/")
+      .map((url) => Object.fromEntries(url.searchParams));
+
+  it("shows who did the jobs and who ordered them, and narrows to one worker", async () => {
+    serve(() => json({ data: report }));
+    const router = renderAt("/jobs");
+    const workers = await screen.findByRole("region", { name: "Kim bajardi" });
+    expect(within(workers).getByText("Ali Valiyev")).toBeTruthy();
+    expect(within(screen.getByRole("region", { name: "Kim buyurtma qildi" })).getByText("Do'kon")).toBeTruthy();
+    expect(reportCalls()[0]).toEqual({ date_from: "2026-09-16", date_to: "2026-10-15", status: "completed" });
+
+    fireEvent.click(within(workers).getByRole("button", { name: "Faqat Ali Valiyev ishlarini ko'rsatish" }));
+    await waitFor(() => expect(router.state.location.search).toBe("?worker=7"));
+    await waitFor(() => expect(reportCalls().at(-1)).toMatchObject({ worker: "7" }));
+    expect(screen.getByText("Ishchi: Ali Valiyev")).toBeTruthy();
+  });
+
+  it("switches the job event", async () => {
+    serve(() => json({ data: report }));
+    const router = renderAt("/jobs?period=last7");
+    fireEvent.click(await screen.findByRole("button", { name: "Bekor qilingan" }));
+    await waitFor(() => expect(router.state.location.search).toBe("?period=last7&status=cancelled"));
+    await waitFor(() => expect(reportCalls().at(-1)).toMatchObject({ status: "cancelled", date_from: "2026-10-09" }));
   });
 });

@@ -1,0 +1,505 @@
+{
+  "app": {
+    "name": "GUDS Stats",
+    "documentTitle": "GUDS Stats — Statistika paneli",
+    "tagline": "Analitika paneli",
+    "pageLoading": "Sahifa yuklanmoqda"
+  },
+  "common": {
+    "loading": "Yuklanmoqda",
+    "loadingEllipsis": "Yuklanmoqda...",
+    "refresh": "Yangilash",
+    "refreshing": "Yangilanmoqda…",
+    "retry": "Qayta urinish",
+    "close": "Yopish",
+    "total": "Jami",
+    "all": "Hammasi",
+    "unknown": "Noma'lum",
+    "notApplicable": "n/a",
+    "newWindow": "(yangi oynada)",
+    "chart": "Grafik",
+    "table": "Jadval",
+    "view": "Ko'rinish",
+    "series": "Seriyalar",
+    "map": "Xarita",
+    "openMap": "Xaritada ochish",
+    "verified": "Tasdiqlangan"
+  },
+  "language": {
+    "label": "Til",
+    "names": {
+      "uz": "O'zbekcha",
+      "ru": "Русский",
+      "en": "English"
+    }
+  },
+  "theme": {
+    "label": "Mavzu",
+    "light": "Yorug' mavzu",
+    "dark": "Qorong'i mavzu",
+    "system": "Tizim mavzusi"
+  },
+  "navigation": {
+    "sections": "Bo'limlar",
+    "overview": "Umumiy statistika",
+    "overviewHint": "Davr bo'yicha ko'rsatkichlar",
+    "live": "Jonli kuzatuv",
+    "liveHint": "Onlayn ishchilar va ishlar",
+    "logout": "Chiqish",
+    "openMenu": "Menyuni ochish",
+    "menu": "Menyu",
+    "menuDescription": "Bo'limlar va hisob",
+    "expandSidebar": "Yon panelni ochish",
+    "collapseSidebar": "Yon panelni yig'ish",
+    "collapse": "Yig'ish",
+    "jobs": "Ishlar hisoboti",
+    "jobsHint": "Kim bajardi, kim buyurtma qildi"
+  },
+  "auth": {
+    "subtitle": "Statistika paneliga kirish uchun ma'lumotlaringizni kiriting",
+    "phone": "Telefon raqami",
+    "password": "Parol",
+    "submit": "Kirish",
+    "demo": "Demo: +998 90 900 90 90",
+    "success": "Muvaffaqiyatli kirdingiz!",
+    "loggedOut": "Tizimdan chiqdingiz",
+    "sessionExpired": "Sessiya tugadi, qayta kiring",
+    "errors": {
+      "phoneIncomplete": "Telefon raqami to'liq emas",
+      "passwordRequired": "Parolni kiriting",
+      "invalidCredentials": "Login yoki parol noto'g'ri",
+      "network": "Server bilan bog'lanishda xatolik. CORS muammosi bo'lishi mumkin.",
+      "generic": "Xatolik yuz berdi: {{message}}"
+    }
+  },
+  "errors": {
+    "loadFailed": "Statistikani yuklab bo'lmadi",
+    "forbidden": "Statistikani ko'rish huquqi yo'q (statistics | daily statistic | Can view).",
+    "server": "Serverda xatolik. Birozdan keyin qayta urinib ko'ring.",
+    "network": "Server bilan bog'lanib bo'lmadi. Internet aloqasini tekshiring."
+  },
+  "emptyStates": {
+    "noData": "Tanlangan filtrlar bo'yicha ma'lumot yo'q",
+    "noDataHint": "Davrni kengaytiring yoki filtrlarni o'zgartiring"
+  },
+  "time": {
+    "justNow": "hozirgina",
+    "minutes": "{{count, number}} daq",
+    "hours": "{{count, number}} soat",
+    "hoursMinutes": "{{hours}} soat {{minutes}} daq",
+    "days_one": "{{count, number}} kun",
+    "days_other": "{{count, number}} kun",
+    "ago": "{{duration}} oldin"
+  },
+  "units": {
+    "thousand": "{{value}} ming",
+    "million": "{{value}} mln",
+    "billion": "{{value}} mlrd",
+    "currencyUZS": "so'm"
+  },
+  "change": {
+    "unavailable": "Taqqoslab bo'lmaydi",
+    "noChange": "O'zgarishsiz",
+    "previousZero": "{{change}} (oldin 0)",
+    "up": "o'sish",
+    "down": "kamayish",
+    "previousPeriod": "Oldingi davr: {{value}}"
+  },
+  "filters": {
+    "label": "Statistika filtrlari",
+    "period": "Davr",
+    "dateFrom": "Boshlanish sanasi",
+    "dateTo": "Tugash sanasi",
+    "granularity": "Guruhlash",
+    "reset": "Tozalash",
+    "country": "Davlat",
+    "allCountries": "Barcha davlatlar",
+    "method": "Ro'yxatdan o'tish usuli",
+    "methodShort": "Usul",
+    "allMethods": "Barcha usullar",
+    "app": "Ilova",
+    "allApps": "Barcha ilovalar",
+    "active": "Faol filtrlar",
+    "remove": "{{label}} filtrini olib tashlash",
+    "presets": {
+      "today": "Bugun",
+      "yesterday": "Kecha",
+      "last7": "Oxirgi 7 kun",
+      "last30": "Oxirgi 30 kun",
+      "this_month": "Shu oy",
+      "previous_month": "O'tgan oy",
+      "custom": "Boshqa oraliq"
+    },
+    "granularities": {
+      "day": "Kun",
+      "week": "Hafta",
+      "month": "Oy"
+    }
+  },
+  "labels": {
+    "methods": {
+      "phone": "Telefon (SMS)",
+      "email": "Email",
+      "google": "Google",
+      "apple": "Apple",
+      "telegram": "Telegram",
+      "whatsapp": "WhatsApp",
+      "unknown": "Noma'lum"
+    },
+    "apps": {
+      "jobs": "Ish qidirish",
+      "daily_works": "Kunlik ishlar",
+      "messaging": "Chat va qo'ng'iroqlar",
+      "wallet": "Hamyon va to'lovlar"
+    },
+    "objects": {
+      "vacancies_created": "Vakansiyalar",
+      "resumes_created": "Rezyumelar",
+      "job_applications_created": "Otkliklar",
+      "companies_created": "Kompaniyalar",
+      "dw_jobs_created": "Joylangan ishlar",
+      "dw_jobs_completed": "Bajarilgan ishlar",
+      "dw_jobs_cancelled": "Bekor qilingan ishlar",
+      "dw_workers_registered": "Ishchi profillari",
+      "chats_created": "Yangi chatlar",
+      "messages_sent": "Xabarlar",
+      "calls_started": "Qo'ng'iroqlar",
+      "payments_succeeded": "Tasdiqlangan to'lovlar",
+      "payments_failed": "Muvaffaqiyatsiz to'lovlar",
+      "payments_cancelled": "Bekor qilingan to'lovlar",
+      "admin_top_ups": "Admin to'ldirishlari"
+    },
+    "stages": {
+      "otp_requested": "OTP yuborildi",
+      "otp_accepted": "Provayder qabul qildi",
+      "otp_delivered": "Yetkazildi",
+      "otp_verified": "Kod kiritildi",
+      "otp_registered": "Ro'yxatdan o'tdi"
+    },
+    "stageHints": {
+      "otp_requested": "Yaratilgan OTP so'rovlari (noma'lum raqamga yuborilmaganlar hisobga olinmaydi)",
+      "otp_accepted": "Provayder qabul qilgan — bu hali yetkazilgani emas",
+      "otp_delivered": "Provayderning yetkazish hisoboti (SMS, Telegram, WhatsApp); emailda hisobot yo'q",
+      "otp_verified": "To'g'ri kod kiritilgan; noto'g'ri, eskirgan va bloklangan kodlar hisoblanmaydi",
+      "otp_registered": "Aynan shu kodning tasdiq tokeni bilan akkaunt yaratilgan"
+    },
+    "stageBasis": {
+      "otp_requested": "yuborilganlardan",
+      "otp_accepted": "qabul qilinganlardan",
+      "otp_delivered": "yetkazilganlardan",
+      "otp_verified": "kod kiritilganlardan",
+      "otp_accepted_with_reports": "hisobot beradigan kanallarda qabul qilinganlardan"
+    },
+    "channels": {
+      "sms": "SMS",
+      "telegram": "Telegram",
+      "whatsapp": "WhatsApp",
+      "email": "Email"
+    },
+    "workerStates": {
+      "online_idle": "Bo'sh, kutmoqda",
+      "offer_pending": "Taklif ko'rmoqda",
+      "on_job": "Ishda"
+    },
+    "jobStatuses": {
+      "pending": "Ishchi qidirilmoqda",
+      "offered": "Taklif yuborildi",
+      "accepted": "Qabul qilindi",
+      "en_route": "Yo'lda",
+      "arrived": "Yetib keldi",
+      "in_progress": "Bajarilmoqda"
+    }
+  },
+  "charts": {
+    "partial": "{{range}} (to'liq emas)"
+  },
+  "tables": {
+    "period": "Davr",
+    "value": "Qiymat",
+    "count": "Soni",
+    "share": "Ulushi",
+    "previous": "Oldingi davr",
+    "change": "O'zgarish"
+  },
+  "pagination": {
+    "label": "{{caption}}: sahifalar",
+    "previous": "Oldingi sahifa",
+    "next": "Keyingi sahifa"
+  },
+  "dashboard": {
+    "title": "GUDS statistikasi",
+    "description": "Platformaning foydalanuvchilar, faollik, kunlik ishlar va autentifikatsiya ko'rsatkichlari",
+    "periodMeta": "{{range}} · Toshkent vaqti",
+    "comparison": "taqqoslash: {{range}}",
+    "generatedAt": "hisoblangan: {{time}}",
+    "footer": "Bugungi ko'rsatkichlar har 15 daqiqada yangilanadi · hisoblangan: {{time}}",
+    "sections": {
+      "users": "Foydalanuvchilar",
+      "usersHint": "Oldingi teng davr bilan taqqoslanadi",
+      "outcomes": "Kunlik ishlar va to'lovlar",
+      "created": "Yaratilgan obyektlar",
+      "trends": "Dinamika",
+      "trendsHint": "Guruhlash: {{granularity}}",
+      "distribution": "Taqsimot",
+      "distributionHint": "Davrdagi yangi ro'yxatdan o'tishlar ulushi",
+      "usersHintBucket": {
+        "day": "Oxirgi kun oldingi kun bilan taqqoslanadi",
+        "week": "Oxirgi hafta oldingi hafta bilan taqqoslanadi",
+        "month": "Oxirgi oy oldingi oy bilan taqqoslanadi"
+      }
+    },
+    "cards": {
+      "newRegistrations": "Yangi ro'yxatdan o'tishlar",
+      "newRegistrationsHint": "Davrda yaratilgan akkauntlar",
+      "dau": "DAU (kunlik o'rtacha)",
+      "dauHint": "Davrning har bir kunidagi noyob faol foydalanuvchilar o'rtachasi",
+      "wau": "WAU",
+      "wauHint": "Davr oxirgi kuni bilan tugaydigan 7 kunda faol bo'lgan noyob foydalanuvchilar",
+      "mau": "MAU",
+      "mauHint": "Davr oxirgi kuni bilan tugaydigan 30 kunda faol bo'lgan noyob foydalanuvchilar",
+      "totalUsers": "Jami foydalanuvchilar",
+      "totalUsersHint": "Davr oxirigacha ro'yxatdan o'tgan va o'chirilmagan akkauntlar"
+    },
+    "outcomeHints": {
+      "dw_jobs_completed": "Davrda bajarib bo'lingan kunlik ishlar",
+      "dw_jobs_cancelled": "Davrda bekor qilingan kunlik ishlar",
+      "payments_succeeded": "Davrda muvaffaqiyatli yakunlangan to'lovlar soni",
+      "payments_failed": "Davrda muvaffaqiyatsiz bo'lgan to'lovlar soni"
+    },
+    "scope": {
+      "day": "Bugun",
+      "week": "Shu hafta",
+      "month": "Shu oy"
+    },
+    "previousBucket": {
+      "day": "Oldingi kun: {{value}}",
+      "week": "Oldingi hafta: {{value}}",
+      "month": "Oldingi oy: {{value}}"
+    },
+    "periodTotal": "Davr jami: {{value}}",
+    "periodAverage": "Davr o'rtachasi: {{value}}"
+  },
+  "panels": {
+    "registrations": {
+      "title": "Ro'yxatdan o'tishlar",
+      "description": "Yangi akkauntlar, ro'yxatdan o'tish usuli bo'yicha"
+    },
+    "activity": {
+      "title": "Faol foydalanuvchilar",
+      "descriptionDaily": "DAU — shu kuni faol; WAU / MAU — shu kun bilan tugaydigan 7 / 30 kunda faol bo'lgan noyob foydalanuvchilar.",
+      "descriptionPeriodic": "Davr ichida faol bo'lgan noyob foydalanuvchilar (DAU yig'indisi emas) va kunlik o'rtacha DAU.",
+      "trackingSince": "Faollik {{date}} dan beri kuzatiladi: undan oldingi kunlar bo'sh (\"—\"), 0 emas.",
+      "emptyInPeriod": "Tanlangan davrda faollik qayd etilmagan",
+      "notTracked": "Faollik hali kuzatilmayapti",
+      "series": {
+        "dau": "DAU",
+        "wau": "WAU (7 kun)",
+        "mau": "MAU (30 kun)",
+        "active_users": "Faol foydalanuvchilar",
+        "dau_average": "O'rtacha DAU"
+      }
+    },
+    "objects": {
+      "title": "Obyektlar dinamikasi",
+      "description": "Har bir obyekt o'z vaqt belgisi bo'yicha (yaratilgan, bajarilgan, to'langan …) hisoblanadi",
+      "appSelect": "Grafikdagi ilova",
+      "empty": "{{app}}: tanlangan davrda yangi obyektlar yo'q"
+    },
+    "distribution": {
+      "description": "Davrdagi yangi ro'yxatdan o'tishlar: jami {{total}} (100%)",
+      "country": "Davlatlar bo'yicha",
+      "method": "Ro'yxatdan o'tish usuli bo'yicha"
+    }
+  },
+  "funnel": {
+    "title": "Autentifikatsiya voronkasi",
+    "description": "Ro'yxatdan o'tish kodlari, kod yaratilgan kun bo'yicha. Har bir kod har bosqichda bir marta hisoblanadi (qayta yuborish va takroriy yetkazish hisobotlari ikki marta sanalmaydi).",
+    "filtersNotApplied": "Davlat, usul va ilova filtrlari voronkaga ta'sir qilmaydi",
+    "panelTitle": "OTP → ro'yxatdan o'tish",
+    "overall": "Umumiy konversiya (yuborilgandan ro'yxatdan o'tishgacha):",
+    "stages": "Voronka bosqichlari",
+    "tableCaption": "Kanallar bo'yicha voronka",
+    "channel": "Kanal",
+    "allChannels": "Barcha kanallar",
+    "overallColumn": "Umumiy konversiya",
+    "noDeliveryReports": "Kanal yetkazish hisobotini bermaydi",
+    "firstStage": "boshlang'ich bosqich",
+    "notRegistered": "SMS yetkazildi, lekin ro'yxatdan o'tilmadi",
+    "notRegisteredHint": "Yetkazilgan ro'yxatdan o'tish SMS'lari, ular bilan akkaunt yaratilmagan (SMS yaratilgan kun bo'yicha)",
+    "openAdmin": "Ro'yxatni admin panelda ochish",
+    "noAdminAccess": "Ro'yxatni ko'rish uchun SMS loglarini ko'rish huquqi kerak.",
+    "acceptedWithoutReports_one": "{{count, number}} ta kod yetkazish hisoboti yo'q kanal (email) orqali yuborilgan: shuning uchun \"kod kiritildi\" qabul qilinganlarga nisbatan hisoblanadi.",
+    "acceptedWithoutReports_other": "{{count, number}} ta kod yetkazish hisoboti yo'q kanal (email) orqali yuborilgan: shuning uchun \"kod kiritildi\" qabul qilinganlarga nisbatan hisoblanadi."
+  },
+  "export": {
+    "button": "Eksport",
+    "menuLabel": "CSV, tanlangan filtrlar bilan",
+    "csv": "CSV",
+    "download": "{{label}}: CSV yuklab olish",
+    "failed": "CSV yuklab bo'lmadi: {{message}}",
+    "tables": {
+      "registrations": "Ro'yxatdan o'tishlar",
+      "activity": "Faol foydalanuvchilar",
+      "objects": "Obyektlar dinamikasi",
+      "authentication": "Autentifikatsiya voronkasi",
+      "country": "Davlatlar bo'yicha",
+      "registered_via": "Ro'yxatdan o'tish usuli bo'yicha"
+    }
+  },
+  "live": {
+    "title": "Jonli kuzatuv",
+    "description": "Kunlik ishlar: onlayn ishchilar va jarayondagi ishlar. Ma'lumot o'zgarganda server o'zi yuboradi.",
+    "lastUpdate": "Oxirgi yangilanish: {{time}}",
+    "forbidden": "Jonli kuzatuvni ko'rish huquqi yo'q (statistics | daily statistic | Can view).",
+    "status": {
+      "open": "Jonli",
+      "connecting": "Ulanmoqda…",
+      "reconnecting": "Qayta ulanmoqda…",
+      "unauthorized": "Sessiya tugadi",
+      "forbidden": "Ruxsat yo'q"
+    },
+    "kpi": {
+      "onlineWorkers": "Onlayn ishchilar",
+      "onlineWorkersDetail": "{{idle}} bo'sh · {{onJob}} ishda · ro'yxatda {{registered}}",
+      "activeJobs": "Faol ishlar",
+      "waiting_one": "{{count, number}} tasi ishchi kutmoqda",
+      "waiting_other": "{{count, number}} tasi ishchi kutmoqda",
+      "postedToday": "Bugun joylangan",
+      "expired": "{{count, number}} muddati o'tgan",
+      "completedToday": "Bugun bajarilgan",
+      "cancelled": "{{count, number}} bekor qilingan",
+      "completionRate": "{{percent}} bajarilish",
+      "revenueToday": "Bugungi aylanma",
+      "commission": "Komissiya: {{amount}}"
+    },
+    "trend": {
+      "title": "Jonli trend",
+      "description": "Onlayn ishchilar va faol ishlar soni — sahifa ochilgandan beri",
+      "empty": "Trend sahifa ochiq turganda yig'iladi",
+      "emptyHint": "Har bir yangilanish trendga nuqta qo'shadi",
+      "workers": "Onlayn ishchilar",
+      "jobs": "Faol ishlar"
+    },
+    "workerStates": {
+      "title": "Ishchilar holati",
+      "online_one": "{{count, number}} ta onlayn",
+      "online_other": "{{count, number}} ta onlayn",
+      "registered": "Ro'yxatdagi ishchilar",
+      "verified": "Tasdiqlanganlar"
+    },
+    "hourly": {
+      "title": "Bugun soatlar bo'yicha",
+      "description": "Joylangan va bajarilgan ishlar, Toshkent vaqti",
+      "created": "Joylangan",
+      "completed": "Bajarilgan"
+    },
+    "pipeline": {
+      "title": "Ishlar bosqichlari",
+      "active_one": "{{count, number}} ta faol ish",
+      "active_other": "{{count, number}} ta faol ish"
+    },
+    "categories": {
+      "title": "Bugungi top kategoriyalar",
+      "description": "Joylangan ishlar soni bo'yicha",
+      "empty": "Bugun hali ish joylanmagan"
+    },
+    "tabs": {
+      "label": "Jadval",
+      "workers": "Ishchilar · {{count, number}}",
+      "jobs": "Ishlar · {{count, number}}"
+    },
+    "workers": {
+      "title": "Onlayn ishchilar",
+      "worker": "Ishchi",
+      "state": "Holat",
+      "categories": "Kategoriyalar",
+      "rating": "Reyting",
+      "completed": "Bajargan",
+      "online": "Onlayn",
+      "currentJob": "Joriy ish",
+      "location": "Joylashuv",
+      "search": "Ism, telefon, kategoriya…",
+      "noMatch": "Filtr bo'yicha ishchi topilmadi",
+      "none": "Hozir onlayn ishchi yo'q",
+      "noneHint": "Ishchilar ilovada onlayn bo'lganda shu yerda paydo bo'ladi",
+      "truncated": "Jadvalda {{limit}} ta ishchi ko'rsatildi, jami onlayn: {{total}}."
+    },
+    "jobs": {
+      "title": "Faol ishlar",
+      "job": "Ish",
+      "workersCount_one": "{{count, number}} ishchi",
+      "workersCount_other": "{{count, number}} ishchi",
+      "status": "Holat",
+      "client": "Mijoz",
+      "worker": "Ishchi",
+      "unassigned": "Tayinlanmagan",
+      "price": "Narx",
+      "address": "Manzil",
+      "posted": "Joylangan",
+      "search": "ID, manzil, mijoz, ishchi…",
+      "noMatch": "Filtr bo'yicha ish topilmadi",
+      "none": "Hozir faol ish yo'q",
+      "truncated": "Jadvalda oxirgi {{limit}} ta ish ko'rsatildi, jami faol: {{total}}."
+    },
+    "filters": {
+      "byState": "Holat bo'yicha",
+      "noMatchHint": "Qidiruv yoki holat filtrini o'zgartiring"
+    }
+  },
+  "jobs": {
+    "title": "Kunlik ishlar hisoboti",
+    "description": "Har kuni nechta ish bajarildi, kim bajardi va kim buyurtma qildi",
+    "status": {
+      "label": "Holat",
+      "completed": "Bajarilgan",
+      "cancelled": "Bekor qilingan",
+      "created": "Joylangan (barchasi)"
+    },
+    "totals": {
+      "jobs": "Ishlar",
+      "revenue": "Summa",
+      "commission": "Komissiya",
+      "workers": "Ishchilar",
+      "clients": "Buyurtmachilar",
+      "perDay": "Kuniga o'rtacha {{value}}"
+    },
+    "perDay": {
+      "title": "Kunlar bo'yicha",
+      "description": "Har kuni nechta ish, nechta ishchi va buyurtmachi"
+    },
+    "workers": {
+      "title": "Kim bajardi",
+      "description": "Ishchilar, eng ko'p ish bajarganlar birinchi"
+    },
+    "clients": {
+      "title": "Kim buyurtma qildi",
+      "description": "Buyurtmachilar, eng ko'p buyurtma berganlar birinchi"
+    },
+    "list": {
+      "title": "Ishlar ro'yxati",
+      "truncated": "Oxirgi {{limit}} ta ish ko'rsatilgan, jami {{total}}"
+    },
+    "columns": {
+      "day": "Kun",
+      "jobs": "Ishlar",
+      "revenue": "Summa",
+      "workers": "Ishchilar",
+      "clients": "Buyurtmachilar",
+      "person": "Kishi",
+      "job": "Ish",
+      "category": "Kategoriya",
+      "worker": "Ishchi",
+      "client": "Buyurtmachi",
+      "price": "Narx",
+      "at": "Vaqt",
+      "address": "Manzil"
+    },
+    "person": {
+      "filter": "Faqat {{name}} ishlarini ko'rsatish",
+      "worker": "Ishchi: {{name}}",
+      "client": "Buyurtmachi: {{name}}"
+    },
+    "empty": "Bu davrda ishlar yo'q",
+    "emptyHint": "Davrni kengaytiring yoki holatni o'zgartiring"
+  }
+}

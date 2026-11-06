@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
+import { useTranslation } from "react-i18next";
 import { Input } from "../components/ui/input";
 import { Button } from "../components/ui/button";
 import { Label } from "../components/ui/label";
 import { Lock, Phone } from "lucide-react";
 import { toast } from "sonner";
-import { apiUrl } from "../lib/api";
+import { apiHeaders, apiUrl } from "../lib/api";
+import { LanguageSwitch } from "../components/layout/LanguageSwitch";
 
 export function LoginPage() {
+  const { t } = useTranslation();
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -30,12 +33,12 @@ export function LoginPage() {
     e.preventDefault();
     
     if (phoneNumber.length !== 9) {
-      toast.error("Telefon raqami to'liq emas");
+      toast.error(t("auth.errors.phoneIncomplete"));
       return;
     }
 
     if (!password) {
-      toast.error("Parolni kiriting");
+      toast.error(t("auth.errors.passwordRequired"));
       return;
     }
 
@@ -44,9 +47,8 @@ export function LoginPage() {
     try {
       const response = await fetch(apiUrl("/api/v1/users/auth/simple/login/"), {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        // The API answers its messages (e.g. wrong password) in the interface language.
+        headers: apiHeaders({ "Content-Type": "application/json" }, false),
         body: JSON.stringify({
           phone_number: `998${phoneNumber}`,
           password: password,
@@ -56,7 +58,7 @@ export function LoginPage() {
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
         console.error("Login failed:", errorData);
-        toast.error(errorData.message || "Login yoki parol noto'g'ri");
+        toast.error(errorData.message || t("auth.errors.invalidCredentials"));
         setLoading(false);
         return;
       }
@@ -69,19 +71,19 @@ export function LoginPage() {
         localStorage.setItem("refresh_token", data.data.refresh);
         localStorage.setItem("user", JSON.stringify(data.data.user));
 
-        toast.success("Muvaffaqiyatli kirdingiz!");
+        toast.success(t("auth.success"));
         navigate(destination, { replace: true });
       } else {
-        toast.error("Login yoki parol noto'g'ri");
+        toast.error(t("auth.errors.invalidCredentials"));
       }
     } catch (error) {
       console.error("Login error:", error);
       
       // Check if it's a CORS or network error
       if (error instanceof TypeError && error.message === "Failed to fetch") {
-        toast.error("Server bilan bog'lanishda xatolik. CORS muammosi bo'lishi mumkin.");
+        toast.error(t("auth.errors.network"));
       } else {
-        toast.error("Xatolik yuz berdi: " + (error as Error).message);
+        toast.error(t("auth.errors.generic", { message: (error as Error).message }));
       }
     } finally {
       setLoading(false);
@@ -89,7 +91,8 @@ export function LoginPage() {
   };
 
   return (
-    <div className="app-backdrop flex min-h-screen items-center justify-center p-4">
+    <div className="app-backdrop relative flex min-h-screen items-center justify-center p-4">
+      <LanguageSwitch className="absolute top-4 right-4 w-[120px]" />
       <div className="w-full max-w-sm">
         <div className="mb-8 flex flex-col items-center text-center">
           <span
@@ -98,13 +101,13 @@ export function LoginPage() {
           >
             G
           </span>
-          <h1 className="text-xl font-semibold tracking-tight">GUDS Stats</h1>
-          <p className="mt-1 text-sm text-muted-foreground">Statistika paneliga kirish uchun ma'lumotlaringizni kiriting</p>
+          <h1 className="text-xl font-semibold tracking-tight">{t("app.name")}</h1>
+          <p className="mt-1 text-sm text-muted-foreground">{t("auth.subtitle")}</p>
         </div>
         <div className="rounded-xl border bg-card p-6 shadow-pop">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="phone">Telefon raqami</Label>
+              <Label htmlFor="phone">{t("auth.phone")}</Label>
               <div className="relative">
                 <Phone className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden />
                 <div className="absolute top-1/2 left-9 -translate-y-1/2 text-sm text-muted-foreground">+998</div>
@@ -123,7 +126,7 @@ export function LoginPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password">Parol</Label>
+              <Label htmlFor="password">{t("auth.password")}</Label>
               <div className="relative">
                 <Lock className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden />
                 <Input
@@ -143,15 +146,15 @@ export function LoginPage() {
               {loading ? (
                 <span className="flex items-center gap-2">
                   <span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" aria-hidden />
-                  Yuklanmoqda...
+                  {t("common.loadingEllipsis")}
                 </span>
               ) : (
-                "Kirish"
+                t("auth.submit")
               )}
             </Button>
           </form>
         </div>
-        <p className="mt-6 text-center text-xs text-muted-foreground">Demo: +998 90 900 90 90</p>
+        <p className="mt-6 text-center text-xs text-muted-foreground">{t("auth.demo")}</p>
       </div>
     </div>
   );

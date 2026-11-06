@@ -1,98 +1,103 @@
-// Labels (Uzbek), good/bad direction and fixed series colours of everything
-// the overview reports. Colours follow the entity, never its rank: a filter
-// that removes a series never repaints the others.
+// Labels (in the interface language), good/bad direction and fixed series
+// colours of everything the overview reports. Colours follow the entity,
+// never its rank: a filter that removes a series never repaints the others.
+//
+// Labels come from the translation files. Only keys listed here are looked
+// up there; anything else the API sends (a new method, app or metric) is
+// shown as the API names it.
 
-import type { FunnelStageKey } from "./types";
+import i18n, { currentLanguage, LOCALES, type Language } from "./i18n";
+import { APPS, GRANULARITIES, PRESETS, REGISTRATION_METHODS, type Granularity, type Preset } from "./filters";
+import type { Compared, FunnelStageKey } from "./types";
 
-export const PRESET_LABELS: Record<string, string> = {
-  today: "Bugun",
-  yesterday: "Kecha",
-  last7: "Oxirgi 7 kun",
-  last30: "Oxirgi 30 kun",
-  this_month: "Shu oy",
-  previous_month: "O'tgan oy",
-  custom: "Boshqa oraliq",
-};
-
-export const GRANULARITY_LABELS: Record<string, string> = { day: "Kun", week: "Hafta", month: "Oy" };
-
-export const METHOD_LABELS: Record<string, string> = {
-  phone: "Telefon (SMS)",
-  email: "Email",
-  google: "Google",
-  apple: "Apple",
-  telegram: "Telegram",
-  whatsapp: "WhatsApp",
-  unknown: "Noma'lum",
-};
-
-export const APP_LABELS: Record<string, string> = {
-  jobs: "Ish qidirish",
-  daily_works: "Kunlik ishlar",
-  messaging: "Chat va qo'ng'iroqlar",
-  wallet: "Hamyon va to'lovlar",
-};
-
-export const OBJECT_LABELS: Record<string, string> = {
-  vacancies_created: "Vakansiyalar",
-  resumes_created: "Rezyumelar",
-  job_applications_created: "Otkliklar",
-  companies_created: "Kompaniyalar",
-  dw_jobs_created: "Joylangan ishlar",
-  dw_jobs_completed: "Bajarilgan ishlar",
-  dw_jobs_cancelled: "Bekor qilingan ishlar",
-  dw_workers_registered: "Ishchi profillari",
-  chats_created: "Yangi chatlar",
-  messages_sent: "Xabarlar",
-  calls_started: "Qo'ng'iroqlar",
-  payments_succeeded: "Tasdiqlangan to'lovlar",
-  payments_failed: "Muvaffaqiyatsiz to'lovlar",
-  payments_cancelled: "Bekor qilingan to'lovlar",
-  admin_top_ups: "Admin to'ldirishlari",
-};
-
-export function objectLabel(key: string, fallback?: string): string {
-  return OBJECT_LABELS[key] ?? fallback ?? key;
+function includes<T extends string>(values: readonly T[], value: string): value is T {
+  return (values as readonly string[]).includes(value);
 }
 
-export const STAGE_LABELS: Record<FunnelStageKey, string> = {
-  otp_requested: "OTP yuborildi",
-  otp_accepted: "Provayder qabul qildi",
-  otp_delivered: "Yetkazildi",
-  otp_verified: "Kod kiritildi",
-  otp_registered: "Ro'yxatdan o'tdi",
-};
+export function presetLabel(preset: Preset): string {
+  return includes(PRESETS, preset) ? i18n.t(`filters.presets.${preset}`) : preset;
+}
 
-export const STAGE_HINTS: Record<FunnelStageKey, string> = {
-  otp_requested: "Yaratilgan OTP so'rovlari (noma'lum raqamga yuborilmaganlar hisobga olinmaydi)",
-  otp_accepted: "Provayder qabul qilgan — bu hali yetkazilgani emas",
-  otp_delivered: "Provayderning yetkazish hisoboti (SMS, Telegram, WhatsApp); emailda hisobot yo'q",
-  otp_verified: "To'g'ri kod kiritilgan; noto'g'ri, eskirgan va bloklangan kodlar hisoblanmaydi",
-  otp_registered: "Aynan shu kodning tasdiq tokeni bilan akkaunt yaratilgan",
-};
+export function granularityLabel(granularity: Granularity | string): string {
+  return includes(GRANULARITIES, granularity) ? i18n.t(`filters.granularities.${granularity}`) : granularity;
+}
 
-export const CHANNEL_LABELS: Record<string, string> = {
-  sms: "SMS",
-  telegram: "Telegram",
-  whatsapp: "WhatsApp",
-  email: "Email",
-};
+export function methodLabel(method: string): string {
+  return includes(REGISTRATION_METHODS, method) ? i18n.t(`labels.methods.${method}`) : method;
+}
 
-const regionNames = (() => {
-  try {
-    return new Intl.DisplayNames(["uz"], { type: "region" });
-  } catch {
-    return null;
+export function appLabel(app: string): string {
+  return includes(APPS, app) ? i18n.t(`labels.apps.${app}`) : app;
+}
+
+export const OBJECT_KEYS = [
+  "vacancies_created",
+  "resumes_created",
+  "job_applications_created",
+  "companies_created",
+  "dw_jobs_created",
+  "dw_jobs_completed",
+  "dw_jobs_cancelled",
+  "dw_workers_registered",
+  "chats_created",
+  "messages_sent",
+  "calls_started",
+  "payments_succeeded",
+  "payments_failed",
+  "payments_cancelled",
+  "admin_top_ups",
+] as const;
+
+export function objectLabel(key: string, fallback?: string): string {
+  return includes(OBJECT_KEYS, key) ? i18n.t(`labels.objects.${key}`) : fallback ?? key;
+}
+
+export const STAGE_KEYS = ["otp_requested", "otp_accepted", "otp_delivered", "otp_verified", "otp_registered"] as const;
+
+export function stageLabel(stage: FunnelStageKey): string {
+  return includes(STAGE_KEYS, stage) ? i18n.t(`labels.stages.${stage}`) : stage;
+}
+
+export function stageHint(stage: FunnelStageKey): string {
+  return includes(STAGE_KEYS, stage) ? i18n.t(`labels.stageHints.${stage}`) : "";
+}
+
+/** The API's `basis` of a stage conversion ("otp_accepted on channels with delivery reports" included). */
+export function stageBasisLabel(basis: string): string {
+  if (basis === "otp_accepted on channels with delivery reports") return i18n.t("labels.stageBasis.otp_accepted_with_reports");
+  const stages = ["otp_requested", "otp_accepted", "otp_delivered", "otp_verified"] as const;
+  return includes(stages, basis) ? i18n.t(`labels.stageBasis.${basis}`) : "";
+}
+
+const CHANNELS = ["sms", "telegram", "whatsapp", "email"] as const;
+
+export function channelLabel(channel: string): string {
+  return includes(CHANNELS, channel) ? i18n.t(`labels.channels.${channel}`) : channel;
+}
+
+const regionNames = new Map<Language, Intl.DisplayNames | null>();
+
+function regionNamesFor(language: Language): Intl.DisplayNames | null {
+  if (!regionNames.has(language)) {
+    try {
+      regionNames.set(language, new Intl.DisplayNames([LOCALES[language]], { type: "region" }));
+    } catch {
+      regionNames.set(language, null); // no Intl.DisplayNames: codes are shown as they are
+    }
   }
-})();
+  return regionNames.get(language)!;
+}
 
-export function countryLabel(code: string): string {
-  if (!code || code === "unknown") return "Noma'lum";
+/** "Oʻzbekiston (UZ)" / "Узбекистан (UZ)" / "Uzbekistan (UZ)"; anything that is not an ISO alpha-2 code stays as is. */
+export function countryLabel(code: string, language: Language = currentLanguage()): string {
+  if (!code || code === "unknown") return i18n.getFixedT(language)("common.unknown");
+  if (!/^[A-Za-z]{2}$/.test(code)) return code;
+  const region = code.toUpperCase();
   try {
-    const name = regionNames?.of(code);
-    return name && name !== code ? `${name} (${code})` : code;
+    const name = regionNamesFor(language)?.of(region);
+    return name && name !== region ? `${name} (${region})` : region;
   } catch {
-    return code;
+    return region;
   }
 }
 
@@ -119,11 +124,9 @@ export function methodColor(method: string): string {
 
 export const WORKER_STATE_ORDER = ["online_idle", "offer_pending", "on_job"] as const;
 
-export const WORKER_STATE_LABELS: Record<string, string> = {
-  online_idle: "Bo'sh, kutmoqda",
-  offer_pending: "Taklif ko'rmoqda",
-  on_job: "Ishda",
-};
+export function workerStateLabel(state: string): string {
+  return includes(WORKER_STATE_ORDER, state) ? i18n.t(`labels.workerStates.${state}`) : state;
+}
 
 export function workerStateColor(state: string): string {
   const slot = (WORKER_STATE_ORDER as readonly string[]).indexOf(state);
@@ -133,16 +136,35 @@ export function workerStateColor(state: string): string {
 /** The job's way from posting to the work being done. */
 export const JOB_STATUS_ORDER = ["pending", "offered", "accepted", "en_route", "arrived", "in_progress"] as const;
 
-export const JOB_STATUS_LABELS: Record<string, string> = {
-  pending: "Ishchi qidirilmoqda",
-  offered: "Taklif yuborildi",
-  accepted: "Qabul qilindi",
-  en_route: "Yo'lda",
-  arrived: "Yetib keldi",
-  in_progress: "Bajarilmoqda",
-};
+export function jobStatusLabel(status: string): string {
+  return includes(JOB_STATUS_ORDER, status) ? i18n.t(`labels.jobStatuses.${status}`) : status;
+}
 
 export function jobStatusColor(status: string): string {
   const slot = (JOB_STATUS_ORDER as readonly string[]).indexOf(status);
   return slot === -1 ? OTHER_COLOR : seriesColor(slot);
+}
+
+// ── Day / week / month cards ────────────────────────────────────────────────
+
+/** current against previous with the API's rules (lib/types Comparison): no percentage when previous is 0. */
+export function compareValues(value: number | null, previous: number | null): Compared {
+  if (value === null || previous === null) {
+    return { value, previous, change: null, change_percent: null, comparison: "unavailable" };
+  }
+  const change = Math.round((value - previous) * 100) / 100;
+  if (previous === 0) {
+    return { value, previous, change, change_percent: null, comparison: value === 0 ? "no_change" : "previous_zero" };
+  }
+  return { value, previous, change, change_percent: Math.round((change * 10000) / previous) / 100, comparison: "ok" };
+}
+
+/**
+ * The metric of the period's last bucket (day, week or month, as the
+ * granularity switch says) against the bucket before it. A period of one
+ * bucket is that bucket: the API's own comparison with the previous period is kept.
+ */
+export function lastBucket(values: (number | null | undefined)[], whole: Compared): Compared {
+  if (values.length < 2) return whole;
+  return compareValues(values[values.length - 1] ?? null, values[values.length - 2] ?? null);
 }

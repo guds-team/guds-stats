@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { PageHeader, SectionCard, useAnimatedNumber } from "../components/layout/Page";
 import { useNavigate } from "react-router";
+import { useTranslation } from "react-i18next";
 import { Activity, Briefcase, CheckCircle2, Clock3, RotateCw, ShieldAlert, Users, Wallet } from "lucide-react";
 import { toast } from "sonner";
 import { AppShell, endSession } from "../components/layout/AppShell";
@@ -8,18 +9,19 @@ import { HourlyJobsChart, JobPipeline, LiveTrendChart, TopCategories, WorkerStat
 import { JobsTable, WorkersTable } from "../components/live/LiveTables";
 import { Button } from "../components/ui/button";
 import { Skeleton } from "../components/ui/skeleton";
-import { formatClock, formatMoney, formatNumber } from "../lib/format";
+import { formatClock, formatMoney, formatNumber, formatPercent } from "../lib/format";
 import { useLiveStats, useNow, type LiveSnapshot, type LiveStatus } from "../lib/live";
 
-const STATUS_VIEW: Record<LiveStatus, { label: string; dot: string; pulse: boolean }> = {
-  open: { label: "Jonli", dot: "bg-[color:var(--live)]", pulse: true },
-  connecting: { label: "Ulanmoqda…", dot: "bg-[color:var(--series-4)]", pulse: false },
-  reconnecting: { label: "Qayta ulanmoqda…", dot: "bg-[color:var(--series-4)]", pulse: false },
-  unauthorized: { label: "Sessiya tugadi", dot: "bg-[color:var(--delta-bad)]", pulse: false },
-  forbidden: { label: "Ruxsat yo'q", dot: "bg-[color:var(--delta-bad)]", pulse: false },
+const STATUS_VIEW: Record<LiveStatus, { dot: string; pulse: boolean }> = {
+  open: { dot: "bg-[color:var(--live)]", pulse: true },
+  connecting: { dot: "bg-[color:var(--series-4)]", pulse: false },
+  reconnecting: { dot: "bg-[color:var(--series-4)]", pulse: false },
+  unauthorized: { dot: "bg-[color:var(--delta-bad)]", pulse: false },
+  forbidden: { dot: "bg-[color:var(--delta-bad)]", pulse: false },
 };
 
 function LiveBadge({ status }: { status: LiveStatus }) {
+  const { t } = useTranslation();
   const view = STATUS_VIEW[status];
   return (
     <span role="status" className="flex items-center gap-2 rounded-full border bg-card/60 px-3 py-1 text-xs font-medium">
@@ -27,7 +29,7 @@ function LiveBadge({ status }: { status: LiveStatus }) {
         {view.pulse && <span className={`absolute inline-flex h-full w-full animate-ping rounded-full opacity-60 ${view.dot}`} />}
         <span className={`relative inline-flex h-2 w-2 rounded-full ${view.dot}`} />
       </span>
-      {view.label}
+      {t(`live.status.${status}`)}
     </span>
   );
 }
@@ -67,34 +69,41 @@ function Kpi({
 }
 
 function KpiRow({ data }: { data: LiveSnapshot }) {
+  const { t } = useTranslation();
   const { counts, today } = data;
   return (
     <div className="grid grid-cols-2 gap-3 sm:gap-4 xl:grid-cols-5">
-      <Kpi icon={Users} label="Onlayn ishchilar" value={counts.workers.total} accent="var(--series-1)">
-        {formatNumber(counts.workers.online_idle)} bo'sh · {formatNumber(counts.workers.on_job)} ishda · ro'yxatda{" "}
-        {formatNumber(counts.registered_workers)}
+      <Kpi icon={Users} label={t("live.kpi.onlineWorkers")} value={counts.workers.total} accent="var(--series-1)">
+        {t("live.kpi.onlineWorkersDetail", {
+          idle: formatNumber(counts.workers.online_idle),
+          onJob: formatNumber(counts.workers.on_job),
+          registered: formatNumber(counts.registered_workers),
+        })}
       </Kpi>
-      <Kpi icon={Activity} label="Faol ishlar" value={counts.jobs.total} accent="var(--series-2)">
-        {formatNumber(counts.jobs.pending + counts.jobs.offered)} tasi ishchi kutmoqda
+      <Kpi icon={Activity} label={t("live.kpi.activeJobs")} value={counts.jobs.total} accent="var(--series-2)">
+        {t("live.kpi.waiting", { count: counts.jobs.pending + counts.jobs.offered })}
       </Kpi>
-      <Kpi icon={Briefcase} label="Bugun joylangan" value={today.created} accent="var(--series-3)">
-        {formatNumber(today.expired)} muddati o'tgan
+      <Kpi icon={Briefcase} label={t("live.kpi.postedToday")} value={today.created} accent="var(--series-3)">
+        {t("live.kpi.expired", { count: today.expired })}
       </Kpi>
-      <Kpi icon={CheckCircle2} label="Bugun bajarilgan" value={today.completed} accent="var(--series-6)">
-        {formatNumber(today.cancelled)} bekor qilingan
-        {today.created > 0 && <> · {Math.round((today.completed / today.created) * 100)}% bajarilish</>}
+      <Kpi icon={CheckCircle2} label={t("live.kpi.completedToday")} value={today.completed} accent="var(--series-6)">
+        {t("live.kpi.cancelled", { count: today.cancelled })}
+        {today.created > 0 && (
+          <> · {t("live.kpi.completionRate", { percent: formatPercent(Math.round((today.completed / today.created) * 100)) })}</>
+        )}
       </Kpi>
-      <Kpi className="col-span-2 xl:col-span-1" icon={Wallet} label="Bugungi aylanma" value={today.revenue}
+      <Kpi className="col-span-2 xl:col-span-1" icon={Wallet} label={t("live.kpi.revenueToday")} value={today.revenue}
         format={(v) => formatMoney(v, "UZS", true)} accent="var(--series-7)">
-        Komissiya: {formatMoney(today.commission)}
+        {t("live.kpi.commission", { amount: formatMoney(today.commission) })}
       </Kpi>
     </div>
   );
 }
 
 function LiveSkeleton() {
+  const { t } = useTranslation();
   return (
-    <div aria-busy="true" aria-label="Yuklanmoqda" className="space-y-6">
+    <div aria-busy="true" aria-label={t("common.loading")} className="space-y-6">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-5">
         {Array.from({ length: 5 }, (_, i) => (
           <Skeleton key={i} className="h-[132px] rounded-xl" />
@@ -111,6 +120,7 @@ function LiveSkeleton() {
 type Tab = "workers" | "jobs";
 
 export function LivePage() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { status, data, history, receivedAt, refresh } = useLiveStats();
   const now = useNow();
@@ -119,28 +129,28 @@ export function LivePage() {
   useEffect(() => {
     if (status === "unauthorized") {
       endSession();
-      toast.error("Sessiya tugadi, qayta kiring");
+      toast.error(t("auth.sessionExpired"));
       navigate(`/login?next=${encodeURIComponent("/live")}`, { replace: true });
     }
-  }, [status, navigate]);
+  }, [status, navigate, t]);
 
   return (
     <AppShell status={<LiveBadge status={status} />}>
       <PageHeader
-        title="Jonli kuzatuv"
-        description="Kunlik ishlar: onlayn ishchilar va jarayondagi ishlar. Ma'lumot o'zgarganda server o'zi yuboradi."
+        title={t("live.title")}
+        description={t("live.description")}
         meta={
           receivedAt && (
             <span className="inline-flex items-center gap-1.5">
               <Clock3 className="h-3.5 w-3.5" aria-hidden />
-              Oxirgi yangilanish: {formatClock(receivedAt)}
+              {t("live.lastUpdate", { time: formatClock(receivedAt) })}
             </span>
           )
         }
         actions={
           <Button variant="outline" size="sm" className="h-9 gap-1.5 rounded-lg" onClick={refresh} disabled={status !== "open"}>
             <RotateCw className="h-4 w-4" aria-hidden />
-            Yangilash
+            {t("common.refresh")}
           </Button>
         }
       />
@@ -148,7 +158,7 @@ export function LivePage() {
       {status === "forbidden" && (
         <div role="alert" className="flex items-center gap-3 rounded-xl border border-dashed bg-card p-6 shadow-card">
           <ShieldAlert className="h-5 w-5 text-[color:var(--delta-bad)]" aria-hidden />
-          <p className="text-sm">Jonli kuzatuvni ko'rish huquqi yo'q (statistics | daily statistic | Can view).</p>
+          <p className="text-sm">{t("live.forbidden")}</p>
         </div>
       )}
 
@@ -161,20 +171,23 @@ export function LivePage() {
           <div className="grid gap-4 xl:grid-cols-3">
             <SectionCard
               className="xl:col-span-2"
-              title="Jonli trend"
-              description="Onlayn ishchilar va faol ishlar soni — sahifa ochilgandan beri"
+              title={t("live.trend.title")}
+              description={t("live.trend.description")}
             >
               <LiveTrendChart history={history} />
             </SectionCard>
-            <SectionCard title="Ishchilar holati" description={`${formatNumber(data.counts.workers.total)} ta onlayn`}>
+            <SectionCard
+              title={t("live.workerStates.title")}
+              description={t("live.workerStates.online", { count: data.counts.workers.total })}
+            >
               <WorkerStatesMeter counts={data.counts.workers} />
               <div className="mt-6 grid grid-cols-2 gap-3 border-t pt-5 text-sm">
                 <div>
-                  <p className="text-muted-foreground">Ro'yxatdagi ishchilar</p>
+                  <p className="text-muted-foreground">{t("live.workerStates.registered")}</p>
                   <p className="mt-0.5 text-lg font-semibold tabular-nums">{formatNumber(data.counts.registered_workers)}</p>
                 </div>
                 <div>
-                  <p className="text-muted-foreground">Tasdiqlanganlar</p>
+                  <p className="text-muted-foreground">{t("live.workerStates.verified")}</p>
                   <p className="mt-0.5 text-lg font-semibold tabular-nums">{formatNumber(data.counts.verified_workers)}</p>
                 </div>
               </div>
@@ -184,27 +197,27 @@ export function LivePage() {
           <div className="grid gap-4 lg:grid-cols-2 2xl:grid-cols-4">
             <SectionCard
               className="lg:col-span-2"
-              title="Bugun soatlar bo'yicha"
-              description="Joylangan va bajarilgan ishlar, Toshkent vaqti"
+              title={t("live.hourly.title")}
+              description={t("live.hourly.description")}
             >
               <HourlyJobsChart data={data.today.by_hour} />
             </SectionCard>
-            <SectionCard title="Ishlar bosqichlari" description={`${formatNumber(data.counts.jobs.total)} ta faol ish`}>
+            <SectionCard title={t("live.pipeline.title")} description={t("live.pipeline.active", { count: data.counts.jobs.total })}>
               <JobPipeline counts={data.counts.jobs} />
             </SectionCard>
-            <SectionCard title="Bugungi top kategoriyalar" description="Joylangan ishlar soni bo'yicha">
+            <SectionCard title={t("live.categories.title")} description={t("live.categories.description")}>
               <TopCategories rows={data.today.by_category} />
             </SectionCard>
           </div>
 
           <SectionCard
-            title={tab === "workers" ? "Onlayn ishchilar" : "Faol ishlar"}
+            title={tab === "workers" ? t("live.workers.title") : t("live.jobs.title")}
             action={
-              <div role="tablist" aria-label="Jadval" className="inline-flex rounded-full border bg-muted/50 p-0.5">
+              <div role="tablist" aria-label={t("live.tabs.label")} className="inline-flex rounded-full border bg-muted/50 p-0.5">
                 {(
                   [
-                    ["workers", `Ishchilar · ${formatNumber(data.counts.workers.total)}`],
-                    ["jobs", `Ishlar · ${formatNumber(data.counts.jobs.total)}`],
+                    ["workers", t("live.tabs.workers", { count: data.counts.workers.total })],
+                    ["jobs", t("live.tabs.jobs", { count: data.counts.jobs.total })],
                   ] as [Tab, string][]
                 ).map(([key, label]) => (
                   <button
