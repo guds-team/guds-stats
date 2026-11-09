@@ -110,6 +110,61 @@ describe("live page", () => {
     expect(meter).toBeTruthy();
   });
 
+  it("compares today with yesterday and a week ago at the same time", async () => {
+    await renderAt("/live");
+    socket().open();
+    socket().push(snapshot);
+
+    const posted = screen.getByText("Bugun joylangan", { selector: "p" }).closest("div.kpi-card") as HTMLElement;
+    // Today 5 posted; yesterday by now 4 (+25%), a week ago 5 (no change).
+    expect(within(posted).getByText("Kecha").closest("div")?.textContent).toMatch(/4\s*\+25\s*%/);
+    expect(within(posted).getByText("O'tgan hafta").closest("div")?.textContent).toMatch(/5\s*0$/);
+    const completed = screen.getByText("Bugun bajarilgan", { selector: "p" }).closest("div.kpi-card") as HTMLElement;
+    expect(within(completed).getByText("Kecha").closest("div")?.textContent).toMatch(/2\s*[−-]50\s*%/);
+    expect(within(completed).getByText("O'tgan hafta").closest("div")?.textContent).toMatch(/0\s*\+1$/);
+    const workers = screen.getByText("Onlayn ishchilar", { selector: "p" }).closest("div.kpi-card") as HTMLElement;
+    expect(within(workers).getByText(/Bugun 1 ishchi ish bajardi/)).toBeTruthy();
+
+    // The hourly chart overlays yesterday by default and can switch to a week ago.
+    expect(screen.getByRole("button", { name: "Joylangan · Kecha" })).toBeTruthy();
+    fireEvent.click(within(screen.getByRole("group", { name: "Taqqoslash" })).getByRole("button", { name: "O'tgan hafta" }));
+    expect(screen.getByRole("button", { name: "Joylangan · O'tgan hafta" })).toBeTruthy();
+    fireEvent.click(within(screen.getByRole("group", { name: "Taqqoslash" })).getByRole("button", { name: "Yo'q" }));
+    expect(screen.queryByRole("button", { name: /Joylangan · / })).toBeNull();
+
+    const top = screen.getByRole("region", { name: "Bugun kim qancha ishlab topdi" });
+    expect(within(top).getByText("Dilshod Toshev")).toBeTruthy();
+    expect(within(top).getByText(/150 ming so'm/)).toBeTruthy();
+  });
+
+  it("still works with a server that sends no comparison", async () => {
+    await renderAt("/live");
+    socket().open();
+    const old = clone(snapshot);
+    delete old.today.compare;
+    delete old.today.top_workers;
+    delete old.today.workers;
+    socket().push(old);
+    expect(screen.getByText("Bugun joylangan", { selector: "p" })).toBeTruthy();
+    expect(screen.queryByText("Kecha")).toBeNull();
+    expect(screen.queryByRole("region", { name: "Bugun kim qancha ishlab topdi" })).toBeNull();
+  });
+
+  it("replaces a socket that went silent instead of showing frozen numbers", async () => {
+    vi.useFakeTimers({ shouldAdvanceTime: true }); // the watchdog starts with the page
+    await renderAt("/live");
+    socket().open();
+    socket().push(snapshot);
+    act(() => vi.advanceTimersByTime(40_000));
+    expect(FakeSocket.instances.length).toBe(1);
+    act(() => vi.advanceTimersByTime(10_000)); // no message for over 45 s
+    expect(FakeSocket.instances.length).toBe(2);
+    expect(screen.getByRole("status").textContent).toContain("Qayta ulanmoqda");
+    socket().open();
+    socket().push(snapshot);
+    expect(screen.getByRole("status").textContent).toContain("Jonli");
+  });
+
   it("asks for a fresh snapshot on Yangilash", async () => {
     await renderAt("/live");
     socket().open();

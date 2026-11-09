@@ -5,6 +5,8 @@ import {
   Bar,
   BarChart,
   CartesianGrid,
+  ComposedChart,
+  Line,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -23,7 +25,7 @@ import {
   workerStateColor,
   workerStateLabel,
 } from "../../lib/metrics";
-import type { LivePoint, LiveSnapshot } from "../../lib/live";
+import type { CompareDay, HourRow, LivePoint, LiveSnapshot } from "../../lib/live";
 
 function ChartTooltip({
   active,
@@ -190,21 +192,48 @@ export function JobPipeline({ counts }: { counts: LiveSnapshot["counts"]["jobs"]
   );
 }
 
-/** Today's jobs per hour (Tashkent time): posted vs completed, side by side. */
-export function HourlyJobsChart({ data }: { data: LiveSnapshot["today"]["by_hour"] }) {
+export type CompareWith = "yesterday" | "week_ago" | "none";
+
+/**
+ * Today's jobs per hour (Tashkent time): posted vs completed as bars, and the
+ * same hours of yesterday or a week ago as dashed lines in the same colours.
+ */
+export function HourlyJobsChart({
+  data,
+  compare,
+  compareWith = "none",
+}: {
+  data: HourRow[];
+  compare?: { yesterday: CompareDay; week_ago: CompareDay };
+  compareWith?: CompareWith;
+}) {
   const { t } = useTranslation();
+  const previous = compareWith !== "none" ? compare?.[compareWith] : undefined;
+  const previousLabel = compareWith === "week_ago" ? t("live.compare.weekAgo") : t("live.compare.yesterday");
   const HOUR_ITEMS: SeriesItem[] = [
     { key: "created", label: t("live.hourly.created"), color: seriesColor(0) },
     { key: "completed", label: t("live.hourly.completed"), color: seriesColor(1) },
   ];
+  const PREVIOUS_ITEMS: SeriesItem[] = previous
+    ? [
+        { key: "prev_created", label: `${t("live.hourly.created")} · ${previousLabel}`, color: seriesColor(0) },
+        { key: "prev_completed", label: `${t("live.hourly.completed")} · ${previousLabel}`, color: seriesColor(1) },
+      ]
+    : [];
   const [hidden, setHidden] = useState<Set<string>>(new Set());
-  const visible = HOUR_ITEMS.filter((i) => !hidden.has(i.key));
+  const items = [...HOUR_ITEMS, ...PREVIOUS_ITEMS];
+  const visible = items.filter((i) => !hidden.has(i.key));
+  const rows = data.map((row, i) => ({
+    ...row,
+    prev_created: previous?.by_hour[i]?.created ?? 0,
+    prev_completed: previous?.by_hour[i]?.completed ?? 0,
+  }));
   const label = (h: number) => `${String(h).padStart(2, "0")}:00`;
   return (
     <>
       <div className="h-[260px]">
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={data} margin={{ top: 8, right: 8, bottom: 0, left: -16 }} barGap={2} barCategoryGap="20%">
+          <ComposedChart data={rows} margin={{ top: 8, right: 8, bottom: 0, left: -16 }} barGap={2} barCategoryGap="20%">
             <CartesianGrid {...gridProps} />
             <XAxis dataKey="hour" tickFormatter={label} {...axisProps} interval="preserveStartEnd" minTickGap={24} />
             <YAxis allowDecimals={false} domain={[0, "auto"]} {...axisProps} />
@@ -224,10 +253,26 @@ export function HourlyJobsChart({ data }: { data: LiveSnapshot["today"]["by_hour
                 isAnimationActive={false}
               />
             ))}
-          </BarChart>
+            {PREVIOUS_ITEMS.map((item) => (
+              <Line
+                key={item.key}
+                type="monotone"
+                dataKey={item.key}
+                name={item.label}
+                stroke={item.color}
+                strokeWidth={2}
+                strokeDasharray="5 4"
+                strokeOpacity={0.75}
+                dot={false}
+                activeDot={{ r: 3 }}
+                hide={hidden.has(item.key)}
+                isAnimationActive={false}
+              />
+            ))}
+          </ComposedChart>
         </ResponsiveContainer>
       </div>
-      <ToggleLegend items={HOUR_ITEMS} hidden={hidden} onToggle={(k) => setHidden((h) => toggle(h, k))} />
+      <ToggleLegend items={items} hidden={hidden} onToggle={(k) => setHidden((h) => toggle(h, k))} />
     </>
   );
 }

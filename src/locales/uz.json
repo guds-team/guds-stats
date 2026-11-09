@@ -53,7 +53,9 @@
     "collapseSidebar": "Yon panelni yig'ish",
     "collapse": "Yig'ish",
     "jobs": "Ishlar hisoboti",
-    "jobsHint": "Kim bajardi, kim buyurtma qildi"
+    "jobsHint": "Kim bajardi, kim buyurtma qildi",
+    "finance": "Moliya",
+    "financeHint": "Aylanma, komissiya, kim qancha topdi"
   },
   "auth": {
     "subtitle": "Statistika paneliga kirish uchun ma'lumotlaringizni kiriting",
@@ -277,7 +279,11 @@
       "month": "Oldingi oy: {{value}}"
     },
     "periodTotal": "Davr jami: {{value}}",
-    "periodAverage": "Davr o'rtachasi: {{value}}"
+    "periodAverage": "Davr o'rtachasi: {{value}}",
+    "today": {
+      "title": "Bugun — jonli",
+      "open": "Jonli kuzatuvga o'tish"
+    }
   },
   "panels": {
     "registrations": {
@@ -370,7 +376,9 @@
       "cancelled": "{{count, number}} bekor qilingan",
       "completionRate": "{{percent}} bajarilish",
       "revenueToday": "Bugungi aylanma",
-      "commission": "Komissiya: {{amount}}"
+      "commission": "Komissiya: {{amount}}",
+      "workedToday_one": "Bugun {{count, number}} ishchi ish bajardi",
+      "workedToday_other": "Bugun {{count, number}} ishchi ish bajardi"
     },
     "trend": {
       "title": "Jonli trend",
@@ -444,6 +452,23 @@
     "filters": {
       "byState": "Holat bo'yicha",
       "noMatchHint": "Qidiruv yoki holat filtrini o'zgartiring"
+    },
+    "compare": {
+      "label": "Taqqoslash",
+      "yesterday": "Kecha",
+      "weekAgo": "O'tgan hafta",
+      "none": "Yo'q",
+      "yesterdayTitle": "Kecha ({{date}}) shu vaqtgacha",
+      "weekAgoTitle": "Bir hafta oldin ({{date}}) shu vaqtgacha"
+    },
+    "topWorkers": {
+      "title": "Bugun kim qancha ishlab topdi",
+      "description": "Bajarilgan ishlar summasi bo'yicha, eng ko'p topganlar birinchi",
+      "empty": "Bugun hali bajarilgan ish yo'q",
+      "emptyHint": "Ish bajarilishi bilan ishchilar shu yerda paydo bo'ladi",
+      "jobs_one": "{{count, number}} ta ish",
+      "jobs_other": "{{count, number}} ta ish",
+      "commission": "komissiya {{amount}}"
     }
   },
   "jobs": {
@@ -501,5 +526,40 @@
     },
     "empty": "Bu davrda ishlar yo'q",
     "emptyHint": "Davrni kengaytiring yoki holatni o'zgartiring"
+  },
+  "finance": {
+    "title": "Moliya",
+    "description": "Kunlik ishlar bo'yicha umumiy aylanma, platforma komissiyasi va kim qancha ishlab topgani",
+    "turnover": "Umumiy aylanma",
+    "turnoverHint": "Bajarilgan ishlar summasi (yakuniy narx, bo'lmasa taklif qilingan narx)",
+    "commission": "Platforma komissiyasi",
+    "commissionHint": "Bajarilgan ishlardan platforma olgan komissiya",
+    "payout": "Ishchilar ishlab topgani",
+    "payoutHint": "Aylanma minus platforma komissiyasi",
+    "averageCheck": "O'rtacha chek",
+    "averageCheckHint": "Bitta bajarilgan ishning o'rtacha summasi",
+    "jobs": "Bajarilgan ishlar",
+    "workers": "Ishlagan ishchilar",
+    "workersHint": "Davrda kamida bitta ish bajargan ishchilar",
+    "share": "Ulushi",
+    "previousPeriod": "Oldingi davr",
+    "empty": "Bu davrda bajarilgan ish yo'q",
+    "daily": {
+      "title": "Kunlik aylanma",
+      "description": "Har kungi aylanma; uzuq chiziq — oldingi davrning mos kuni"
+    },
+    "workersTop": {
+      "title": "Kim qancha ishlab topdi",
+      "description": "Ishchilar aylanma bo'yicha, eng ko'p topganlar birinchi"
+    },
+    "clientsTop": {
+      "title": "Kim qancha to'ladi",
+      "description": "Buyurtmachilar sarflagan summa bo'yicha"
+    },
+    "categories": {
+      "title": "Kategoriyalar bo'yicha aylanma",
+      "description": "Top 10 kategoriya",
+      "partial": "Oxirgi {{limit}} ta ish bo'yicha (jami {{total}})"
+    }
   }
 }

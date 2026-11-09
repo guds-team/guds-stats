@@ -11,8 +11,8 @@ import { axisProps, gridProps } from "../components/stats/chartParts";
 import { DashboardSkeleton, EmptyState, ErrorState } from "../components/stats/states";
 import { Button } from "../components/ui/button";
 import { ApiError } from "../lib/api";
-import { addDays, formatDateTime, formatDay, formatRange, todayInStatsTimezone } from "../lib/dates";
-import { MAX_RANGE_DAYS, PRESETS, presetRange, type Preset } from "../lib/filters";
+import { formatDateTime, formatDay, formatRange, todayInStatsTimezone } from "../lib/dates";
+import { PeriodSelect } from "../components/stats/PeriodSelect";
 import { formatMoney, formatNumber } from "../lib/format";
 import {
   JOB_REPORT_STATUSES,
@@ -26,10 +26,6 @@ import {
   type ReportJob,
 } from "../lib/jobs";
 import type { Person } from "../lib/live";
-import { presetLabel } from "../lib/metrics";
-
-const controlClass =
-  "h-9 rounded-lg border bg-background pr-8 pl-3 text-sm transition-colors hover:border-foreground/25 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ring";
 
 function personName(person: Person): string {
   return person.name ?? `#${person.id}`;
@@ -163,21 +159,6 @@ export function JobsPage() {
   const data = report.status === "error" ? null : report.data;
   const loading = report.status === "loading";
 
-  const choosePeriod = (period: Preset) => {
-    if (period === "custom") set({ period, date_from: params.date_from, date_to: params.date_to });
-    else set({ period, date_from: "", date_to: "" });
-  };
-  const setCustom = (field: "date_from" | "date_to", value: string) => {
-    if (!value) return;
-    let date_from = field === "date_from" ? value : filters.date_from;
-    let date_to = field === "date_to" ? value : filters.date_to;
-    if (date_from > date_to) {
-      if (field === "date_from") date_to = date_from;
-      else date_from = date_to;
-    }
-    set({ date_from, date_to });
-  };
-
   // Names of the people the list is narrowed to (from the rows of the current report).
   const findName = (id: string, rows: PersonTotal[] | undefined) => {
     const person = rows?.find((p) => String(p.id) === id);
@@ -255,27 +236,7 @@ export function JobsPage() {
 
       <form role="search" aria-label={t("filters.label")} onSubmit={(e) => e.preventDefault()} className="rounded-xl border bg-card p-2.5 shadow-card">
         <div className="flex flex-wrap items-center gap-2">
-          <div className="relative flex min-w-0 items-center">
-            <label htmlFor="j-period" className="sr-only">{t("filters.period")}</label>
-            <CalendarDays className="pointer-events-none absolute left-3 h-3.5 w-3.5 text-muted-foreground" aria-hidden />
-            <select id="j-period" className={`${controlClass} max-w-full pl-8 font-medium`} value={filters.period} onChange={(e) => choosePeriod(e.target.value as Preset)}>
-              {PRESETS.map((p) => (
-                <option key={p} value={p}>
-                  {presetLabel(p)}
-                  {p !== "custom" ? ` · ${formatRange(...presetRange(p, today))}` : ""}
-                </option>
-              ))}
-            </select>
-          </div>
-          {filters.period === "custom" && (
-            <div className="flex items-center gap-1.5">
-              <label className="sr-only" htmlFor="j-from">{t("filters.dateFrom")}</label>
-              <input id="j-from" type="date" className={`${controlClass} pr-2`} value={filters.date_from} min={addDays(filters.date_to || today, -(MAX_RANGE_DAYS - 1))} max={today} onChange={(e) => setCustom("date_from", e.target.value)} />
-              <span className="text-muted-foreground" aria-hidden>–</span>
-              <label className="sr-only" htmlFor="j-to">{t("filters.dateTo")}</label>
-              <input id="j-to" type="date" className={`${controlClass} pr-2`} value={filters.date_to} max={today} onChange={(e) => setCustom("date_to", e.target.value)} />
-            </div>
-          )}
+          <PeriodSelect id="j" value={filters} range={[params.date_from, params.date_to]} today={today} onChange={(p) => set(p)} />
           <div role="group" aria-label={t("jobs.status.label")} className="flex items-center rounded-lg border bg-background p-0.5">
             {JOB_REPORT_STATUSES.map((s) => (
               <button

@@ -53,7 +53,9 @@
     "collapseSidebar": "Collapse sidebar",
     "collapse": "Collapse",
     "jobs": "Jobs report",
-    "jobsHint": "Who did them, who ordered them"
+    "jobsHint": "Who did them, who ordered them",
+    "finance": "Finance",
+    "financeHint": "Turnover, commission, who earned what"
   },
   "auth": {
     "subtitle": "Enter your credentials to sign in to the statistics dashboard",
@@ -277,7 +279,11 @@
       "month": "Previous month: {{value}}"
     },
     "periodTotal": "Period total: {{value}}",
-    "periodAverage": "Period average: {{value}}"
+    "periodAverage": "Period average: {{value}}",
+    "today": {
+      "title": "Today — live",
+      "open": "Open live monitor"
+    }
   },
   "panels": {
     "registrations": {
@@ -370,7 +376,9 @@
       "cancelled": "{{count, number}} cancelled",
       "completionRate": "{{percent}} completed",
       "revenueToday": "Today's turnover",
-      "commission": "Commission: {{amount}}"
+      "commission": "Commission: {{amount}}",
+      "workedToday_one": "{{count, number}} worker did a job today",
+      "workedToday_other": "{{count, number}} workers did jobs today"
     },
     "trend": {
       "title": "Live trend",
@@ -444,6 +452,23 @@
     "filters": {
       "byState": "By state",
       "noMatchHint": "Change the search or the state filter"
+    },
+    "compare": {
+      "label": "Compare",
+      "yesterday": "Yesterday",
+      "weekAgo": "Last week",
+      "none": "None",
+      "yesterdayTitle": "Yesterday ({{date}}) up to this time",
+      "weekAgoTitle": "A week ago ({{date}}) up to this time"
+    },
+    "topWorkers": {
+      "title": "Who earned what today",
+      "description": "By value of completed jobs, top earners first",
+      "empty": "No completed jobs yet today",
+      "emptyHint": "Workers show up here as soon as they complete a job",
+      "jobs_one": "{{count, number}} job",
+      "jobs_other": "{{count, number}} jobs",
+      "commission": "commission {{amount}}"
     }
   },
   "jobs": {
@@ -501,5 +526,40 @@
     },
     "empty": "No jobs in this period",
     "emptyHint": "Widen the period or change the status"
+  },
+  "finance": {
+    "title": "Finance",
+    "description": "Daily works turnover, platform commission and who earned what",
+    "turnover": "Total turnover",
+    "turnoverHint": "Value of completed jobs (final price, else the offered one)",
+    "commission": "Platform commission",
+    "commissionHint": "Commission the platform took on completed jobs",
+    "payout": "Workers' earnings",
+    "payoutHint": "Turnover minus platform commission",
+    "averageCheck": "Average job value",
+    "averageCheckHint": "Average value of one completed job",
+    "jobs": "Completed jobs",
+    "workers": "Active workers",
+    "workersHint": "Workers with at least one completed job in the period",
+    "share": "Share",
+    "previousPeriod": "Previous period",
+    "empty": "No completed jobs in this period",
+    "daily": {
+      "title": "Turnover by day",
+      "description": "Each day's turnover; dashed line — the matching day of the previous period"
+    },
+    "workersTop": {
+      "title": "Who earned what",
+      "description": "Workers by turnover, top earners first"
+    },
+    "clientsTop": {
+      "title": "Who paid what",
+      "description": "Clients by amount spent"
+    },
+    "categories": {
+      "title": "Turnover by category",
+      "description": "Top 10 categories",
+      "partial": "From the last {{limit}} jobs ({{total}} in all)"
+    }
   }
 }

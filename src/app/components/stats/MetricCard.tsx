@@ -18,6 +18,8 @@ interface MetricCardProps {
   previousText?: string;
   /** One more line under the comparison, e.g. the whole period's total. */
   footnote?: string;
+  /** Value format, e.g. money; numbers by default. */
+  format?: (value: number | null) => string;
 }
 
 const TONE_CLASS = {
@@ -32,7 +34,18 @@ const TREND_ICON = { up: ArrowUpRight, down: ArrowDownRight, flat: ArrowRight, n
  * A metric of the period against the previous equivalent period. The change
  * comes from the API as is: no comparison is shown when it cannot be computed.
  */
-export function MetricCard({ title, metric, polarity, hint, compact, spark, scope, previousText, footnote }: MetricCardProps) {
+export function MetricCard({
+  title,
+  metric,
+  polarity,
+  hint,
+  compact,
+  spark,
+  scope,
+  previousText,
+  footnote,
+  format = formatNumber,
+}: MetricCardProps) {
   const { t } = useTranslation();
   const change = describeChange(metric, polarity);
   const trendWord = change.trend === "up" ? t("change.up") : change.trend === "down" ? t("change.down") : "";
@@ -56,9 +69,9 @@ export function MetricCard({ title, metric, polarity, hint, compact, spark, scop
       </div>
       <p
         className={`font-semibold tracking-tight break-all tabular-nums ${compact ? "text-xl" : "text-[28px] leading-9"}`}
-        title={formatNumber(metric.value)}
+        title={format(metric.value)}
       >
-        {formatNumber(shown)}
+        {format(shown)}
       </p>
       {spark && !compact && (
         <div className="hidden sm:block">
@@ -76,7 +89,7 @@ export function MetricCard({ title, metric, polarity, hint, compact, spark, scop
       </p>
       {metric.comparison !== "unavailable" && metric.previous !== null && (
         <p className="text-xs text-muted-foreground">
-          {previousText ?? t("change.previousPeriod", { value: formatNumber(metric.previous) })}
+          {previousText ?? t("change.previousPeriod", { value: format(metric.previous) })}
         </p>
       )}
       {footnote && <p className="text-xs text-muted-foreground">{footnote}</p>}

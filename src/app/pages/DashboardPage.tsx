@@ -1,11 +1,13 @@
 import { useCallback, useEffect, useMemo } from "react";
-import { useNavigate, useSearchParams } from "react-router";
+import { Link, useNavigate, useSearchParams } from "react-router";
 import { useTranslation } from "react-i18next";
 import type { TFunction } from "i18next";
-import { CalendarDays, Clock3, RefreshCw, RotateCw } from "lucide-react";
+import { ArrowRight, CalendarDays, Clock3, RefreshCw, RotateCw } from "lucide-react";
 import { toast } from "sonner";
 import { AppShell, endSession } from "../components/layout/AppShell";
-import { PageHeader } from "../components/layout/Page";
+import { PageHeader, SectionCard } from "../components/layout/Page";
+import { KpiRow, TopWorkers } from "../components/live/LiveKpis";
+import { useLiveStats } from "../lib/live";
 import { ExportMenu } from "../components/stats/ExportMenu";
 import { Button } from "../components/ui/button";
 import { ActivityPanel } from "../components/stats/ActivityPanel";
@@ -170,6 +172,42 @@ function SummaryCards({ data, today }: { data: Overview; today: string }) {
   );
 }
 
+/** Overview figures are aggregated every 15 min on the server: reload them on that rhythm while today is shown. */
+const AUTO_REFRESH_MS = 5 * 60_000;
+
+/**
+ * Today's daily works as they happen (ws/stats/live/): the overview below is
+ * aggregated, so without this its numbers only move every quarter of an hour.
+ */
+function TodayLive() {
+  const { t } = useTranslation();
+  const { status, data } = useLiveStats();
+  if (status === "forbidden" || status === "unauthorized" || !data) return null;
+  return (
+    <section aria-labelledby="today-title" className="space-y-3">
+      <div className="flex flex-wrap items-baseline justify-between gap-2">
+        <h2 id="today-title" className="flex items-center gap-2 text-base font-semibold">
+          <span className="relative flex h-2 w-2" aria-hidden>
+            {status === "open" && <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[color:var(--live)] opacity-60" />}
+            <span className={`relative inline-flex h-2 w-2 rounded-full ${status === "open" ? "bg-[color:var(--live)]" : "bg-[color:var(--series-4)]"}`} />
+          </span>
+          {t("dashboard.today.title")}
+        </h2>
+        <Link to="/live" className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground">
+          {t("dashboard.today.open")}
+          <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+        </Link>
+      </div>
+      <KpiRow data={data} />
+      {data.today.top_workers && (
+        <SectionCard title={t("live.topWorkers.title")} description={t("live.topWorkers.description")}>
+          <TopWorkers rows={data.today.top_workers} limit={5} />
+        </SectionCard>
+      )}
+    </section>
+  );
+}
+
 export function DashboardPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -179,6 +217,16 @@ export function DashboardPage() {
   const filters = useMemo(() => parseFilters(searchParams, today), [searchParams, today]);
   const params = useMemo(() => toApiParams(filters, today), [filters, today]);
   const overview = useOverview(params);
+
+  // A period that includes today keeps moving: refresh it while the tab is visible.
+  const { retry } = overview;
+  useEffect(() => {
+    if (params.date_to !== today) return;
+    const timer = setInterval(() => {
+      if (document.visibilityState === "visible") retry();
+    }, AUTO_REFRESH_MS);
+    return () => clearInterval(timer);
+  }, [params.date_to, today, retry]);
 
   // A malformed or reversed shared link is rewritten to what is shown, without a new history entry.
   useEffect(() => {
@@ -263,6 +311,8 @@ export function DashboardPage() {
           </>
         }
       />
+
+      <TodayLive />
 
       <FilterBar filters={filters} params={params} today={today} onChange={changeFilters} />
 

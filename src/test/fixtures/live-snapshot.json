@@ -27,6 +27,7 @@
     "expired": 0,
     "revenue": 150000.0,
     "commission": 1500.0,
+    "workers": 1,
     "by_category": [
       {
         "category": "Cargo",
@@ -162,7 +163,283 @@
         "created": 0,
         "completed": 0
       }
-    ]
+    ],
+    "top_workers": [
+      {
+        "id": 2,
+        "name": "Dilshod Toshev",
+        "phone": "+998100000001",
+        "jobs": 1,
+        "revenue": 150000.0,
+        "commission": 1500.0
+      }
+    ],
+    "compare": {
+      "yesterday": {
+        "date": "2026-10-25",
+        "created": 4,
+        "completed": 2,
+        "cancelled": 0,
+        "expired": 1,
+        "revenue": 100000.0,
+        "commission": 1000.0,
+        "workers": 2,
+        "by_hour": [
+          {
+            "hour": 0,
+            "created": 0,
+            "completed": 0
+          },
+          {
+            "hour": 1,
+            "created": 0,
+            "completed": 0
+          },
+          {
+            "hour": 2,
+            "created": 0,
+            "completed": 0
+          },
+          {
+            "hour": 3,
+            "created": 0,
+            "completed": 0
+          },
+          {
+            "hour": 4,
+            "created": 0,
+            "completed": 0
+          },
+          {
+            "hour": 5,
+            "created": 0,
+            "completed": 0
+          },
+          {
+            "hour": 6,
+            "created": 0,
+            "completed": 0
+          },
+          {
+            "hour": 7,
+            "created": 0,
+            "completed": 0
+          },
+          {
+            "hour": 8,
+            "created": 0,
+            "completed": 0
+          },
+          {
+            "hour": 9,
+            "created": 2,
+            "completed": 0
+          },
+          {
+            "hour": 10,
+            "created": 0,
+            "completed": 0
+          },
+          {
+            "hour": 11,
+            "created": 2,
+            "completed": 0
+          },
+          {
+            "hour": 12,
+            "created": 0,
+            "completed": 2
+          },
+          {
+            "hour": 13,
+            "created": 0,
+            "completed": 0
+          },
+          {
+            "hour": 14,
+            "created": 0,
+            "completed": 0
+          },
+          {
+            "hour": 15,
+            "created": 0,
+            "completed": 0
+          },
+          {
+            "hour": 16,
+            "created": 0,
+            "completed": 0
+          },
+          {
+            "hour": 17,
+            "created": 0,
+            "completed": 0
+          },
+          {
+            "hour": 18,
+            "created": 3,
+            "completed": 0
+          },
+          {
+            "hour": 19,
+            "created": 0,
+            "completed": 1
+          },
+          {
+            "hour": 20,
+            "created": 0,
+            "completed": 0
+          },
+          {
+            "hour": 21,
+            "created": 0,
+            "completed": 0
+          },
+          {
+            "hour": 22,
+            "created": 0,
+            "completed": 0
+          },
+          {
+            "hour": 23,
+            "created": 0,
+            "completed": 0
+          }
+        ]
+      },
+      "week_ago": {
+        "date": "2026-10-19",
+        "created": 5,
+        "completed": 0,
+        "cancelled": 2,
+        "expired": 0,
+        "revenue": 0,
+        "commission": 0,
+        "workers": 0,
+        "by_hour": [
+          {
+            "hour": 0,
+            "created": 0,
+            "completed": 0
+          },
+          {
+            "hour": 1,
+            "created": 0,
+            "completed": 0
+          },
+          {
+            "hour": 2,
+            "created": 0,
+            "completed": 0
+          },
+          {
+            "hour": 3,
+            "created": 0,
+            "completed": 0
+          },
+          {
+            "hour": 4,
+            "created": 0,
+            "completed": 0
+          },
+          {
+            "hour": 5,
+            "created": 0,
+            "completed": 0
+          },
+          {
+            "hour": 6,
+            "created": 0,
+            "completed": 0
+          },
+          {
+            "hour": 7,
+            "created": 0,
+            "completed": 0
+          },
+          {
+            "hour": 8,
+            "created": 0,
+            "completed": 0
+          },
+          {
+            "hour": 9,
+            "created": 0,
+            "completed": 0
+          },
+          {
+            "hour": 10,
+            "created": 5,
+            "completed": 0
+          },
+          {
+            "hour": 11,
+            "created": 0,
+            "completed": 0
+          },
+          {
+            "hour": 12,
+            "created": 0,
+            "completed": 0
+          },
+          {
+            "hour": 13,
+            "created": 0,
+            "completed": 0
+          },
+          {
+            "hour": 14,
+            "created": 0,
+            "completed": 0
+          },
+          {
+            "hour": 15,
+            "created": 0,
+            "completed": 0
+          },
+          {
+            "hour": 16,
+            "created": 0,
+            "completed": 0
+          },
+          {
+            "hour": 17,
+            "created": 0,
+            "completed": 0
+          },
+          {
+            "hour": 18,
+            "created": 0,
+            "completed": 0
+          },
+          {
+            "hour": 19,
+            "created": 0,
+            "completed": 0
+          },
+          {
+            "hour": 20,
+            "created": 0,
+            "completed": 0
+          },
+          {
+            "hour": 21,
+            "created": 0,
+            "completed": 0
+          },
+          {
+            "hour": 22,
+            "created": 0,
+            "completed": 0
+          },
+          {
+            "hour": 23,
+            "created": 0,
+            "completed": 0
+          }
+        ]
+      }
+    }
   },
   "workers": [
     {

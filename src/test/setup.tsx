@@ -18,6 +18,19 @@ class ResizeObserverStub {
 }
 globalThis.ResizeObserver ??= ResizeObserverStub as unknown as typeof ResizeObserver;
 
+// Pages that open ws/stats/live/ never reach the network in tests: a socket
+// that never opens, unless a test stubs its own.
+class SilentSocket {
+  static OPEN = 1;
+  readyState = 0;
+  onopen = null;
+  onmessage = null;
+  onclose = null;
+  send() {}
+  close() {}
+}
+globalThis.WebSocket = SilentSocket as unknown as typeof WebSocket;
+
 // jsdom has no layout: ResponsiveContainer would measure 0×0 and draw nothing.
 vi.mock("recharts", async (importOriginal) => {
   const recharts = await importOriginal<typeof import("recharts")>();

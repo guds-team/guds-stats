@@ -1,16 +1,24 @@
 import { useEffect, useState } from "react";
-import { PageHeader, SectionCard, useAnimatedNumber } from "../components/layout/Page";
+import { PageHeader, SectionCard } from "../components/layout/Page";
 import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
-import { Activity, Briefcase, CheckCircle2, Clock3, RotateCw, ShieldAlert, Users, Wallet } from "lucide-react";
+import { Clock3, RotateCw, ShieldAlert } from "lucide-react";
 import { toast } from "sonner";
 import { AppShell, endSession } from "../components/layout/AppShell";
-import { HourlyJobsChart, JobPipeline, LiveTrendChart, TopCategories, WorkerStatesMeter } from "../components/live/LiveCharts";
+import {
+  HourlyJobsChart,
+  JobPipeline,
+  LiveTrendChart,
+  TopCategories,
+  WorkerStatesMeter,
+  type CompareWith,
+} from "../components/live/LiveCharts";
+import { KpiRow, TopWorkers } from "../components/live/LiveKpis";
 import { JobsTable, WorkersTable } from "../components/live/LiveTables";
 import { Button } from "../components/ui/button";
 import { Skeleton } from "../components/ui/skeleton";
-import { formatClock, formatMoney, formatNumber, formatPercent } from "../lib/format";
-import { useLiveStats, useNow, type LiveSnapshot, type LiveStatus } from "../lib/live";
+import { formatClock, formatNumber } from "../lib/format";
+import { useLiveStats, useNow, type LiveStatus } from "../lib/live";
 
 const STATUS_VIEW: Record<LiveStatus, { dot: string; pulse: boolean }> = {
   open: { dot: "bg-[color:var(--live)]", pulse: true },
@@ -34,72 +42,6 @@ function LiveBadge({ status }: { status: LiveStatus }) {
   );
 }
 
-function Kpi({
-  icon: Icon,
-  label,
-  value,
-  format = formatNumber,
-  children,
-  accent,
-  className = "",
-}: {
-  icon: typeof Users;
-  label: string;
-  value: number;
-  format?: (value: number) => string;
-  children?: React.ReactNode;
-  accent: string;
-  className?: string;
-}) {
-  const shown = useAnimatedNumber(value) ?? value;
-  return (
-    <div className={`kpi-card flex flex-col gap-2 rounded-xl border bg-card p-4 shadow-card sm:p-5 ${className}`}>
-      <div className="flex items-center justify-between gap-2">
-        <p className="truncate text-[13px] text-muted-foreground">{label}</p>
-        <span className="grid h-7 w-7 shrink-0 place-items-center rounded-lg bg-muted" aria-hidden>
-          <Icon className="h-3.5 w-3.5" style={{ color: accent }} />
-        </span>
-      </div>
-      <p className="text-2xl leading-8 font-semibold tracking-tight tabular-nums 2xl:text-[28px] 2xl:leading-9" title={format(value)}>
-        {format(shown)}
-      </p>
-      {children && <div className="text-xs text-muted-foreground">{children}</div>}
-    </div>
-  );
-}
-
-function KpiRow({ data }: { data: LiveSnapshot }) {
-  const { t } = useTranslation();
-  const { counts, today } = data;
-  return (
-    <div className="grid grid-cols-2 gap-3 sm:gap-4 xl:grid-cols-5">
-      <Kpi icon={Users} label={t("live.kpi.onlineWorkers")} value={counts.workers.total} accent="var(--series-1)">
-        {t("live.kpi.onlineWorkersDetail", {
-          idle: formatNumber(counts.workers.online_idle),
-          onJob: formatNumber(counts.workers.on_job),
-          registered: formatNumber(counts.registered_workers),
-        })}
-      </Kpi>
-      <Kpi icon={Activity} label={t("live.kpi.activeJobs")} value={counts.jobs.total} accent="var(--series-2)">
-        {t("live.kpi.waiting", { count: counts.jobs.pending + counts.jobs.offered })}
-      </Kpi>
-      <Kpi icon={Briefcase} label={t("live.kpi.postedToday")} value={today.created} accent="var(--series-3)">
-        {t("live.kpi.expired", { count: today.expired })}
-      </Kpi>
-      <Kpi icon={CheckCircle2} label={t("live.kpi.completedToday")} value={today.completed} accent="var(--series-6)">
-        {t("live.kpi.cancelled", { count: today.cancelled })}
-        {today.created > 0 && (
-          <> · {t("live.kpi.completionRate", { percent: formatPercent(Math.round((today.completed / today.created) * 100)) })}</>
-        )}
-      </Kpi>
-      <Kpi className="col-span-2 xl:col-span-1" icon={Wallet} label={t("live.kpi.revenueToday")} value={today.revenue}
-        format={(v) => formatMoney(v, "UZS", true)} accent="var(--series-7)">
-        {t("live.kpi.commission", { amount: formatMoney(today.commission) })}
-      </Kpi>
-    </div>
-  );
-}
-
 function LiveSkeleton() {
   const { t } = useTranslation();
   return (
@@ -119,12 +61,43 @@ function LiveSkeleton() {
 
 type Tab = "workers" | "jobs";
 
+function Segmented<T extends string>({
+  label,
+  value,
+  onChange,
+  options,
+}: {
+  label: string;
+  value: T;
+  onChange: (value: T) => void;
+  options: [T, string][];
+}) {
+  return (
+    <div role="group" aria-label={label} className="inline-flex rounded-full border bg-muted/50 p-0.5">
+      {options.map(([key, text]) => (
+        <button
+          key={key}
+          type="button"
+          aria-pressed={value === key}
+          onClick={() => onChange(key)}
+          className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
+            value === key ? "bg-background shadow-sm" : "text-muted-foreground hover:text-foreground"
+          }`}
+        >
+          {text}
+        </button>
+      ))}
+    </div>
+  );
+}
+
 export function LivePage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { status, data, history, receivedAt, refresh } = useLiveStats();
   const now = useNow();
   const [tab, setTab] = useState<Tab>("workers");
+  const [compareWith, setCompareWith] = useState<CompareWith>("yesterday");
 
   useEffect(() => {
     if (status === "unauthorized") {
@@ -199,8 +172,22 @@ export function LivePage() {
               className="lg:col-span-2"
               title={t("live.hourly.title")}
               description={t("live.hourly.description")}
+              action={
+                data.today.compare && (
+                  <Segmented
+                    label={t("live.compare.label")}
+                    value={compareWith}
+                    onChange={setCompareWith}
+                    options={[
+                      ["yesterday", t("live.compare.yesterday")],
+                      ["week_ago", t("live.compare.weekAgo")],
+                      ["none", t("live.compare.none")],
+                    ]}
+                  />
+                )
+              }
             >
-              <HourlyJobsChart data={data.today.by_hour} />
+              <HourlyJobsChart data={data.today.by_hour} compare={data.today.compare} compareWith={compareWith} />
             </SectionCard>
             <SectionCard title={t("live.pipeline.title")} description={t("live.pipeline.active", { count: data.counts.jobs.total })}>
               <JobPipeline counts={data.counts.jobs} />
@@ -209,6 +196,12 @@ export function LivePage() {
               <TopCategories rows={data.today.by_category} />
             </SectionCard>
           </div>
+
+          {data.today.top_workers && (
+            <SectionCard title={t("live.topWorkers.title")} description={t("live.topWorkers.description")}>
+              <TopWorkers rows={data.today.top_workers} />
+            </SectionCard>
+          )}
 
           <SectionCard
             title={tab === "workers" ? t("live.workers.title") : t("live.jobs.title")}

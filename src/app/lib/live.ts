@@ -42,6 +42,31 @@ export interface LiveJob {
   started_at: string | null;
 }
 
+/** Job counters of one local day (today: so far; compare days: up to the same time of day). */
+export interface DayCounters {
+  created: number;
+  completed: number;
+  cancelled: number;
+  expired: number;
+  revenue: number;
+  commission: number;
+  /** Distinct workers with a completed job. Missing from servers before the comparison. */
+  workers?: number;
+}
+
+export type HourRow = { hour: number; created: number; completed: number };
+
+export interface CompareDay extends DayCounters {
+  date: string;
+  by_hour: HourRow[];
+}
+
+export interface TopWorker extends Person {
+  jobs: number;
+  revenue: number;
+  commission: number;
+}
+
 export interface LiveSnapshot {
   generated_at: string;
   counts: {
@@ -50,16 +75,13 @@ export interface LiveSnapshot {
     registered_workers: number;
     verified_workers: number;
   };
-  today: {
+  today: DayCounters & {
     date: string;
-    created: number;
-    completed: number;
-    cancelled: number;
-    expired: number;
-    revenue: number;
-    commission: number;
     by_category: { category: string; jobs: number }[];
-    by_hour: { hour: number; created: number; completed: number }[];
+    by_hour: HourRow[];
+    // Added with the yesterday / week-ago comparison; older servers leave them out.
+    top_workers?: TopWorker[];
+    compare?: { yesterday: CompareDay; week_ago: CompareDay };
   };
   workers: LiveWorker[];
   jobs: LiveJob[];
@@ -79,6 +101,11 @@ export const LIVE_PATH = "/ws/stats/live/";
 const HISTORY_LIMIT = 360; // ~30 min at one point per 5 s
 const RETRY_MS = [1_000, 2_000, 5_000, 10_000, 15_000];
 const PING_MS = 25_000;
+// The server sends a snapshot at least every 30 s and answers every ping. A socket
+// silent for longer is dead without a close event (sleep, Wi-Fi switch, proxy):
+// it would keep showing frozen numbers under a "live" badge, so it is replaced.
+const STALE_MS = 45_000;
+const WATCHDOG_MS = 5_000;
 
 export function liveUrl(token: string): string {
   const url = new URL(LIVE_PATH, API_BASE);
@@ -97,26 +124,33 @@ export function useLiveStats() {
   useEffect(() => {
     let disposed = false;
     let attempt = 0;
+    let lastMessage = 0;
+    let stopped = false; // session or permission refused: nothing to reconnect to
     let retryTimer: ReturnType<typeof setTimeout> | undefined;
     let pingTimer: ReturnType<typeof setInterval> | undefined;
 
     const connect = () => {
+      clearTimeout(retryTimer);
       const token = getToken();
       if (!token) {
+        stopped = true;
         setStatus("unauthorized");
         return;
       }
       const socket = new WebSocket(liveUrl(token));
       socketRef.current = socket;
+      lastMessage = Date.now();
 
       socket.onopen = () => {
         attempt = 0;
+        lastMessage = Date.now();
         setStatus("open");
         pingTimer = setInterval(() => {
           if (socket.readyState === WebSocket.OPEN) socket.send(JSON.stringify({ type: "ping" }));
         }, PING_MS);
       };
       socket.onmessage = (event) => {
+        lastMessage = Date.now();
         let message: { type?: string; data?: LiveSnapshot };
         try {
           message = JSON.parse(event.data);
@@ -136,20 +170,54 @@ export function useLiveStats() {
       };
       socket.onclose = (event) => {
         clearInterval(pingTimer);
-        if (disposed) return;
+        if (disposed || socketRef.current !== socket) return;
         // 4001: no or expired token, 4003: no statistics permission. Retrying cannot help.
-        if (event.code === 4001) return setStatus("unauthorized");
-        if (event.code === 4003) return setStatus("forbidden");
+        if (event.code === 4001 || event.code === 4003) {
+          stopped = true;
+          return setStatus(event.code === 4001 ? "unauthorized" : "forbidden");
+        }
         setStatus("reconnecting");
         retryTimer = setTimeout(connect, RETRY_MS[Math.min(attempt++, RETRY_MS.length - 1)]);
       };
     };
+
+    /** Drops a silent socket at once (its close event may never come) and opens a new one. */
+    const restart = () => {
+      const old = socketRef.current;
+      socketRef.current = null;
+      if (old) {
+        old.onopen = old.onmessage = old.onclose = null;
+        old.close();
+      }
+      clearInterval(pingTimer);
+      setStatus("reconnecting");
+      connect();
+    };
+
+    const stale = () =>
+      socketRef.current?.readyState === WebSocket.OPEN && Date.now() - lastMessage > STALE_MS;
+    const watchdog = setInterval(() => {
+      if (stale()) restart();
+    }, WATCHDOG_MS);
+    // Back from a hidden tab, sleep or offline: check at once instead of waiting for the watchdog.
+    const wake = () => {
+      if (stopped || document.visibilityState === "hidden") return;
+      const socket = socketRef.current;
+      if (stale()) restart();
+      else if (socket?.readyState === WebSocket.OPEN) socket.send(JSON.stringify({ type: "refresh" }));
+      else if (socket === null || socket.readyState > WebSocket.OPEN) connect();
+    };
+    document.addEventListener("visibilitychange", wake);
+    window.addEventListener("online", wake);
 
     connect();
     return () => {
       disposed = true;
       clearTimeout(retryTimer);
       clearInterval(pingTimer);
+      clearInterval(watchdog);
+      document.removeEventListener("visibilitychange", wake);
+      window.removeEventListener("online", wake);
       socketRef.current?.close();
     };
   }, []);
