@@ -1,6 +1,22 @@
 import { useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router";
-import { BarChart3, ClipboardList, LogOut, Wallet, Menu, Monitor, Moon, PanelLeftClose, PanelLeftOpen, Radio, Sun } from "lucide-react";
+import {
+  BarChart3,
+  Briefcase,
+  ClipboardList,
+  HardHat,
+  Landmark,
+  LogOut,
+  Menu,
+  Monitor,
+  Moon,
+  PanelLeftClose,
+  PanelLeftOpen,
+  Radio,
+  ShoppingBag,
+  Sun,
+  Wallet,
+} from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from "../ui/sheet";
@@ -34,8 +50,12 @@ function readCollapsed(): boolean {
 
 const NAV = [
   { to: "/", label: "navigation.overview", hint: "navigation.overviewHint", Icon: BarChart3, end: true },
+  { to: "/finance", label: "navigation.finance", hint: "navigation.financeHint", Icon: Landmark, end: false },
+  { to: "/daily-works", label: "navigation.dailyWorks", hint: "navigation.dailyWorksHint", Icon: HardHat, end: false },
+  { to: "/employment", label: "navigation.employment", hint: "navigation.employmentHint", Icon: Briefcase, end: false },
+  { to: "/marketplace", label: "navigation.marketplace", hint: "navigation.marketplaceHint", Icon: ShoppingBag, end: false },
   { to: "/jobs", label: "navigation.jobs", hint: "navigation.jobsHint", Icon: ClipboardList, end: false },
-  { to: "/finance", label: "navigation.finance", hint: "navigation.financeHint", Icon: Wallet, end: false },
+  { to: "/turnover", label: "navigation.turnover", hint: "navigation.turnoverHint", Icon: Wallet, end: false },
   { to: "/live", label: "navigation.live", hint: "navigation.liveHint", Icon: Radio, end: false },
 ] as const;
 

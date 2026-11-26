@@ -55,7 +55,15 @@
     "jobs": "Jobs report",
     "jobsHint": "Who did them, who ordered them",
     "finance": "Finance",
-    "financeHint": "Turnover, commission, who earned what"
+    "financeHint": "Revenue, payments, wallets",
+    "dailyWorks": "Daily jobs",
+    "dailyWorksHint": "Completion, cancellations, supply",
+    "employment": "Employment",
+    "employmentHint": "Vacancies, hiring funnel, companies",
+    "marketplace": "Marketplace & food",
+    "marketplaceHint": "Orders, GMV, sellers",
+    "turnover": "Jobs turnover",
+    "turnoverHint": "Who earned what on daily jobs"
   },
   "auth": {
     "subtitle": "Enter your credentials to sign in to the statistics dashboard",
@@ -86,6 +94,7 @@
   },
   "time": {
     "justNow": "just now",
+    "seconds": "{{count, number}} s",
     "minutes": "{{count, number}} min",
     "hours": "{{count, number}} h",
     "hoursMinutes": "{{hours}} h {{minutes}} min",
@@ -528,7 +537,7 @@
     "emptyHint": "Widen the period or change the status"
   },
   "finance": {
-    "title": "Finance",
+    "title": "Daily jobs turnover",
     "description": "Daily works turnover, platform commission and who earned what",
     "turnover": "Total turnover",
     "turnoverHint": "Value of completed jobs (final price, else the offered one)",
@@ -560,6 +569,366 @@
       "title": "Turnover by category",
       "description": "Top 10 categories",
       "partial": "From the last {{limit}} jobs ({{total}} in all)"
+    }
+  },
+  "reports": {
+    "notTracked": "not tracked yet",
+    "unavailable": "Not measured yet (no data source): {{items}}.",
+    "unavailableItems": {
+      "complaints": "complaints",
+      "disputes": "disputes",
+      "geography": "jobs by region",
+      "vacancy_closing_time": "vacancy closing time",
+      "company_rating": "company rating",
+      "product_views": "product views",
+      "ratings": "ratings"
+    }
+  },
+  "financeReport": {
+    "title": "Finance",
+    "description": "Platform revenue, wallet top-ups, refunds and payment providers — from verified ledger and payment records",
+    "kpi": {
+      "revenue": "Platform revenue",
+      "revenueHint": "Commissions plus paid services charged from wallets",
+      "netRevenue": "Net revenue",
+      "netRevenueHint": "Revenue minus refunds",
+      "commission": "Commission",
+      "commissionHint": "1% daily jobs commission charged at hire",
+      "refunds": "Refunds",
+      "topUps": "Wallet top-ups",
+      "topUpsHint": "Payme / Click / Uzum payments confirmed by the provider",
+      "averageTopUp": "Average top-up",
+      "topUpCount": "Top-ups: {{count, number}}",
+      "failedPayments": "Failed payments",
+      "payingUsers": "Paying users",
+      "payingUsersHint": "Topped up or paid for a service in the period",
+      "arpu": "ARPU",
+      "arpuHint": "Revenue / active users",
+      "arppu": "ARPPU",
+      "arppuHint": "Revenue / paying users",
+      "payingShare": "Paying share",
+      "payingShareHint": "Paying users / active users",
+      "activeUsers": "Active users"
+    },
+    "trend": {
+      "title": "Revenue and top-ups",
+      "description": "Per bucket of the period"
+    },
+    "modules": {
+      "title": "Revenue by module",
+      "description": "Where platform revenue comes from",
+      "notMonetized": "settled outside the wallet"
+    },
+    "moduleNames": {
+      "daily_works": "Daily jobs",
+      "employment": "Employment services",
+      "marketplace": "Marketplace & food",
+      "social": "Social",
+      "other": "Other"
+    },
+    "providers": {
+      "title": "Payment providers",
+      "description": "Top-up attempts of the period by provider",
+      "provider": "Provider",
+      "succeeded": "Succeeded",
+      "amount": "Amount",
+      "failed": "Failed",
+      "cancelled": "Cancelled",
+      "pending": "Pending",
+      "successRate": "Success rate",
+      "processing": "Avg. processing"
+    },
+    "providerNames": {
+      "payme": "Payme",
+      "click": "Click",
+      "uzum": "Uzum"
+    },
+    "accountTypes": {
+      "user": "User",
+      "company": "Company"
+    },
+    "leaders": {
+      "title": "Top spenders",
+      "description": "Charged from wallets in the period",
+      "account": "Account",
+      "type": "Type",
+      "spent": "Spent",
+      "transactions": "Charges",
+      "commission": "Commission",
+      "last": "Last charge"
+    },
+    "wallets": {
+      "title": "Wallets",
+      "description": "Balances right now",
+      "total": "Total balance",
+      "wallets": "Wallets",
+      "funded": "With a balance",
+      "negative": "Negative balance",
+      "adjustments": "Adjustments in period",
+      "adminTopUps": "Manual top-ups"
+    },
+    "forbidden": "No access to financial statistics (statistics | daily statistic | Can view financial statistics)."
+  },
+  "dailyWorks": {
+    "title": "Daily jobs",
+    "description": "Completion, cancellations, money and worker supply of daily jobs",
+    "now": {
+      "title": "Right now",
+      "description": "Live state, not limited to the period",
+      "workersOnline": "Workers online",
+      "workersOnJob": "Workers on a job",
+      "openJobs": "Open jobs",
+      "searching": "Looking for a worker",
+      "inProgress": "In progress",
+      "verified": "Verified / all workers"
+    },
+    "kpi": {
+      "published": "Jobs published",
+      "completed": "Jobs completed",
+      "completionRate": "Completion rate",
+      "completionRateHint": "Completed / finished jobs (completed, cancelled, expired) created in the period",
+      "cancelled": "Jobs cancelled",
+      "volume": "Transaction volume",
+      "volumeHint": "Value of completed jobs (final price, else offered)",
+      "commission": "Platform commission",
+      "earnings": "Worker earnings",
+      "earningsHint": "Payments released to workers",
+      "averagePrice": "Average job value",
+      "assignment": "Time to assign",
+      "assignmentHint": "From publication to a worker accepting",
+      "duration": "Job duration",
+      "durationHint": "From start to completion",
+      "unassigned": "Without a worker",
+      "unassignedHint": "Created in the period, still pending or expired with no worker",
+      "rating": "Average worker rating"
+    },
+    "trend": {
+      "title": "Jobs over time",
+      "description": "Each job counted at its own event time"
+    },
+    "money": {
+      "title": "Volume and commission",
+      "description": "Completed jobs, UZS"
+    },
+    "cohort": {
+      "title": "Jobs of the period by status",
+      "description": "Jobs created in the period, current status"
+    },
+    "statuses": {
+      "pending": "Pending",
+      "offered": "Offered",
+      "accepted": "Accepted",
+      "en_route": "En route",
+      "arrived": "Arrived",
+      "in_progress": "In progress",
+      "completed": "Completed",
+      "cancelled": "Cancelled",
+      "expired": "Expired"
+    },
+    "sides": {
+      "client": "By client",
+      "worker": "By worker",
+      "system": "Automatically",
+      "other": "By admin / other"
+    },
+    "cancellations": {
+      "title": "Cancellations",
+      "description": "Who cancelled, over time. Value of cancelled jobs: {{value}}",
+      "bySide": "Who cancelled",
+      "afterAssignment": "after assignment: {{count, number}}",
+      "reasons": "Top reasons"
+    },
+    "categories": {
+      "title": "Demand and supply by category",
+      "description": "Jobs created in the period vs verified workers offering the category",
+      "category": "Category",
+      "jobs": "Jobs",
+      "completed": "Completed",
+      "unassigned": "No worker",
+      "averagePrice": "Avg. price",
+      "workers": "Workers / online",
+      "jobsPerWorker": "Jobs per worker",
+      "noWorkers": "no workers"
+    },
+    "topRated": {
+      "title": "Top-rated workers",
+      "min": "At least {{count, number}} ratings",
+      "worker": "Worker",
+      "rating": "Rating",
+      "ratings": "Ratings",
+      "jobs": "Completed jobs"
+    }
+  },
+  "employment": {
+    "title": "Employment",
+    "description": "Vacancies, resumes, the hiring funnel and the most active companies",
+    "stock": {
+      "title": "Right now",
+      "description": "Totals, not limited to the period",
+      "activeVacancies": "Published vacancies",
+      "closedVacancies": "Closed / archived",
+      "vacancies": "All vacancies",
+      "resumes": "Resumes",
+      "jobSeekers": "Job seekers",
+      "companies": "Active / all companies",
+      "companiesHint": "Active: at least one published vacancy"
+    },
+    "kpi": {
+      "vacancies": "Vacancies created",
+      "applications": "Applications",
+      "views": "Vacancy views",
+      "resumes": "Resumes created",
+      "companies": "New companies",
+      "hires": "Hires",
+      "hiresHint": "Applications accepted (by the time of the last change)"
+    },
+    "trend": {
+      "title": "Activity over time"
+    },
+    "funnel": {
+      "title": "Hiring funnel",
+      "description": "Applications of the period and how far they got",
+      "stages": {
+        "vacancy_viewed": "Vacancy viewed",
+        "application_submitted": "Application submitted",
+        "application_viewed": "Viewed by company",
+        "interview": "Interview",
+        "hired": "Hired"
+      },
+      "overall": "Application → hire",
+      "perVacancy": "Applications per vacancy",
+      "responseTime": "Company response time",
+      "unanswered": "Without a response"
+    },
+    "companies": {
+      "title": "Most active companies",
+      "description": "By applications received in the period",
+      "company": "Company",
+      "verified": "verified",
+      "activeVacancies": "Active vacancies",
+      "applications": "Applications",
+      "hires": "Hires",
+      "unanswered": "Unanswered",
+      "responseTime": "Response time"
+    },
+    "salaries": {
+      "title": "Salaries",
+      "description": "Average salary of vacancies created in the period (midpoint of the range), per currency",
+      "by_specialization": "By specialization",
+      "by_region": "By region",
+      "vacancies": "Vacancies",
+      "average": "Average",
+      "unknown": "Not specified"
+    },
+    "demand": {
+      "title": "Demand vs supply",
+      "description": "Published vacancies vs resumes per specialization",
+      "specialization": "Specialization",
+      "vacancies": "Vacancies",
+      "resumes": "Resumes",
+      "ratio": "Resumes per vacancy"
+    },
+    "skills": {
+      "title": "Most requested skills",
+      "description": "Vacancies of the period requiring the skill"
+    }
+  },
+  "marketplace": {
+    "title": "Marketplace & food",
+    "description": "Orders, GMV, the purchase funnel and the best sellers",
+    "market": "Market",
+    "markets": {
+      "marketplace": "Marketplace",
+      "food": "Food"
+    },
+    "stock": {
+      "title": "Right now",
+      "description": "Open orders and live listings, not limited to the period",
+      "activeProducts": "Active / all products",
+      "activeSellers": "Active sellers",
+      "review": "Need admin review",
+      "trips": "Active delivery trips",
+      "couriers": "Couriers on the road"
+    },
+    "kpi": {
+      "gmv": "GMV",
+      "gmvHint": "Value of orders completed in the period (agreed total, delivery excluded)",
+      "placed": "Orders placed",
+      "completed": "Orders completed",
+      "cancelled": "Orders cancelled",
+      "aov": "Average order value",
+      "aovHint": "GMV / completed orders",
+      "cancellationRate": "Cancellation rate",
+      "cancellationRateHint": "Cancelled / placed, of orders placed in the period",
+      "repeat": "Repeat customers",
+      "repeatHint": "Buyers with 2+ completed orders / buyers with 1+",
+      "buyers": "Buyers",
+      "newSellers": "New sellers",
+      "newSellersHint": "First listing created in the period",
+      "fulfilment": "Order to completion",
+      "fulfilmentHint": "Average time from placing to completion",
+      "delivery": "Delivery time",
+      "deliveryHint": "From sent out for delivery to completion",
+      "placedValue": "Value of orders placed",
+      "placedValueHint": "Totals at checkout, before negotiation"
+    },
+    "gmvTrend": {
+      "title": "GMV over time",
+      "description": "Completed orders, UZS"
+    },
+    "ordersTrend": {
+      "title": "Orders over time"
+    },
+    "funnel": {
+      "title": "Purchase funnel",
+      "description": "Buyers reaching each step in the period",
+      "stages": {
+        "product_viewed": "Product viewed",
+        "added_to_cart": "Added to cart",
+        "checkout_started": "Checkout",
+        "order_placed": "Order placed",
+        "order_completed": "Order completed"
+      },
+      "abandoned": "Abandoned carts",
+      "abandonmentRate": "Cart abandonment"
+    },
+    "cohort": {
+      "title": "Orders of the period by status",
+      "description": "Placed in the period, current status"
+    },
+    "statuses": {
+      "pending": "Waiting for the seller",
+      "negotiating": "Negotiating",
+      "agreed": "Agreed",
+      "in_delivery": "In delivery",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "sides": {
+      "buyer": "By buyer",
+      "seller": "By seller",
+      "system": "Automatically",
+      "unknown": "Unknown"
+    },
+    "cancellations": {
+      "title": "Cancellations",
+      "description": "Who cancelled and why. Value: {{value}}; after delivery started: {{count, number}}",
+      "noReasons": "No reasons given"
+    },
+    "products": {
+      "title": "Best-selling products",
+      "product": "Product",
+      "units": "Units",
+      "orders": "Orders",
+      "revenue": "Revenue"
+    },
+    "sellers": {
+      "title": "Top sellers",
+      "seller": "Seller",
+      "orders": "Orders",
+      "buyers": "Buyers",
+      "sales": "Sales",
+      "cancelled": "Cancelled by seller"
     }
   }
 }

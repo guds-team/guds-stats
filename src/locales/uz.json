@@ -55,7 +55,15 @@
     "jobs": "Ishlar hisoboti",
     "jobsHint": "Kim bajardi, kim buyurtma qildi",
     "finance": "Moliya",
-    "financeHint": "Aylanma, komissiya, kim qancha topdi"
+    "financeHint": "Daromad, to'lovlar, hamyonlar",
+    "dailyWorks": "Kunlik ishlar",
+    "dailyWorksHint": "Bajarilish, bekor qilish, ishchilar",
+    "employment": "Ishga joylashish",
+    "employmentHint": "Vakansiyalar, yollash voronkasi, kompaniyalar",
+    "marketplace": "Marketpleys va taomlar",
+    "marketplaceHint": "Buyurtmalar, GMV, sotuvchilar",
+    "turnover": "Ishlar aylanmasi",
+    "turnoverHint": "Kunlik ishlarda kim qancha topdi"
   },
   "auth": {
     "subtitle": "Statistika paneliga kirish uchun ma'lumotlaringizni kiriting",
@@ -86,6 +94,7 @@
   },
   "time": {
     "justNow": "hozirgina",
+    "seconds": "{{count, number}} soniya",
     "minutes": "{{count, number}} daq",
     "hours": "{{count, number}} soat",
     "hoursMinutes": "{{hours}} soat {{minutes}} daq",
@@ -528,7 +537,7 @@
     "emptyHint": "Davrni kengaytiring yoki holatni o'zgartiring"
   },
   "finance": {
-    "title": "Moliya",
+    "title": "Kunlik ishlar aylanmasi",
     "description": "Kunlik ishlar bo'yicha umumiy aylanma, platforma komissiyasi va kim qancha ishlab topgani",
     "turnover": "Umumiy aylanma",
     "turnoverHint": "Bajarilgan ishlar summasi (yakuniy narx, bo'lmasa taklif qilingan narx)",
@@ -560,6 +569,366 @@
       "title": "Kategoriyalar bo'yicha aylanma",
       "description": "Top 10 kategoriya",
       "partial": "Oxirgi {{limit}} ta ish bo'yicha (jami {{total}})"
+    }
+  },
+  "reports": {
+    "notTracked": "hozircha kuzatilmaydi",
+    "unavailable": "Hozircha o'lchanmaydi (ma'lumot manbai yo'q): {{items}}.",
+    "unavailableItems": {
+      "complaints": "shikoyatlar",
+      "disputes": "nizolar",
+      "geography": "hududlar bo'yicha ishlar",
+      "vacancy_closing_time": "vakansiya yopilish vaqti",
+      "company_rating": "kompaniya reytingi",
+      "product_views": "mahsulot ko'rishlari",
+      "ratings": "baholar"
+    }
+  },
+  "financeReport": {
+    "title": "Moliya",
+    "description": "Platforma daromadi, hamyon to'ldirishlar, qaytarishlar va to'lov tizimlari — tasdiqlangan yozuvlar bo'yicha",
+    "kpi": {
+      "revenue": "Platforma daromadi",
+      "revenueHint": "Komissiyalar va hamyondan yechilgan pullik xizmatlar",
+      "netRevenue": "Sof daromad",
+      "netRevenueHint": "Daromad minus qaytarishlar",
+      "commission": "Komissiya",
+      "commissionHint": "Kunlik ishlarda yollashda olinadigan 1% komissiya",
+      "refunds": "Qaytarishlar",
+      "topUps": "Hamyon to'ldirishlar",
+      "topUpsHint": "Provayder tasdiqlagan Payme / Click / Uzum to'lovlari",
+      "averageTopUp": "O'rtacha to'ldirish",
+      "topUpCount": "To'ldirishlar: {{count, number}}",
+      "failedPayments": "Muvaffaqiyatsiz to'lovlar",
+      "payingUsers": "To'lov qilgan foydalanuvchilar",
+      "payingUsersHint": "Davrda hamyonni to'ldirgan yoki xizmat uchun to'lagan",
+      "arpu": "ARPU",
+      "arpuHint": "Daromad / faol foydalanuvchilar",
+      "arppu": "ARPPU",
+      "arppuHint": "Daromad / to'lov qilganlar",
+      "payingShare": "To'lovchilar ulushi",
+      "payingShareHint": "To'lovchilar / faol foydalanuvchilar",
+      "activeUsers": "Faol foydalanuvchilar"
+    },
+    "trend": {
+      "title": "Daromad va to'ldirishlar",
+      "description": "Davr oraliqlari bo'yicha"
+    },
+    "modules": {
+      "title": "Modullar bo'yicha daromad",
+      "description": "Daromad qayerdan keladi",
+      "notMonetized": "hisob-kitob hamyondan tashqarida"
+    },
+    "moduleNames": {
+      "daily_works": "Kunlik ishlar",
+      "employment": "Ishga joylashish xizmatlari",
+      "marketplace": "Marketpleys va taomlar",
+      "social": "Ijtimoiy tarmoq",
+      "other": "Boshqa"
+    },
+    "providers": {
+      "title": "To'lov tizimlari",
+      "description": "Davrdagi to'ldirish urinishlari provayder bo'yicha",
+      "provider": "Provayder",
+      "succeeded": "Muvaffaqiyatli",
+      "amount": "Summa",
+      "failed": "Xato",
+      "cancelled": "Bekor qilingan",
+      "pending": "Kutilmoqda",
+      "successRate": "Muvaffaqiyat darajasi",
+      "processing": "O'rt. ishlov berish"
+    },
+    "providerNames": {
+      "payme": "Payme",
+      "click": "Click",
+      "uzum": "Uzum"
+    },
+    "accountTypes": {
+      "user": "Foydalanuvchi",
+      "company": "Kompaniya"
+    },
+    "leaders": {
+      "title": "Eng ko'p sarflaganlar",
+      "description": "Davrda hamyondan yechilgan",
+      "account": "Hisob",
+      "type": "Turi",
+      "spent": "Sarflangan",
+      "transactions": "Yechimlar",
+      "commission": "Komissiya",
+      "last": "Oxirgi yechim"
+    },
+    "wallets": {
+      "title": "Hamyonlar",
+      "description": "Hozirgi balanslar",
+      "total": "Umumiy balans",
+      "wallets": "Hamyonlar",
+      "funded": "Balansi bor",
+      "negative": "Manfiy balans",
+      "adjustments": "Davrdagi tuzatishlar",
+      "adminTopUps": "Qo'lda to'ldirishlar"
+    },
+    "forbidden": "Moliyaviy statistikani ko'rish huquqi yo'q (statistics | daily statistic | Can view financial statistics)."
+  },
+  "dailyWorks": {
+    "title": "Kunlik ishlar",
+    "description": "Bajarilish, bekor qilish, pul va ishchilar mavjudligi",
+    "now": {
+      "title": "Hozir",
+      "description": "Joriy holat, davrga bog'liq emas",
+      "workersOnline": "Onlayn ishchilar",
+      "workersOnJob": "Ishdagi ishchilar",
+      "openJobs": "Ochiq ishlar",
+      "searching": "Ishchi qidirilmoqda",
+      "inProgress": "Bajarilmoqda",
+      "verified": "Tasdiqlangan / barcha ishchilar"
+    },
+    "kpi": {
+      "published": "E'lon qilingan ishlar",
+      "completed": "Bajarilgan ishlar",
+      "completionRate": "Bajarilish darajasi",
+      "completionRateHint": "Davrda yaratilgan yakunlangan ishlardan (bajarilgan, bekor qilingan, muddati o'tgan) bajarilganlari",
+      "cancelled": "Bekor qilingan ishlar",
+      "volume": "Bitimlar hajmi",
+      "volumeHint": "Bajarilgan ishlar summasi (yakuniy narx, bo'lmasa taklif)",
+      "commission": "Platforma komissiyasi",
+      "earnings": "Ishchilar daromadi",
+      "earningsHint": "Ishchilarga to'langan summalar",
+      "averagePrice": "O'rtacha ish narxi",
+      "assignment": "Tayinlash vaqti",
+      "assignmentHint": "E'londan ishchi qabul qilguncha",
+      "duration": "Ish davomiyligi",
+      "durationHint": "Boshlanishdan tugashgacha",
+      "unassigned": "Ishchisiz",
+      "unassignedHint": "Davrda yaratilgan, ishchisiz qolgan (kutilmoqda yoki muddati o'tgan)",
+      "rating": "Ishchilarning o'rtacha bahosi"
+    },
+    "trend": {
+      "title": "Ishlar dinamikasi",
+      "description": "Har bir ish o'z hodisasi vaqtida hisoblanadi"
+    },
+    "money": {
+      "title": "Hajm va komissiya",
+      "description": "Bajarilgan ishlar, so'm"
+    },
+    "cohort": {
+      "title": "Davr ishlari holatlar bo'yicha",
+      "description": "Davrda yaratilgan ishlar, joriy holati"
+    },
+    "statuses": {
+      "pending": "Kutilmoqda",
+      "offered": "Taklif qilingan",
+      "accepted": "Qabul qilingan",
+      "en_route": "Yo'lda",
+      "arrived": "Yetib kelgan",
+      "in_progress": "Bajarilmoqda",
+      "completed": "Bajarilgan",
+      "cancelled": "Bekor qilingan",
+      "expired": "Muddati o'tgan"
+    },
+    "sides": {
+      "client": "Buyurtmachi",
+      "worker": "Ishchi",
+      "system": "Avtomatik",
+      "other": "Admin / boshqa"
+    },
+    "cancellations": {
+      "title": "Bekor qilishlar",
+      "description": "Kim bekor qildi, vaqt bo'yicha. Bekor qilingan ishlar summasi: {{value}}",
+      "bySide": "Kim bekor qildi",
+      "afterAssignment": "tayinlangandan keyin: {{count, number}}",
+      "reasons": "Asosiy sabablar"
+    },
+    "categories": {
+      "title": "Toifalar bo'yicha talab va taklif",
+      "description": "Davrdagi ishlar va toifadagi tasdiqlangan ishchilar",
+      "category": "Toifa",
+      "jobs": "Ishlar",
+      "completed": "Bajarilgan",
+      "unassigned": "Ishchisiz",
+      "averagePrice": "O'rt. narx",
+      "workers": "Ishchilar / onlayn",
+      "jobsPerWorker": "Ishchiga ish",
+      "noWorkers": "ishchi yo'q"
+    },
+    "topRated": {
+      "title": "Eng yuqori baholangan ishchilar",
+      "min": "Kamida {{count, number}} ta baho",
+      "worker": "Ishchi",
+      "rating": "Reyting",
+      "ratings": "Baholar",
+      "jobs": "Bajarilgan ishlar"
+    }
+  },
+  "employment": {
+    "title": "Ishga joylashish",
+    "description": "Vakansiyalar, rezyumelar, yollash voronkasi va eng faol kompaniyalar",
+    "stock": {
+      "title": "Hozir",
+      "description": "Jami, davrga bog'liq emas",
+      "activeVacancies": "E'lon qilingan vakansiyalar",
+      "closedVacancies": "Yopilgan / arxivda",
+      "vacancies": "Barcha vakansiyalar",
+      "resumes": "Rezyumelar",
+      "jobSeekers": "Ish izlovchilar",
+      "companies": "Faol / barcha kompaniyalar",
+      "companiesHint": "Faol: kamida bitta e'lon qilingan vakansiya"
+    },
+    "kpi": {
+      "vacancies": "Yaratilgan vakansiyalar",
+      "applications": "Arizalar",
+      "views": "Vakansiya ko'rishlari",
+      "resumes": "Yaratilgan rezyumelar",
+      "companies": "Yangi kompaniyalar",
+      "hires": "Yollashlar",
+      "hiresHint": "Qabul qilingan arizalar (oxirgi o'zgarish vaqti bo'yicha)"
+    },
+    "trend": {
+      "title": "Faollik dinamikasi"
+    },
+    "funnel": {
+      "title": "Yollash voronkasi",
+      "description": "Davr arizalari va qaysi bosqichgacha yetgani",
+      "stages": {
+        "vacancy_viewed": "Vakansiya ko'rildi",
+        "application_submitted": "Ariza yuborildi",
+        "application_viewed": "Kompaniya ko'rdi",
+        "interview": "Suhbat",
+        "hired": "Yollandi"
+      },
+      "overall": "Ariza → yollash",
+      "perVacancy": "Vakansiyaga arizalar",
+      "responseTime": "Kompaniya javob vaqti",
+      "unanswered": "Javobsiz"
+    },
+    "companies": {
+      "title": "Eng faol kompaniyalar",
+      "description": "Davrda olingan arizalar bo'yicha",
+      "company": "Kompaniya",
+      "verified": "tasdiqlangan",
+      "activeVacancies": "Faol vakansiyalar",
+      "applications": "Arizalar",
+      "hires": "Yollashlar",
+      "unanswered": "Javobsiz",
+      "responseTime": "Javob vaqti"
+    },
+    "salaries": {
+      "title": "Maoshlar",
+      "description": "Davr vakansiyalarining o'rtacha maoshi (oraliq o'rtasi), valyuta bo'yicha",
+      "by_specialization": "Mutaxassislik bo'yicha",
+      "by_region": "Hudud bo'yicha",
+      "vacancies": "Vakansiyalar",
+      "average": "O'rtacha",
+      "unknown": "Ko'rsatilmagan"
+    },
+    "demand": {
+      "title": "Talab va taklif",
+      "description": "Mutaxassislik bo'yicha vakansiyalar va rezyumelar",
+      "specialization": "Mutaxassislik",
+      "vacancies": "Vakansiyalar",
+      "resumes": "Rezyumelar",
+      "ratio": "Vakansiyaga rezyume"
+    },
+    "skills": {
+      "title": "Eng ko'p so'ralgan ko'nikmalar",
+      "description": "Davrdagi shu ko'nikmani talab qilgan vakansiyalar"
+    }
+  },
+  "marketplace": {
+    "title": "Marketpleys va taomlar",
+    "description": "Buyurtmalar, GMV, xarid voronkasi va eng yaxshi sotuvchilar",
+    "market": "Bozor",
+    "markets": {
+      "marketplace": "Marketpleys",
+      "food": "Taomlar"
+    },
+    "stock": {
+      "title": "Hozir",
+      "description": "Ochiq buyurtmalar va faol e'lonlar, davrga bog'liq emas",
+      "activeProducts": "Faol / barcha mahsulotlar",
+      "activeSellers": "Faol sotuvchilar",
+      "review": "Admin tekshiruvi kerak",
+      "trips": "Faol yetkazib berishlar",
+      "couriers": "Yo'ldagi kuryerlar"
+    },
+    "kpi": {
+      "gmv": "GMV",
+      "gmvHint": "Davrda yakunlangan buyurtmalar summasi (kelishilgan summa, yetkazishsiz)",
+      "placed": "Berilgan buyurtmalar",
+      "completed": "Yakunlangan buyurtmalar",
+      "cancelled": "Bekor qilingan buyurtmalar",
+      "aov": "O'rtacha buyurtma",
+      "aovHint": "GMV / yakunlangan buyurtmalar",
+      "cancellationRate": "Bekor qilish darajasi",
+      "cancellationRateHint": "Bekor qilingan / berilgan (davr buyurtmalari)",
+      "repeat": "Takroriy xaridorlar",
+      "repeatHint": "2+ buyurtmali xaridorlar / 1+ buyurtmalilar",
+      "buyers": "Xaridorlar",
+      "newSellers": "Yangi sotuvchilar",
+      "newSellersHint": "Birinchi e'lon davrda yaratilgan",
+      "fulfilment": "Buyurtmadan yakungacha",
+      "fulfilmentHint": "Berilgandan yakunlanguncha o'rtacha vaqt",
+      "delivery": "Yetkazish vaqti",
+      "deliveryHint": "Jo'natilgandan yakunlanguncha",
+      "placedValue": "Berilgan buyurtmalar summasi",
+      "placedValueHint": "Rasmiylashtirishdagi summa, kelishuvdan oldin"
+    },
+    "gmvTrend": {
+      "title": "GMV dinamikasi",
+      "description": "Yakunlangan buyurtmalar, so'm"
+    },
+    "ordersTrend": {
+      "title": "Buyurtmalar dinamikasi"
+    },
+    "funnel": {
+      "title": "Xarid voronkasi",
+      "description": "Davrda har bir bosqichga yetgan xaridorlar",
+      "stages": {
+        "product_viewed": "Mahsulot ko'rildi",
+        "added_to_cart": "Savatga qo'shildi",
+        "checkout_started": "Rasmiylashtirish",
+        "order_placed": "Buyurtma berildi",
+        "order_completed": "Buyurtma yakunlandi"
+      },
+      "abandoned": "Tashlab ketilgan savatlar",
+      "abandonmentRate": "Tashlab ketish darajasi"
+    },
+    "cohort": {
+      "title": "Davr buyurtmalari holatlar bo'yicha",
+      "description": "Davrda berilgan, joriy holati"
+    },
+    "statuses": {
+      "pending": "Sotuvchini kutmoqda",
+      "negotiating": "Kelishilmoqda",
+      "agreed": "Kelishilgan",
+      "in_delivery": "Yetkazilmoqda",
+      "completed": "Yakunlangan",
+      "cancelled": "Bekor qilingan"
+    },
+    "sides": {
+      "buyer": "Xaridor",
+      "seller": "Sotuvchi",
+      "system": "Avtomatik",
+      "unknown": "Noma'lum"
+    },
+    "cancellations": {
+      "title": "Bekor qilishlar",
+      "description": "Kim va nima uchun bekor qildi. Summa: {{value}}; yetkazish boshlangandan keyin: {{count, number}}",
+      "noReasons": "Sabablar ko'rsatilmagan"
+    },
+    "products": {
+      "title": "Eng ko'p sotilgan mahsulotlar",
+      "product": "Mahsulot",
+      "units": "Dona",
+      "orders": "Buyurtmalar",
+      "revenue": "Tushum"
+    },
+    "sellers": {
+      "title": "Eng yaxshi sotuvchilar",
+      "seller": "Sotuvchi",
+      "orders": "Buyurtmalar",
+      "buyers": "Xaridorlar",
+      "sales": "Savdo",
+      "cancelled": "Sotuvchi bekor qilgan"
     }
   }
 }

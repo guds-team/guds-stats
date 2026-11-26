@@ -63,7 +63,7 @@ describe("finance page", () => {
   });
 
   it("shows turnover, commission and earnings against the previous period", async () => {
-    render(<RouterProvider router={createMemoryRouter(routes, { initialEntries: ["/finance?period=last7"] })} />);
+    render(<RouterProvider router={createMemoryRouter(routes, { initialEntries: ["/turnover?period=last7"] })} />);
     await screen.findAllByText("Umumiy aylanma");
     expect(calls).toEqual([
       { date_from: "2026-10-09", date_to: "2026-10-15", status: "completed" },

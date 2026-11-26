@@ -198,7 +198,7 @@ export function FinancePage() {
     if (sessionExpired) {
       endSession();
       toast.error(t("auth.sessionExpired"));
-      navigate(`/login?next=${encodeURIComponent(`/finance?${searchParams}`)}`, { replace: true });
+      navigate(`/login?next=${encodeURIComponent(`/turnover?${searchParams}`)}`, { replace: true });
     }
   }, [sessionExpired, navigate, searchParams, t]);
 

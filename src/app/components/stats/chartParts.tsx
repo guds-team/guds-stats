@@ -37,11 +37,14 @@ export function SeriesTooltip({
   payload,
   items,
   total,
+  format = formatNumber,
 }: {
   active?: boolean;
   payload?: { payload: Bucket & Record<string, unknown> }[];
   items: SeriesItem[];
   total?: (point: Record<string, unknown>) => number;
+  /** Value format, e.g. money; numbers by default. */
+  format?: (value: number | null) => string;
 }) {
   const { t } = useTranslation();
   if (!active || !payload?.length) return null;
@@ -56,14 +59,14 @@ export function SeriesTooltip({
               <span className="h-2 w-2 rounded-full" style={{ background: item.color }} aria-hidden />
               {item.label}
             </span>
-            <span className="font-medium tabular-nums">{formatNumber(point[item.key] as number | null)}</span>
+            <span className="font-medium tabular-nums">{format(point[item.key] as number | null)}</span>
           </li>
         ))}
       </ul>
       {total && (
         <p className="mt-1.5 flex justify-between border-t pt-1.5 font-medium">
           <span>{t("common.total")}</span>
-          <span className="tabular-nums">{formatNumber(total(point))}</span>
+          <span className="tabular-nums">{format(total(point))}</span>
         </p>
       )}
     </div>

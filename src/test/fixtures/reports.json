@@ -1,0 +1,1252 @@
+{
+ "finance": {
+  "meta": {
+   "date_from": "2026-11-20",
+   "date_to": "2026-11-26",
+   "granularity": "day",
+   "timezone": "Asia/Tashkent",
+   "currency": "UZS",
+   "previous_period": {
+    "date_from": "2026-11-13",
+    "date_to": "2026-11-19"
+   },
+   "generated_at": "2026-11-26T08:41:24.679650+00:00"
+  },
+  "summary": {
+   "revenue": {
+    "value": 52000.0,
+    "previous": 0,
+    "change": 52000.0,
+    "change_percent": null,
+    "comparison": "previous_zero"
+   },
+   "commission": {
+    "value": 2000.0,
+    "previous": 0,
+    "change": 2000.0,
+    "change_percent": null,
+    "comparison": "previous_zero"
+   },
+   "refunds": {
+    "value": 5000.0,
+    "previous": 0,
+    "change": 5000.0,
+    "change_percent": null,
+    "comparison": "previous_zero"
+   },
+   "refund_count": {
+    "value": 1,
+    "previous": 0,
+    "change": 1,
+    "change_percent": null,
+    "comparison": "previous_zero"
+   },
+   "spending": {
+    "value": 52000.0,
+    "previous": 0,
+    "change": 52000.0,
+    "change_percent": null,
+    "comparison": "previous_zero"
+   },
+   "charges": {
+    "value": 2,
+    "previous": 0,
+    "change": 2,
+    "change_percent": null,
+    "comparison": "previous_zero"
+   },
+   "top_ups": {
+    "value": 300000.0,
+    "previous": 0,
+    "change": 300000.0,
+    "change_percent": null,
+    "comparison": "previous_zero"
+   },
+   "top_up_count": {
+    "value": 1,
+    "previous": 0,
+    "change": 1,
+    "change_percent": null,
+    "comparison": "previous_zero"
+   },
+   "failed_payments": {
+    "value": 1,
+    "previous": 0,
+    "change": 1,
+    "change_percent": null,
+    "comparison": "previous_zero"
+   },
+   "admin_top_ups": {
+    "value": 0,
+    "previous": 0,
+    "change": 0,
+    "change_percent": null,
+    "comparison": "no_change"
+   },
+   "net_revenue": {
+    "value": 47000.0,
+    "previous": 0,
+    "change": 47000.0,
+    "change_percent": null,
+    "comparison": "previous_zero"
+   },
+   "average_top_up": {
+    "value": 300000.0,
+    "previous": null,
+    "change": null,
+    "change_percent": null,
+    "comparison": "unavailable"
+   },
+   "paying_users": {
+    "value": 1,
+    "previous": 0,
+    "change": 1,
+    "change_percent": null,
+    "comparison": "previous_zero"
+   },
+   "active_users": {
+    "value": null,
+    "previous": null,
+    "change": null,
+    "change_percent": null,
+    "comparison": "unavailable"
+   },
+   "paying_share": {
+    "value": null,
+    "previous": null,
+    "change": null,
+    "change_percent": null,
+    "comparison": "unavailable"
+   },
+   "arpu": {
+    "value": null,
+    "previous": null,
+    "change": null,
+    "change_percent": null,
+    "comparison": "unavailable"
+   },
+   "arppu": {
+    "value": 52000.0,
+    "previous": null,
+    "change": null,
+    "change_percent": null,
+    "comparison": "unavailable"
+   }
+  },
+  "series": [
+   {
+    "bucket": "2026-11-20",
+    "date_from": "2026-11-20",
+    "date_to": "2026-11-20",
+    "partial": false,
+    "revenue": 0,
+    "commission": 0,
+    "refunds": 0,
+    "top_ups": 0,
+    "top_up_count": 0,
+    "failed_payments": 0
+   },
+   {
+    "bucket": "2026-11-21",
+    "date_from": "2026-11-21",
+    "date_to": "2026-11-21",
+    "partial": false,
+    "revenue": 0,
+    "commission": 0,
+    "refunds": 0,
+    "top_ups": 0,
+    "top_up_count": 0,
+    "failed_payments": 0
+   },
+   {
+    "bucket": "2026-11-22",
+    "date_from": "2026-11-22",
+    "date_to": "2026-11-22",
+    "partial": false,
+    "revenue": 0,
+    "commission": 0,
+    "refunds": 0,
+    "top_ups": 0,
+    "top_up_count": 0,
+    "failed_payments": 0
+   },
+   {
+    "bucket": "2026-11-23",
+    "date_from": "2026-11-23",
+    "date_to": "2026-11-23",
+    "partial": false,
+    "revenue": 0,
+    "commission": 0,
+    "refunds": 0,
+    "top_ups": 0,
+    "top_up_count": 0,
+    "failed_payments": 0
+   },
+   {
+    "bucket": "2026-11-24",
+    "date_from": "2026-11-24",
+    "date_to": "2026-11-24",
+    "partial": false,
+    "revenue": 0,
+    "commission": 0,
+    "refunds": 0,
+    "top_ups": 0,
+    "top_up_count": 0,
+    "failed_payments": 0
+   },
+   {
+    "bucket": "2026-11-25",
+    "date_from": "2026-11-25",
+    "date_to": "2026-11-25",
+    "partial": false,
+    "revenue": 0,
+    "commission": 0,
+    "refunds": 0,
+    "top_ups": 0,
+    "top_up_count": 0,
+    "failed_payments": 0
+   },
+   {
+    "bucket": "2026-11-26",
+    "date_from": "2026-11-26",
+    "date_to": "2026-11-26",
+    "partial": false,
+    "revenue": 52000.0,
+    "commission": 2000.0,
+    "refunds": 5000.0,
+    "top_ups": 300000.0,
+    "top_up_count": 1,
+    "failed_payments": 1
+   }
+  ],
+  "breakdowns": {
+   "module": [
+    {
+     "module": "daily_works",
+     "revenue": {
+      "value": 2000.0,
+      "previous": 0,
+      "change": 2000.0,
+      "change_percent": null,
+      "comparison": "previous_zero"
+     },
+     "charged": 2000.0,
+     "charges": 1,
+     "share_percent": 3.85,
+     "monetized": true
+    },
+    {
+     "module": "employment",
+     "revenue": {
+      "value": 50000.0,
+      "previous": 0,
+      "change": 50000.0,
+      "change_percent": null,
+      "comparison": "previous_zero"
+     },
+     "charged": 50000.0,
+     "charges": 1,
+     "share_percent": 96.15,
+     "monetized": true
+    },
+    {
+     "module": "marketplace",
+     "revenue": {
+      "value": 0,
+      "previous": 0,
+      "change": 0,
+      "change_percent": null,
+      "comparison": "no_change"
+     },
+     "charged": 0,
+     "charges": 0,
+     "share_percent": 0.0,
+     "monetized": false
+    },
+    {
+     "module": "social",
+     "revenue": {
+      "value": 0,
+      "previous": 0,
+      "change": 0,
+      "change_percent": null,
+      "comparison": "no_change"
+     },
+     "charged": 0,
+     "charges": 0,
+     "share_percent": 0.0,
+     "monetized": false
+    },
+    {
+     "module": "other",
+     "revenue": {
+      "value": 0,
+      "previous": 0,
+      "change": 0,
+      "change_percent": null,
+      "comparison": "no_change"
+     },
+     "charged": 0,
+     "charges": 0,
+     "share_percent": 0.0,
+     "monetized": true
+    }
+   ],
+   "provider": [
+    {
+     "provider": "payme",
+     "succeeded": 1,
+     "amount": 300000.0,
+     "failed": 0,
+     "cancelled": 0,
+     "pending": 0,
+     "success_rate": 100.0,
+     "average_processing_seconds": -0.0
+    },
+    {
+     "provider": "click",
+     "succeeded": 0,
+     "amount": 0,
+     "failed": 1,
+     "cancelled": 0,
+     "pending": 0,
+     "success_rate": 0.0,
+     "average_processing_seconds": null
+    },
+    {
+     "provider": "uzum",
+     "succeeded": 0,
+     "amount": 0,
+     "failed": 0,
+     "cancelled": 0,
+     "pending": 0,
+     "success_rate": null,
+     "average_processing_seconds": null
+    }
+   ]
+  },
+  "wallets": {
+   "total_balance": 953000.0,
+   "wallets": 1,
+   "funded_wallets": 1,
+   "negative_wallets": 0,
+   "negative_balance_total": 0,
+   "adjustments": {
+    "count": 0,
+    "added": 0,
+    "removed": 0
+   },
+   "note": "Balances are the current stock, not limited to the period."
+  },
+  "leaders": [
+   {
+    "user_id": 1,
+    "name": "Robert Mendez",
+    "phone": "+998900000020",
+    "company": null,
+    "account_type": "user",
+    "spent": 52000.0,
+    "platform_revenue": 52000.0,
+    "transactions": 2,
+    "commission": 2000.0,
+    "last_transaction_at": "2026-11-26T13:41:24.513281+05:00"
+   }
+  ]
+ },
+ "daily_works": {
+  "meta": {
+   "date_from": "2026-11-20",
+   "date_to": "2026-11-26",
+   "granularity": "day",
+   "timezone": "Asia/Tashkent",
+   "currency": "UZS",
+   "previous_period": {
+    "date_from": "2026-11-13",
+    "date_to": "2026-11-19"
+   },
+   "generated_at": "2026-11-26T08:41:24.691969+00:00",
+   "min_ratings": 3,
+   "unavailable": [
+    "complaints",
+    "disputes",
+    "geography"
+   ]
+  },
+  "summary": {
+   "published": {
+    "value": 5,
+    "previous": 0,
+    "change": 5,
+    "change_percent": null,
+    "comparison": "previous_zero"
+   },
+   "unassigned": {
+    "value": 2,
+    "previous": 0,
+    "change": 2,
+    "change_percent": null,
+    "comparison": "previous_zero"
+   },
+   "assignment_seconds": {
+    "value": -0.0,
+    "previous": 0,
+    "change": -0.0,
+    "change_percent": null,
+    "comparison": "no_change"
+   },
+   "completed": {
+    "value": 1,
+    "previous": 0,
+    "change": 1,
+    "change_percent": null,
+    "comparison": "previous_zero"
+   },
+   "volume": {
+    "value": 100000.0,
+    "previous": 0,
+    "change": 100000.0,
+    "change_percent": null,
+    "comparison": "previous_zero"
+   },
+   "commission": {
+    "value": 1000.0,
+    "previous": 0,
+    "change": 1000.0,
+    "change_percent": null,
+    "comparison": "previous_zero"
+   },
+   "average_price": {
+    "value": 100000.0,
+    "previous": 0,
+    "change": 100000.0,
+    "change_percent": null,
+    "comparison": "previous_zero"
+   },
+   "duration_seconds": {
+    "value": 7200.0,
+    "previous": 0,
+    "change": 7200.0,
+    "change_percent": null,
+    "comparison": "previous_zero"
+   },
+   "average_rating": {
+    "value": 5.0,
+    "previous": 0,
+    "change": 5.0,
+    "change_percent": null,
+    "comparison": "previous_zero"
+   },
+   "cancelled": {
+    "value": 2,
+    "previous": 0,
+    "change": 2,
+    "change_percent": null,
+    "comparison": "previous_zero"
+   },
+   "cancelled_value": {
+    "value": 200000.0,
+    "previous": 0,
+    "change": 200000.0,
+    "change_percent": null,
+    "comparison": "previous_zero"
+   },
+   "worker_earnings": {
+    "value": 0,
+    "previous": 0,
+    "change": 0,
+    "change_percent": null,
+    "comparison": "no_change"
+   },
+   "completion_rate": {
+    "value": 25.0,
+    "previous": null,
+    "change": null,
+    "change_percent": null,
+    "comparison": "unavailable"
+   }
+  },
+  "now": {
+   "open_jobs": 1,
+   "searching": 1,
+   "in_progress": 0,
+   "workers_online": 0,
+   "workers_on_job": 0,
+   "workers_verified": 1,
+   "workers_total": 1
+  },
+  "cohort": [
+   {
+    "status": "pending",
+    "jobs": 1,
+    "share_percent": 20.0
+   },
+   {
+    "status": "offered",
+    "jobs": 0,
+    "share_percent": 0.0
+   },
+   {
+    "status": "accepted",
+    "jobs": 0,
+    "share_percent": 0.0
+   },
+   {
+    "status": "en_route",
+    "jobs": 0,
+    "share_percent": 0.0
+   },
+   {
+    "status": "arrived",
+    "jobs": 0,
+    "share_percent": 0.0
+   },
+   {
+    "status": "in_progress",
+    "jobs": 0,
+    "share_percent": 0.0
+   },
+   {
+    "status": "completed",
+    "jobs": 1,
+    "share_percent": 20.0
+   },
+   {
+    "status": "cancelled",
+    "jobs": 2,
+    "share_percent": 40.0
+   },
+   {
+    "status": "expired",
+    "jobs": 1,
+    "share_percent": 20.0
+   }
+  ],
+  "series": [
+   {
+    "bucket": "2026-11-20",
+    "date_from": "2026-11-20",
+    "date_to": "2026-11-20",
+    "partial": false,
+    "published": 0,
+    "completed": 0,
+    "cancelled": 0,
+    "volume": 0,
+    "commission": 0
+   },
+   {
+    "bucket": "2026-11-21",
+    "date_from": "2026-11-21",
+    "date_to": "2026-11-21",
+    "partial": false,
+    "published": 0,
+    "completed": 0,
+    "cancelled": 0,
+    "volume": 0,
+    "commission": 0
+   },
+   {
+    "bucket": "2026-11-22",
+    "date_from": "2026-11-22",
+    "date_to": "2026-11-22",
+    "partial": false,
+    "published": 0,
+    "completed": 0,
+    "cancelled": 0,
+    "volume": 0,
+    "commission": 0
+   },
+   {
+    "bucket": "2026-11-23",
+    "date_from": "2026-11-23",
+    "date_to": "2026-11-23",
+    "partial": false,
+    "published": 0,
+    "completed": 0,
+    "cancelled": 0,
+    "volume": 0,
+    "commission": 0
+   },
+   {
+    "bucket": "2026-11-24",
+    "date_from": "2026-11-24",
+    "date_to": "2026-11-24",
+    "partial": false,
+    "published": 0,
+    "completed": 0,
+    "cancelled": 0,
+    "volume": 0,
+    "commission": 0
+   },
+   {
+    "bucket": "2026-11-25",
+    "date_from": "2026-11-25",
+    "date_to": "2026-11-25",
+    "partial": false,
+    "published": 0,
+    "completed": 0,
+    "cancelled": 0,
+    "volume": 0,
+    "commission": 0
+   },
+   {
+    "bucket": "2026-11-26",
+    "date_from": "2026-11-26",
+    "date_to": "2026-11-26",
+    "partial": false,
+    "published": 5,
+    "completed": 1,
+    "cancelled": 2,
+    "volume": 100000.0,
+    "commission": 1000.0
+   }
+  ],
+  "cancellations": {
+   "by_side": [
+    {
+     "side": "client",
+     "jobs": 1,
+     "share_percent": 50.0,
+     "value": 100000.0,
+     "after_assignment": 0
+    },
+    {
+     "side": "worker",
+     "jobs": 1,
+     "share_percent": 50.0,
+     "value": 100000.0,
+     "after_assignment": 1
+    },
+    {
+     "side": "system",
+     "jobs": 0,
+     "share_percent": 0.0,
+     "value": 0,
+     "after_assignment": 0
+    },
+    {
+     "side": "other",
+     "jobs": 0,
+     "share_percent": 0.0,
+     "value": 0,
+     "after_assignment": 0
+    }
+   ],
+   "reasons": [
+    {
+     "reason": "Changed my mind",
+     "jobs": 1
+    }
+   ],
+   "series": [
+    {
+     "bucket": "2026-11-20",
+     "date_from": "2026-11-20",
+     "date_to": "2026-11-20",
+     "partial": false,
+     "client": 0,
+     "worker": 0,
+     "system": 0,
+     "other": 0
+    },
+    {
+     "bucket": "2026-11-21",
+     "date_from": "2026-11-21",
+     "date_to": "2026-11-21",
+     "partial": false,
+     "client": 0,
+     "worker": 0,
+     "system": 0,
+     "other": 0
+    },
+    {
+     "bucket": "2026-11-22",
+     "date_from": "2026-11-22",
+     "date_to": "2026-11-22",
+     "partial": false,
+     "client": 0,
+     "worker": 0,
+     "system": 0,
+     "other": 0
+    },
+    {
+     "bucket": "2026-11-23",
+     "date_from": "2026-11-23",
+     "date_to": "2026-11-23",
+     "partial": false,
+     "client": 0,
+     "worker": 0,
+     "system": 0,
+     "other": 0
+    },
+    {
+     "bucket": "2026-11-24",
+     "date_from": "2026-11-24",
+     "date_to": "2026-11-24",
+     "partial": false,
+     "client": 0,
+     "worker": 0,
+     "system": 0,
+     "other": 0
+    },
+    {
+     "bucket": "2026-11-25",
+     "date_from": "2026-11-25",
+     "date_to": "2026-11-25",
+     "partial": false,
+     "client": 0,
+     "worker": 0,
+     "system": 0,
+     "other": 0
+    },
+    {
+     "bucket": "2026-11-26",
+     "date_from": "2026-11-26",
+     "date_to": "2026-11-26",
+     "partial": false,
+     "client": 1,
+     "worker": 1,
+     "system": 0,
+     "other": 0
+    }
+   ]
+  },
+  "categories": [
+   {
+    "category_id": 4,
+    "category": "Cargo",
+    "jobs": 5,
+    "completed": 1,
+    "cancelled": 2,
+    "unassigned": 2,
+    "average_price": 100000.0,
+    "workers": 1,
+    "workers_online": 0,
+    "jobs_per_worker": 5.0
+   }
+  ],
+  "top_rated_workers": []
+ },
+ "employment": {
+  "meta": {
+   "date_from": "2026-11-20",
+   "date_to": "2026-11-26",
+   "granularity": "day",
+   "timezone": "Asia/Tashkent",
+   "currency": "UZS",
+   "previous_period": {
+    "date_from": "2026-11-13",
+    "date_to": "2026-11-19"
+   },
+   "generated_at": "2026-11-26T08:41:24.713664+00:00",
+   "unavailable": [
+    "vacancy_closing_time",
+    "company_rating"
+   ]
+  },
+  "stock": {
+   "vacancies": 1,
+   "vacancies_by_status": {
+    "draft": 0,
+    "moderation": 0,
+    "published": 1,
+    "closed": 0,
+    "archived": 0
+   },
+   "active_vacancies": 1,
+   "closed_vacancies": 0,
+   "resumes": 1,
+   "job_seekers": 1,
+   "companies": 1,
+   "active_companies": 1,
+   "applications": 3
+  },
+  "summary": {
+   "vacancies_created": {
+    "value": 1,
+    "previous": 0,
+    "change": 1,
+    "change_percent": null,
+    "comparison": "previous_zero"
+   },
+   "resumes_created": {
+    "value": 1,
+    "previous": 0,
+    "change": 1,
+    "change_percent": null,
+    "comparison": "previous_zero"
+   },
+   "companies_created": {
+    "value": 1,
+    "previous": 0,
+    "change": 1,
+    "change_percent": null,
+    "comparison": "previous_zero"
+   },
+   "applications": {
+    "value": 3,
+    "previous": 0,
+    "change": 3,
+    "change_percent": null,
+    "comparison": "previous_zero"
+   },
+   "vacancy_views": {
+    "value": 0,
+    "previous": 0,
+    "change": 0,
+    "change_percent": null,
+    "comparison": "no_change"
+   },
+   "hires": {
+    "value": 1,
+    "previous": 0,
+    "change": 1,
+    "change_percent": null,
+    "comparison": "previous_zero"
+   }
+  },
+  "series": [
+   {
+    "bucket": "2026-11-20",
+    "date_from": "2026-11-20",
+    "date_to": "2026-11-20",
+    "partial": false,
+    "vacancies_created": 0,
+    "applications": 0,
+    "resumes_created": 0,
+    "companies_created": 0,
+    "vacancy_views": 0
+   },
+   {
+    "bucket": "2026-11-21",
+    "date_from": "2026-11-21",
+    "date_to": "2026-11-21",
+    "partial": false,
+    "vacancies_created": 0,
+    "applications": 0,
+    "resumes_created": 0,
+    "companies_created": 0,
+    "vacancy_views": 0
+   },
+   {
+    "bucket": "2026-11-22",
+    "date_from": "2026-11-22",
+    "date_to": "2026-11-22",
+    "partial": false,
+    "vacancies_created": 0,
+    "applications": 0,
+    "resumes_created": 0,
+    "companies_created": 0,
+    "vacancy_views": 0
+   },
+   {
+    "bucket": "2026-11-23",
+    "date_from": "2026-11-23",
+    "date_to": "2026-11-23",
+    "partial": false,
+    "vacancies_created": 0,
+    "applications": 0,
+    "resumes_created": 0,
+    "companies_created": 0,
+    "vacancy_views": 0
+   },
+   {
+    "bucket": "2026-11-24",
+    "date_from": "2026-11-24",
+    "date_to": "2026-11-24",
+    "partial": false,
+    "vacancies_created": 0,
+    "applications": 0,
+    "resumes_created": 0,
+    "companies_created": 0,
+    "vacancy_views": 0
+   },
+   {
+    "bucket": "2026-11-25",
+    "date_from": "2026-11-25",
+    "date_to": "2026-11-25",
+    "partial": false,
+    "vacancies_created": 0,
+    "applications": 0,
+    "resumes_created": 0,
+    "companies_created": 0,
+    "vacancy_views": 0
+   },
+   {
+    "bucket": "2026-11-26",
+    "date_from": "2026-11-26",
+    "date_to": "2026-11-26",
+    "partial": false,
+    "vacancies_created": 1,
+    "applications": 3,
+    "resumes_created": 1,
+    "companies_created": 1,
+    "vacancy_views": 0
+   }
+  ],
+  "funnel": {
+   "stages": [
+    {
+     "stage": "vacancy_viewed",
+     "value": 0,
+     "conversion": null
+    },
+    {
+     "stage": "application_submitted",
+     "value": 3,
+     "conversion": null
+    },
+    {
+     "stage": "application_viewed",
+     "value": 2,
+     "conversion": 66.67
+    },
+    {
+     "stage": "interview",
+     "value": 1,
+     "conversion": 50.0
+    },
+    {
+     "stage": "hired",
+     "value": 1,
+     "conversion": 100.0
+    }
+   ],
+   "overall_conversion": 33.33,
+   "unanswered_applications": 1,
+   "unanswered_share": 33.33,
+   "applications_per_vacancy": 3.0,
+   "average_response_seconds": 0.0,
+   "responded": 2,
+   "note": "View-to-application uses all vacancy views and applications of the period, not one cohort."
+  },
+  "salaries": {
+   "by_region": [
+    {
+     "name": null,
+     "currency": "UZS",
+     "vacancies": 1,
+     "average": 5000000
+    }
+   ],
+   "by_specialization": [
+    {
+     "name": null,
+     "currency": "UZS",
+     "vacancies": 1,
+     "average": 5000000
+    }
+   ]
+  },
+  "demand_supply": [],
+  "skills": [],
+  "companies": [
+   {
+    "company_id": 1,
+    "name": "Company 1 Ltd",
+    "verified": true,
+    "active_vacancies": 1,
+    "applications": 3,
+    "hires": 1,
+    "unanswered": 1,
+    "average_response_seconds": 0.0,
+    "rating": null
+   }
+  ]
+ },
+ "marketplace": {
+  "meta": {
+   "date_from": "2026-11-20",
+   "date_to": "2026-11-26",
+   "granularity": "day",
+   "timezone": "Asia/Tashkent",
+   "currency": "UZS",
+   "previous_period": {
+    "date_from": "2026-11-13",
+    "date_to": "2026-11-19"
+   },
+   "generated_at": "2026-11-26T08:41:24.731859+00:00",
+   "market": "marketplace",
+   "unavailable": [
+    "product_views",
+    "ratings",
+    "complaints"
+   ]
+  },
+  "summary": {
+   "completed": {
+    "value": 1,
+    "previous": 0,
+    "change": 1,
+    "change_percent": null,
+    "comparison": "previous_zero"
+   },
+   "gmv": {
+    "value": 303000,
+    "previous": 0,
+    "change": 303000,
+    "change_percent": null,
+    "comparison": "previous_zero"
+   },
+   "buyers": {
+    "value": 1,
+    "previous": 0,
+    "change": 1,
+    "change_percent": null,
+    "comparison": "previous_zero"
+   },
+   "sellers": {
+    "value": 1,
+    "previous": 0,
+    "change": 1,
+    "change_percent": null,
+    "comparison": "previous_zero"
+   },
+   "fulfilment_seconds": {
+    "value": 0.0,
+    "previous": 0,
+    "change": 0.0,
+    "change_percent": null,
+    "comparison": "no_change"
+   },
+   "delivery_seconds": {
+    "value": 0,
+    "previous": 0,
+    "change": 0,
+    "change_percent": null,
+    "comparison": "no_change"
+   },
+   "placed": {
+    "value": 2,
+    "previous": 0,
+    "change": 2,
+    "change_percent": null,
+    "comparison": "previous_zero"
+   },
+   "placed_value": {
+    "value": 606000,
+    "previous": 0,
+    "change": 606000,
+    "change_percent": null,
+    "comparison": "previous_zero"
+   },
+   "cancelled": {
+    "value": 0,
+    "previous": 0,
+    "change": 0,
+    "change_percent": null,
+    "comparison": "no_change"
+   },
+   "average_order_value": {
+    "value": 303000.0,
+    "previous": null,
+    "change": null,
+    "change_percent": null,
+    "comparison": "unavailable"
+   },
+   "cancellation_rate": {
+    "value": 0.0,
+    "previous": null,
+    "change": null,
+    "change_percent": null,
+    "comparison": "unavailable"
+   },
+   "repeat_customer_rate": {
+    "value": 0.0,
+    "previous": null,
+    "change": null,
+    "change_percent": null,
+    "comparison": "unavailable"
+   },
+   "new_sellers": {
+    "value": 2,
+    "previous": 0,
+    "change": 2,
+    "change_percent": null,
+    "comparison": "previous_zero"
+   }
+  },
+  "stock": {
+   "products": 2,
+   "active_products": 2,
+   "active_sellers": 2,
+   "open_orders": {
+    "pending": 1,
+    "negotiating": 0,
+    "agreed": 0,
+    "in_delivery": 0
+   },
+   "needs_admin_review": 0
+  },
+  "cohort": [
+   {
+    "status": "pending",
+    "orders": 1,
+    "share_percent": 50.0
+   },
+   {
+    "status": "negotiating",
+    "orders": 0,
+    "share_percent": 0.0
+   },
+   {
+    "status": "agreed",
+    "orders": 0,
+    "share_percent": 0.0
+   },
+   {
+    "status": "in_delivery",
+    "orders": 0,
+    "share_percent": 0.0
+   },
+   {
+    "status": "completed",
+    "orders": 1,
+    "share_percent": 50.0
+   },
+   {
+    "status": "cancelled",
+    "orders": 0,
+    "share_percent": 0.0
+   }
+  ],
+  "series": [
+   {
+    "bucket": "2026-11-20",
+    "date_from": "2026-11-20",
+    "date_to": "2026-11-20",
+    "partial": false,
+    "placed": 0,
+    "completed": 0,
+    "cancelled": 0,
+    "gmv": 0
+   },
+   {
+    "bucket": "2026-11-21",
+    "date_from": "2026-11-21",
+    "date_to": "2026-11-21",
+    "partial": false,
+    "placed": 0,
+    "completed": 0,
+    "cancelled": 0,
+    "gmv": 0
+   },
+   {
+    "bucket": "2026-11-22",
+    "date_from": "2026-11-22",
+    "date_to": "2026-11-22",
+    "partial": false,
+    "placed": 0,
+    "completed": 0,
+    "cancelled": 0,
+    "gmv": 0
+   },
+   {
+    "bucket": "2026-11-23",
+    "date_from": "2026-11-23",
+    "date_to": "2026-11-23",
+    "partial": false,
+    "placed": 0,
+    "completed": 0,
+    "cancelled": 0,
+    "gmv": 0
+   },
+   {
+    "bucket": "2026-11-24",
+    "date_from": "2026-11-24",
+    "date_to": "2026-11-24",
+    "partial": false,
+    "placed": 0,
+    "completed": 0,
+    "cancelled": 0,
+    "gmv": 0
+   },
+   {
+    "bucket": "2026-11-25",
+    "date_from": "2026-11-25",
+    "date_to": "2026-11-25",
+    "partial": false,
+    "placed": 0,
+    "completed": 0,
+    "cancelled": 0,
+    "gmv": 0
+   },
+   {
+    "bucket": "2026-11-26",
+    "date_from": "2026-11-26",
+    "date_to": "2026-11-26",
+    "partial": false,
+    "placed": 2,
+    "completed": 1,
+    "cancelled": 0,
+    "gmv": 303000
+   }
+  ],
+  "cancellations": {
+   "by_side": [],
+   "reasons": [],
+   "after_delivery_started": 0,
+   "value": 0
+  },
+  "funnel": {
+   "unit": "buyers",
+   "stages": [
+    {
+     "stage": "product_viewed",
+     "value": null,
+     "conversion": null
+    },
+    {
+     "stage": "added_to_cart",
+     "value": 2,
+     "conversion": null
+    },
+    {
+     "stage": "checkout_started",
+     "value": 2,
+     "conversion": 100.0
+    },
+    {
+     "stage": "order_placed",
+     "value": 2,
+     "conversion": 100.0
+    },
+    {
+     "stage": "order_completed",
+     "value": 1,
+     "conversion": 50.0
+    }
+   ],
+   "abandoned_carts": 0,
+   "cart_abandonment_rate": 0.0,
+   "unavailable": [
+    "product_viewed"
+   ]
+  },
+  "top_products": [
+   {
+    "listing_id": 1,
+    "title": "Velosiped 2",
+    "image": "/media/marketplace/thumbnails/2026/11/ad2744b9d2fd4c9192917770c14ad85e.jpg",
+    "seller_id": 11,
+    "seller": "Jose White",
+    "units": 1,
+    "orders": 1,
+    "revenue": 303000.0,
+    "rating": null
+   }
+  ],
+  "top_sellers": [
+   {
+    "seller_id": 11,
+    "name": "Jose White",
+    "phone": "+998900000030",
+    "orders": 1,
+    "buyers": 1,
+    "sales": 303000.0,
+    "cancelled_by_seller": 0,
+    "rating": null,
+    "complaints": null
+   }
+  ]
+ }
+}

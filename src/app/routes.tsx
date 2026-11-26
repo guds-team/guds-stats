@@ -8,6 +8,10 @@ import { getToken } from "./lib/api";
 const DashboardPage = lazy(() => import("./pages/DashboardPage").then((m) => ({ default: m.DashboardPage })));
 const JobsPage = lazy(() => import("./pages/JobsPage").then((m) => ({ default: m.JobsPage })));
 const FinancePage = lazy(() => import("./pages/FinancePage").then((m) => ({ default: m.FinancePage })));
+const FinanceReportPage = lazy(() => import("./pages/FinanceReportPage").then((m) => ({ default: m.FinanceReportPage })));
+const DailyWorksPage = lazy(() => import("./pages/DailyWorksPage").then((m) => ({ default: m.DailyWorksPage })));
+const EmploymentPage = lazy(() => import("./pages/EmploymentPage").then((m) => ({ default: m.EmploymentPage })));
+const MarketplacePage = lazy(() => import("./pages/MarketplacePage").then((m) => ({ default: m.MarketplacePage })));
 const LivePage = lazy(() => import("./pages/LivePage").then((m) => ({ default: m.LivePage })));
 
 function PageFallback() {
@@ -55,6 +59,39 @@ export const routes: RouteObject[] = [
   },
   {
     path: "/finance",
+    element: (
+      <ProtectedRoute>
+        <FinanceReportPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/daily-works",
+    element: (
+      <ProtectedRoute>
+        <DailyWorksPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/employment",
+    element: (
+      <ProtectedRoute>
+        <EmploymentPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/marketplace",
+    element: (
+      <ProtectedRoute>
+        <MarketplacePage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    // Daily works turnover per worker / client (the former Finance page).
+    path: "/turnover",
     element: (
       <ProtectedRoute>
         <FinancePage />

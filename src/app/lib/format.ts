@@ -128,3 +128,17 @@ export function formatClock(at: number | string, seconds = true, language: Langu
     ...(seconds ? { second: "2-digit" } : {}),
   });
 }
+
+/** A duration in seconds: "45 s", "12 min", "3 h 5 min", "2 days" (in the interface language). */
+export function formatDuration(seconds: number | null | undefined, language: Language = currentLanguage()): string {
+  if (missing(seconds)) return "—";
+  const t = i18n.getFixedT(language);
+  if (seconds < 60) return t("time.seconds", { count: Math.max(0, Math.round(seconds)) });
+  const minutes = Math.round(seconds / 60);
+  if (minutes < 60) return t("time.minutes", { count: minutes });
+  const hours = Math.floor(minutes / 60);
+  if (hours < 48) {
+    return minutes % 60 ? t("time.hoursMinutes", { hours, minutes: minutes % 60 }) : t("time.hours", { count: hours });
+  }
+  return t("time.days", { count: Math.round(hours / 24) });
+}
